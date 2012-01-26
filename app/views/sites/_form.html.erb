@@ -1,0 +1,46 @@
+<%= form_for @site do |f| %>
+  <% if @site.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@site.errors.count, "error") %>
+        prohibited this site from being saved:
+      </h2>
+      <ul>
+        <% @site.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <table>
+    <tr>
+      <td class="th" colspan=2>Site Details</td>
+    </tr>
+    <tr>
+      <td><%= f.label :name %></td>
+      <td><%= @site.name %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :past_days_to_keep %></td>
+      <td><%= f.text_field :past_days_to_keep %> days</td>
+    </tr>
+    <tr>
+      <td><%= f.label :days_in_advance %></td>
+      <td><%= f.text_field :days_in_advance %> days</td>
+    </tr>
+    <tr>
+      <td><%= f.label :provisional_bookings_expire_after %></td>
+      <td><%= f.text_field :provisional_bookings_expire_after %> minutes</td>
+    </tr>
+    <tr>
+      <td><%= f.label :granularity %></td>
+      <td><%= collection_select(:site, :granularity_id, Granularity.all, :id, :minutes, :prompt => 'Select Granularity')  %> minute slots</td>
+    </tr>
+    <tr>
+      <td class="blankrow" colspan=2></td>
+    </tr>
+  </table>
+  <%= f.submit %> <%= link_to 'Cancel', :back %>
+
+<% end %>
+

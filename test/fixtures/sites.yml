@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  past_days_to_keep: 1
+  days_in_advance: 1
+  provisional_bookings_expire_after: 1
+  granularity_id: 1
+
+two:
+  name: MyString
+  past_days_to_keep: 1
+  days_in_advance: 1
+  provisional_bookings_expire_after: 1
+  granularity_id: 1

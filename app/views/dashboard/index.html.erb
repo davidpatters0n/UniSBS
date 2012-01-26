@@ -1,0 +1,9 @@
+<%= start_icon_menu %>
+<%= end_icon_row %>
+  <% if current_user.is_an_admin? %>
+    <%= icon_menu_item "Administration", "admin.png", admin_path %>
+  <% end %>
+  <% if current_user.is_global_admin? %>
+    <%= icon_menu_item "Transactions", "logs.png", logs_path %>
+  <% end %>
+<%= end_icon_menu %>

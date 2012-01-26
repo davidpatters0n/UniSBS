@@ -1,0 +1,41 @@
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= f.label :email, "Email Address" %></td>
+        <td><%= @user.email %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :current_sign_in_at, "Sign in time" %></td>
+        <td><%= @user.current_sign_in_at.nil? ? "Not signed in" : 
+          @user.current_sign_in_at.strftime('%d-%b-%Y %H:%M:%S') %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :actions, "Actions" %></td>
+        <td><%= link_to 'Edit', edit_user_path(@user) %> |
+          <%= link_to 'Destroy', @user, :confirm => 'Are you sure?',
+          :method => :delete %></td>
+      </tr>
+    </tbody>
+  </table>
+
+
+<% end %>

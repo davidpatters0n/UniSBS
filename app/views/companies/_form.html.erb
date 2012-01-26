@@ -1,0 +1,30 @@
+<%= form_for(@company) do |f| %>
+  <% if @company.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@company.errors.count, "error") %>
+        prohibited this company from being saved:
+      </h2>
+      <ul>
+        <% @company.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <table>
+    <tr>
+      <td class="th" colspan=2>Company Details</td>
+    </tr>
+    <tr>
+      <td><%= f.label :name %></td>
+      <td><%= f.text_field :name %></td>
+    </tr>
+    <tr>
+      <td class="blankrow" colspan=2></td>
+    </tr>
+  </table>
+  <%= f.submit %> <%= link_to 'Cancel', :back %>
+
+<% end %>
+
