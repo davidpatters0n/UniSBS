@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120122174322) do
+ActiveRecord::Schema.define(:version => 20120126221238) do
 
   create_table "admin_levels", :force => true do |t|
     t.string   "name"
@@ -43,6 +43,15 @@ ActiveRecord::Schema.define(:version => 20120122174322) do
 
   create_table "soa", :id => false, :force => true do |t|
     t.string   "next_token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "time_slot_capacities", :force => true do |t|
+    t.integer  "site_id"
+    t.integer  "minutes"
+    t.integer  "weekend_capacity"
+    t.integer  "weekday_capacity"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

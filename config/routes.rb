@@ -34,6 +34,9 @@ SBSPortal::Application.routes.draw do
     # action. To give a clean URL, we skip having 'sites' in the path.
     # /admin/cannock, /admin/doncaster
     resources :sites, :path => "", :only=> [:edit, :update]
+   
+    match ':id/slots' => 'sites#edit_slots', :via => :get
+    match ':id/slots' => 'sites#update_slots', :via => :post
   end
   
   # /myaccount shortcut to current users account

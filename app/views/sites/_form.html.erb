@@ -22,25 +22,66 @@
     </tr>
     <tr>
       <td><%= f.label :past_days_to_keep %></td>
-      <td><%= f.text_field :past_days_to_keep %> days</td>
+      <td><%= f.number_field :past_days_to_keep %> days</td>
     </tr>
     <tr>
       <td><%= f.label :days_in_advance %></td>
-      <td><%= f.text_field :days_in_advance %> days</td>
+      <td><%= f.number_field :days_in_advance %> days</td>
     </tr>
     <tr>
       <td><%= f.label :provisional_bookings_expire_after %></td>
-      <td><%= f.text_field :provisional_bookings_expire_after %> minutes</td>
-    </tr>
-    <tr>
-      <td><%= f.label :granularity %></td>
-      <td><%= collection_select(:site, :granularity_id, Granularity.all, :id, :minutes, :prompt => 'Select Granularity')  %> minute slots</td>
+      <td><%= f.number_field :provisional_bookings_expire_after %> minutes</td>
     </tr>
     <tr>
       <td class="blankrow" colspan=2></td>
     </tr>
+  
   </table>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Templates</th>
+        <th colspan=3>
+          <%= collection_select(:site, :granularity_id, Granularity.all, :id, :minutes) %>
+          minute slots
+        </th>
+      </tr>
+      <tr>
+      <th>Id</th>
+      <th>Minutes</th>
+      <th>Weekday Capacity</th>
+      <th>Weekend Capacity</th>
+    </tr>
+    </thead>
+    <%= f.fields_for :time_slot_capacities, @time_slot_capacities do |builder| %>
+      <%= render "time_fields", :f => builder %>
+    <% end %>
+  </table>
+
   <%= f.submit %> <%= link_to 'Cancel', :back %>
 
-<% end %>
+  <script>
+    $(document).ready(function() {
 
+      function apply_granularity() {
+        var granularity_minutes = parseInt($('#site_granularity_id option:selected').html());
+        $(".timerow").each( function() {
+          var slot_minutes = parseInt($(this).attr('id'));
+          if (slot_minutes % granularity_minutes) {
+            $(this).hide();
+          }
+          else
+          {
+            $(this).show();
+          }
+        });
+      }
+
+      apply_granularity();
+      $("#site_granularity_id").on("change", apply_granularity);
+
+    });
+  </script>
+
+<% end %>

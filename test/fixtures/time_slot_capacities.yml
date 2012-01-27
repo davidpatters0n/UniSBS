@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  capacity: 1
+  site_id: 1
+  weekend: false
+
+two:
+  capacity: 1
+  site_id: 1
+  weekend: false
