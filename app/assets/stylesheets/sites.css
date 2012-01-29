@@ -1,0 +1,10 @@
+#site_parameters {
+  float: left;
+}
+
+#site_templates {
+  float: left;
+  position: relative;
+  left: 40px;
+}
+

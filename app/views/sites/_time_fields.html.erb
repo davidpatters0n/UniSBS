@@ -1,6 +1,6 @@
 <tr id="<%= id_for_timerow(f.object) %>" class="timerow" >
-  <td><%= f.hidden_field :id %><%= f.object.id %></td>
+  <%= f.hidden_field :id %>
   <td><%= f.hidden_field :minutes %><%= Time.at(f.object.minutes * 60).strftime('%H:%M')  %></td>
-  <td><%= f.number_field :weekday_capacity %></td>
-  <td><%= f.number_field :weekend_capacity %></td>
+  <td><%= f.number_field :weekday_capacity, :size => 3 %></td>
+  <td><%= f.number_field :weekend_capacity, :size => 3 %></td>
 </tr>
