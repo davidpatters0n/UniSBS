@@ -2,7 +2,7 @@ class Site < ActiveRecord::Base
 
   belongs_to :granularity
 
-  has_many :time_slot_capacities
+  has_many :time_slot_capacities, :order => "minutes"
   accepts_nested_attributes_for :time_slot_capacities, :allow_destroy => true
   
   validates_presence_of :name
@@ -31,13 +31,11 @@ class Site < ActiveRecord::Base
   end
 
   def setup_time_slot_capacities
-    (0..(24*60 - 1)).each do |minutes|
-      if minutes % 5 == 0 and not time_slot_capacities.find_by_minutes(minutes)
+    Granularity.allowed_minutes.each do |minutes|
+      unless time_slot_capacities.find_by_minutes(minutes)
         tsc = time_slot_capacities.build(:minutes=>minutes, :weekend_capacity=>0, :weekday_capacity=>0)
       end
     end
   end
-
-
 
 end

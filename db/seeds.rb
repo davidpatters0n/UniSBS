@@ -31,7 +31,7 @@ user.password = user.password_confirmation = "Clyde_01"
 user.save!
 
 puts "Creating slot length granularities..."
-Granularity.construct_selection!([10, 15, 20, 30, 40, 45, 60, 90, 120])
+Granularity.construct_selection!([5, 10, 15, 20, 30, 40, 45, 60, 90, 120])
 
 puts "Creating Sites..."
 Site.names.each do |sitename|

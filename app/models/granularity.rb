@@ -2,7 +2,7 @@ class Granularity < ActiveRecord::Base
 
   validates_presence_of :minutes
   validates_uniqueness_of :minutes
-  validates :minutes, :numericality => { :only_integer => true, :greater_than => 0, :less_than => 24*60 }
+  validates :minutes, :numericality => { :only_integer => true, :greater_than_or_equal_to => 5, :less_than => 24*60 }
   validate :divides_day_equally
 
   def divides_day_equally
@@ -13,6 +13,12 @@ class Granularity < ActiveRecord::Base
 
   def slots_per_day
     (24*60).div(minutes)
+  end
+
+  def self.allowed_minutes
+    # 0, 5, 10, 15, ... 1435 minutes
+    # corresponding to 00:00, 00:05, ... 23:55
+    0.step(1435, 5)
   end
 
   # This method takes an array of integers and creates the slot length
