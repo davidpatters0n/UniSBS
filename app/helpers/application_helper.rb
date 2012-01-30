@@ -57,4 +57,10 @@ module ApplicationHelper
     (end_icon_row_internal + "</table>").html_safe
   end
 
+  def formatdate(value)
+    unless value.nil?
+      l value
+    end
+  end
+
 end

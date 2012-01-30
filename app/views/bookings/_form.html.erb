@@ -1,0 +1,49 @@
+<%= form_for(@booking) do |f| %>
+  <% if @booking.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
+
+      <ul>
+      <% @booking.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <table>
+    <thead>
+      <tr>
+        <th colspan=2>
+          Booking Details
+        </th>
+      </tr>
+    </thead>
+    <tr>
+      <td><%= f.label :company %></td>
+      <td><%= collection_select(:booking, :company_id, Company.external, :id, :name, :prompt => 'Select Company') %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :reference_number %></td>
+      <td><%= f.text_field :reference_number %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :provisional_appointment %></td>
+      <td><%= f.datetime_select :provisional_appointment, :prompt => true %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :confirmed_appointment %></td>
+      <td><%= f.datetime_select :confirmed_appointment, :prompt => true %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :pallets_expected %></td>
+      <td><%= f.number_field :pallets_expected, :size => 5 %></td>
+    </tr>
+    <tr>
+      <td class="blankrow" colspan=2></td>
+    </tr>
+  </table>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

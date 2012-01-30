@@ -28,6 +28,10 @@ class User < ActiveRecord::Base
   def is_an_admin?
     is_global_admin? or is_local_admin?
   end
+
+  def is_booking_manager?
+    company.is_internal?
+  end
  
   def logged_in_as
     nickname or email

@@ -1,0 +1,35 @@
+<table>
+  <thead>
+    <tr>
+      <th colspan=2>
+        Booking Details
+      </th>
+    </tr>
+  </thead>
+  <tr>
+    <td><%= label @booking, :reference_number %></td>
+    <td><%= @booking.reference_number %></td>
+  </tr>
+  <tr>
+    <td><%= label @booking, :company %></td>
+    <td><%= @booking.company.name %></td>
+  </tr>
+  <tr>
+    <td><%= label @booking, :provisional_appointment %></td>
+    <td><%= formatdate @booking.provisional_appointment %></td>
+  </tr>
+  <tr>
+    <td><%= label @booking, :confirmed_appointment %></td>
+    <td><%= formatdate @booking.confirmed_appointment %></td>
+  </tr>
+  <tr>
+    <td><%= label @booking, :pallets_expected %></td>
+    <td><%= @booking.pallets_expected %></td>
+  </tr>
+  <tr>
+    <td class="blankrow" colspan=2></td>
+  </tr>
+</table>
+
+<%= link_to 'Edit', edit_booking_path(@booking) %> |
+<%= link_to 'List All', bookings_path %>

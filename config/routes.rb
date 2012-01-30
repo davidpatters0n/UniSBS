@@ -1,5 +1,7 @@
 SBSPortal::Application.routes.draw do
 
+  resources :bookings
+
   # Routes for authenticating users
   devise_for :users
 
@@ -12,6 +14,8 @@ SBSPortal::Application.routes.draw do
   # resources :sites, :path => "", :only => :show ...
   # If days are a resource, then we could also route
   # /cannock/20120101, /cannock/day/1, or something similar.
+
+  resources :bookings
 
   #
   # Administrative routes

@@ -1,0 +1,27 @@
+<table>
+  <thead>
+    <th>Reference number</th>
+    <th>Company</th>
+    <th>Provisional appointment</th>
+    <th>Confirmed appointment</th>
+    <th>Pallets expected</th>
+    <th colspan=3>Actions</th>
+  </thead>
+
+<% @bookings.each do |booking| %>
+  <tr>
+    <td><%= link_to booking.reference_number, booking_path(booking) %></td>
+    <td><%= booking.company.name %></td>
+    <td><%= formatdate booking.provisional_appointment %></td>
+    <td><%= formatdate booking.confirmed_appointment %></td>
+    <td><%= booking.pallets_expected %></td>
+    <td><%= link_to 'Show', booking %></td>
+    <td><%= link_to 'Edit', edit_booking_path(booking) %></td>
+    <td><%= link_to 'Remove', booking, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Manually Create Booking', new_booking_path %>
