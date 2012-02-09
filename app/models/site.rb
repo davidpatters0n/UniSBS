@@ -2,6 +2,7 @@ class Site < ActiveRecord::Base
 
   belongs_to :granularity
 
+  has_many :slot_days
   has_many :time_slot_capacities, :order => "minutes"
   accepts_nested_attributes_for :time_slot_capacities, :allow_destroy => true
   
@@ -35,6 +36,15 @@ class Site < ActiveRecord::Base
       unless time_slot_capacities.find_by_minutes(minutes)
         tsc = time_slot_capacities.build(:minutes=>minutes, :weekend_capacity=>0, :weekday_capacity=>0)
       end
+    end
+  end
+ 
+  def construct_day(day)
+    slot_day = SlotDay.find_or_create_by_site_id_and_day(:site_id => id, :day => day.beginning_of_day)
+    time_slot_capacities.each do |time_slot_capacity|
+      slot_time = SlotTime.find_or_create_by_slot_day_id_and_time_slot(:slot_day_id => slot_day_id, :time_slot => time_slot_capacity.minutes)
+      # TODO determine if weekend or weekday
+      slot_time.capacity = time_slot_capacity.weekday_capacity
     end
   end
 

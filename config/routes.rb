@@ -1,23 +1,18 @@
 SBSPortal::Application.routes.draw do
 
-  resources :slot_times
-
-  resources :bookings
-
   # Routes for authenticating users
   devise_for :users
 
   # Dashboard root
   root :to => 'dashboard#index'
 
-  # TODO 
-  # Go to the diary page of a site directly
-  # with /cannock, /doncaster
-  # resources :sites, :path => "", :only => :show ...
-  # If days are a resource, then we could also route
-  # /cannock/20120101, /cannock/day/1, or something similar.
+  #
+  # Routes for inspecting data
+  #
 
   resources :bookings
+  #resources :slot_times
+  #resources :slot_days
 
   #
   # Administrative routes
@@ -63,15 +58,17 @@ SBSPortal::Application.routes.draw do
   #
 
   post    '/soa/booking/confirm'              => 'soa/booking#confirm'
-  
-  
+
   #
-  #Booking Management 
+  # Diary pages
   #
   
-  get '/bookingmanagement' => 'slot_times#index', :as => 'bookingmanagement'
-  
-  
+  # Go to the diary page of a site directly with
+  # /cannock, /doncaster which redirects to current day
+  # Then slot_day resources are /cannock/20120101
+  resources :sites, :only => [:show], :path => "", :as => :diary do
+    resources :slot_days, :path => "", :only => [:show]
+  end
 
   ##################################################
   # Fallback route; don't put anything after this! #

@@ -1,10 +1,11 @@
 <%= start_icon_menu %>
 <%= end_icon_row %>
-  <% if current_user.is_booking_manager? %>
-    <%= icon_menu_item "Bookings", "admin.png", bookings_path %>
+
+  <% Site.all.each do |site| %>
+    <%= icon_menu_item site.name, "admin.png", diary_path(site) %>
   <% end %>
   <% if current_user.is_booking_manager? %>
-    <%= icon_menu_item "Booking Management", "admin.png", bookingmanagement_path %>
+    <%= icon_menu_item "Bookings", "admin.png", bookings_path %>
   <% end %>
   <% if current_user.is_an_admin? %>
     <%= icon_menu_item "Administration", "admin.png", admin_path %>

@@ -1,10 +1,16 @@
 class SitesController < PortalController
   
-  before_filter :authorize
+  before_filter :authorize, :except => [:show]
   before_filter :setup_instance_variables
 
   def authorize
     access_denied unless current_user.is_global_admin?  
+  end
+
+  def show
+    flash[ :notice ] = "This needs to go to the current day for the site, instead of first slot_day"
+    slot_day = @site.slot_days.first 
+    redirect_to diary_slot_day_path(@site, slot_day)
   end
 
   def setup_instance_variables

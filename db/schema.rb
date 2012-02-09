@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120208093103) do
+ActiveRecord::Schema.define(:version => 20120209153558) do
 
   create_table "admin_levels", :force => true do |t|
     t.string   "name"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20120208093103) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "haulier_code"
   end
 
   create_table "granularities", :force => true do |t|
@@ -47,6 +48,13 @@ ActiveRecord::Schema.define(:version => 20120208093103) do
     t.integer  "days_in_advance"
     t.integer  "provisional_bookings_expire_after"
     t.integer  "granularity_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "slot_days", :force => true do |t|
+    t.datetime "day"
+    t.integer  "site_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

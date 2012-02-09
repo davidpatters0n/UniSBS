@@ -41,7 +41,14 @@ Site.names.each do |sitename|
                   :days_in_advance => 7,
                   :provisional_bookings_expire_after => 60,
                   :granularity_id => Granularity.find_by_minutes(60))
+
+  puts "  Creating Slot Days for #{sitename}..."
+ 
+  site.construct_day(Time.now)
+
 end
+
+
 
 puts "Completed seeding " + Time.now.strftime( "%H:%M:%S" )
 ###########################################################
