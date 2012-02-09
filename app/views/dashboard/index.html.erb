@@ -3,6 +3,9 @@
   <% if current_user.is_booking_manager? %>
     <%= icon_menu_item "Bookings", "admin.png", bookings_path %>
   <% end %>
+  <% if current_user.is_booking_manager? %>
+    <%= icon_menu_item "Booking Management", "admin.png", bookingmanagement_path %>
+  <% end %>
   <% if current_user.is_an_admin? %>
     <%= icon_menu_item "Administration", "admin.png", admin_path %>
   <% end %>

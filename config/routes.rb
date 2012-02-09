@@ -1,5 +1,7 @@
 SBSPortal::Application.routes.draw do
 
+  resources :slot_times
+
   resources :bookings
 
   # Routes for authenticating users
@@ -61,6 +63,15 @@ SBSPortal::Application.routes.draw do
   #
 
   post    '/soa/booking/confirm'              => 'soa/booking#confirm'
+  
+  
+  #
+  #Booking Management 
+  #
+  
+  get '/bookingmanagement' => 'slot_times#index', :as => 'bookingmanagement'
+  
+  
 
   ##################################################
   # Fallback route; don't put anything after this! #

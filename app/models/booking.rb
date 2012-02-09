@@ -1,6 +1,7 @@
 class Booking < ActiveRecord::Base
 
   belongs_to :company
+  belongs_to :slot_time 
 
   validates_presence_of :company
   validate :validate_external_company

@@ -1,0 +1,2 @@
+module SlotTimesHelper
+end
