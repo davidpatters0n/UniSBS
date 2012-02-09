@@ -8,7 +8,7 @@ class SitesController < PortalController
   end
 
   def show
-    flash[ :notice ] = "This needs to go to the current day for the site, instead of first slot_day"
+    flash[ :notice ] = "TODO - this needs to go to the current day for the site, instead of first slot_day"
     slot_day = @site.slot_days.first 
     redirect_to diary_slot_day_path(@site, slot_day)
   end
