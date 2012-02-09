@@ -60,7 +60,7 @@ SBSPortal::Application.routes.draw do
   # Soa (Web Service) Routes
   #
 
-  get    '/soa/conf'              => 'soa/confirmation#index'
+  post    '/soa/booking/confirm'              => 'soa/booking#confirm'
 
   ##################################################
   # Fallback route; don't put anything after this! #

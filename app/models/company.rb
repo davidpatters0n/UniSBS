@@ -4,6 +4,8 @@ class Company < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name
+  validates_presence_of :hauler_code, :if => is_external?
+  validates_uniqueness_of :haulier_code, :if => is_external?
 
   def self.internal_name
     'internal'
