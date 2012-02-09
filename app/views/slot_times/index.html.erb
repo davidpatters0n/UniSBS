@@ -1,0 +1,68 @@
+<h1>Booking Management</h1>
+
+<table id="myTable">
+
+</table>
+
+<div id="modal">
+	<form action="#">
+	Enter a company name:
+    <br/>
+    <input id="modalInput" type="text" />
+    <br/>
+    <button id="modalBtn">Done</button>
+    </form>
+</div>
+
+
+<script>var hours=[1,2,3,4,5,6,7],increment=15,current={};
+
+get('modalBtn').addEventListener('click',closeModal,false);
+
+var modal=get('modal'),myTable=get('myTable'),input=get('modalInput'),l=hours.reverse().length,temp=[];
+
+temp[0]=document.createElement('tr');
+temp[1]=temp[0].appendChild(document.createElement('td'));
+temp[1].setAttribute('class','mini');
+temp[2]=temp[0].appendChild(temp[1].cloneNode(true));
+temp[3]=temp[0].appendChild(temp[1].cloneNode(true));
+temp[1].setAttribute('class','hour');
+temp[2].innerHTML='+';
+temp[3].innerHTML='-';
+temp.length=1;
+while(l--){
+  temp[1]=temp[0].cloneNode(true);
+  temp[2]=temp[1].children;
+  temp[2][0].innerHTML=hours[l]+':00';
+  temp[2][1].addEventListener('click',showModal,false);
+  temp[2][2].addEventListener('click',removeSlot,false);
+  myTable.appendChild(temp[1]);
+}
+
+temp.length=0;
+
+
+function showModal(){
+  current.parent=this.parentNode;
+  input.value='';
+  modal.style.display='block';
+  input.focus();
+}
+
+function closeModal(){
+  var elems=current.parent.children,l=elems.length,tar=elems[l-3];
+  insert=tar.cloneNode(true);
+  insert.innerHTML=input.value;
+  current.parent.insertBefore(insert,elems[l-2]);
+  modal.style.display='none';
+  input.value='';
+}
+
+function removeSlot(){
+  var parent=this.parentNode,elems=parent.children,l=elems.length,tar=elems[l-3];
+  if(elems.length>3)parent.removeChild(tar);
+}
+
+function get(a){
+  return document.getElementById(a);  
+}</script>
