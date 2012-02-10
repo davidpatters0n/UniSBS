@@ -68,8 +68,9 @@ SBSPortal::Application.routes.draw do
   # Then slot_day resources are /cannock/20120101
   resources :sites, :only => [:show], :path => "", :as => :diary do
     resources :slot_days, :path => "", :only => [:show]
+    
   end
-
+  
   ##################################################
   # Fallback route; don't put anything after this! #
   ##################################################
