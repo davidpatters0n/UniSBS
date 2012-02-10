@@ -74,8 +74,9 @@ SBSPortal::Application.routes.draw do
   get "/slot_days/bookingmangement"
   get "/slot_days/transport"
   
-  ##################################################
-  # Fallback route; don't put anything after this! #
-  ##################################################
+  ###################################################
+  # Fallback routes; don't put anything after this! #
+  ###################################################
+  match '/soa/*a', :to => 'soa/errors#routing'
   match '*a', :to => 'errors#routing'
 end

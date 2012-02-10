@@ -29,8 +29,8 @@ class Soa::SoaController < ApplicationController
     # Next, find the expected security token
     @soa = Soa.find(:first)
     unless @soa.nil?
-      exp_token = Digest::MD5.hexdigest( @soa.next_token + " Clyde_01" )
-      logger.debug "Next Token is '" + @soa.next_token + " [password]'"
+      exp_token = Digest::MD5.hexdigest( "#{@soa.next_token} Clyde_01" )
+      logger.debug "Next Token is #{@soa.next_token}"
     else
       exp_token = nil
       logger.debug "Next Token is <blank>"
@@ -39,7 +39,7 @@ class Soa::SoaController < ApplicationController
     # Generate new security token for next request
     next_token = rand(2**128)
     @soa = Soa.new if @soa.nil?
-    @soa.next_token = next_token.to_s
+    @soa.next_token = next_token
     @soa.save!
 
     # Check whether the found token matches

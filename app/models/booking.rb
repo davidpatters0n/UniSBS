@@ -1,5 +1,6 @@
 class Booking < ActiveRecord::Base
 
+  belongs_to :site
   belongs_to :company
   belongs_to :slot_time 
 
@@ -11,6 +12,14 @@ class Booking < ActiveRecord::Base
   def validate_external_company
     if not company.nil? and company.is_internal?
       errors.add(:company, "cannot be internal")
+    end
+  end
+
+  def site
+    if slot_time and slot_time.slot_day
+      slot_time.slot_day.site
+    else
+      nil
     end
   end
 

@@ -14,7 +14,11 @@
     <td><%= label @booking, :company %></td>
     <td><%= @booking.company.name %></td>
   </tr>
-  <tr>
+    <tr>
+      <td><%= label @booking, :site %></td>
+      <td><% if @booking.site %><%= @booking.site.name %><% end %></td>
+    </tr>
+    <tr>
     <td><%= label @booking, :provisional_appointment %></td>
     <td><%= formatdate @booking.provisional_appointment %></td>
   </tr>
