@@ -1,0 +1,6 @@
+/*Slot_time table */
+td{background:#EEE;padding:4px;cursor:pointer;}
+td:hover{background:#777;color:#FFF;}
+.hour{width:60px;}
+.mini{width:20px;}
+#modal{border:1px solid #AAA;background:#FFF;display:none;padding:10px;width:200px;top:100px;left:100px;position:absolute;}
