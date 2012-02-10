@@ -71,6 +71,9 @@ SBSPortal::Application.routes.draw do
     
   end
   
+  get "/slot_days/bookingmangement"
+  get "/slot_days/transport"
+  
   ##################################################
   # Fallback route; don't put anything after this! #
   ##################################################
