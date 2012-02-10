@@ -57,7 +57,7 @@ SBSPortal::Application.routes.draw do
   # Soa (Web Service) Routes
   #
 
-  post    '/soa/booking/confirm'              => 'soa/booking#confirm'
+  post    '/soa/bookings/confirm'              => 'soa/bookings#confirm'
 
   #
   # Diary pages

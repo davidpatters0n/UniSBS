@@ -6,7 +6,7 @@ class SlotDay < ActiveRecord::Base
  
   # The day in format YYYYMMDD
   def daystamp
-    day.strftime( '%Y%m%d' )
+    day.strftime( '%Y-%m-%d' )
   end
 
   def to_param

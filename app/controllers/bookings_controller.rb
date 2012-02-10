@@ -5,6 +5,11 @@ class BookingsController < ApplicationController
   def authorise
     current_user.is_booking_manager?
   end
+
+
+  def confirm
+    raise "oy, boy!"
+  end
   
   # GET /bookings
   # GET /bookings.json

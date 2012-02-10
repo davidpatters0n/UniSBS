@@ -21,6 +21,10 @@ class Granularity < ActiveRecord::Base
     0.step(1435, 5)
   end
 
+  def times
+    Granularity.allowed_minutes.reject {|x| x.modulo(minutes) > 0}
+  end
+
   # This method takes an array of integers and creates the slot length
   # granularities from them.
   def self.construct_selection!(array_of_minutes)

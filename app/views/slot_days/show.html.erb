@@ -1,3 +1,7 @@
 
 <%# This becomes the main diary view %>
 
+<% @slot_times.each do |slot_time| %>
+  <p><%= slot_time.time_slot %>
+<% end %>
+

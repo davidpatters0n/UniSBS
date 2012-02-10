@@ -26,29 +26,21 @@ class Soa::SoaController < ApplicationController
     # Until we see differently...
     token_ok = true
 
-    # First check the IP address
-
     # Next, find the expected security token
     @soa = Soa.find(:first)
-    if ! @soa.nil?
+    unless @soa.nil?
       exp_token = Digest::MD5.hexdigest( "#{@soa.next_token} Clyde_01" )
-      #logger.debug "Next Token is #{@soa.next_token}"
+      logger.debug "Next Token is #{@soa.next_token}"
     else
       exp_token = nil
-      #logger.debug "Next Token is <blank>"
+      logger.debug "Next Token is <blank>"
     end
-
-    #logger.debug "Expected response is #{exp_token}"
-    #logger.debug "Found #{cookies[ :soa_token ]}"
 
     # Generate new security token for next request
     next_token = rand(2**128)
-    if @soa.nil?
-      sql = "INSERT INTO soa VALUES( '#{next_token}' )"
-    else
-      sql = "UPDATE soa SET next_token = '#{next_token}'"
-    end
-    ActiveRecord::Base.connection.execute sql
+    @soa = Soa.new if @soa.nil?
+    @soa.next_token = next_token
+    @soa.save!
 
     # Check whether the found token matches
     if exp_token.nil? || exp_token != cookies[ :soa_token ]
@@ -56,11 +48,10 @@ class Soa::SoaController < ApplicationController
     end
 
     # Set the token for the next request
-    #logger.debug "Current cookie is #{cookies[ :soa_token ]}"
+    logger.debug "Expect  cookie #{exp_token}"
+    logger.debug "Current cookie #{cookies[ :soa_token ]}"
     cookies[ :soa_token ] = { :value => next_token }
-
-    #logger.debug "Setting cookie to #{next_token}"
-    #logger.debug "Current cookie is #{cookies[ :soa_token ]}"
+    logger.debug "Setting cookie #{cookies[ :soa_token ]}"
     
     unless token_ok
       respond_to do |format|

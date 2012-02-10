@@ -40,11 +40,18 @@ Site.names.each do |sitename|
   site.update_attributes!(:past_days_to_keep => 7,
                   :days_in_advance => 7,
                   :provisional_bookings_expire_after => 60,
-                  :granularity_id => Granularity.find_by_minutes(60))
+                  :granularity_id => Granularity.find_by_minutes(60).id)
 
-  puts "  Creating Slot Days for #{sitename}..."
+  puts "      Creating Time Slot Capacities for #{sitename}"
+  puts "         #{site.granularity.times}..."
+  site.construct_initial_time_slot_capacities!
+  puts "         ...#{site.time_slot_capacities.count} time slots"
+
+  puts "      Creating Slot Days for #{sitename}..."
  
-  site.construct_day(Time.now)
+  site.construct_day! Date.today-1
+  site.construct_day! Date.today
+  site.construct_day! Date.today+1
 
 end
 
