@@ -17,11 +17,11 @@ conn = Faraday.new(:url => 'http://localhost') do |builder|
   builder.adapter  :net_http
 end
 
-lockfilename = File.dirname(__FILE__) + "/regularly_tip_housekeeper.lock"
+lockfilename = File.dirname(__FILE__) + "/housekeeper_daemon.lock"
 
 while true
   begin
-    if File.exists?(lockfilename)
+    unless File.exists?(lockfilename)
       puts "Lockfile removed, exiting..."
       sleep 5
       exit

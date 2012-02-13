@@ -6,7 +6,12 @@ daemon_command = File.dirname(__FILE__) + "/../../script/housekeeper_daemon"
 daemon_start_time = Time.now.to_s
 File.open(daemon_command+".lock", 'w') {|f| f.write(daemon_start_time) }
 at_exit do
-  File.delete("#{RAILS_ROOT}/script/housekeeper_daemon.lock")
+  daemon_lockfilename = "script/housekeeper_daemon.lock" 
+  begin
+    File.delete(daemon_lockfilename) if File.exists?(daemon_lockfilename)
+  rescue => e
+    p e.message
+  end
 end
 
 puts "At #{daemon_start_time} (host_os='#{Config::CONFIG['host_os']}')"
