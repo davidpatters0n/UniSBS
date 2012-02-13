@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby.exe
+
+require 'faraday'
+
+this_daemon_time = ARGV[0]
+
+puts "Housekeeper Tipping Process #{this_daemon_time}"
+
+conn = Faraday.new(:url => 'http://localhost') do |builder|
+  builder.use Faraday::Request::UrlEncoded  # convert request params as "www-form-urlencoded"
+  builder.use Faraday::Response::Logger     # log the request to STDOUT
+  builder.use Faraday::Adapter::NetHttp     # make http requests with Net::HTTP
+
+  # or, use shortcuts:
+  builder.request  :url_encoded
+  builder.response :logger
+  builder.adapter  :net_http
+end
+
+lockfilename = File.dirname(__FILE__) + "/regularly_tip_housekeeper.lock"
+
+while true
+  begin
+    if File.exists?(lockfilename)
+      puts "Lockfile removed, exiting..."
+      sleep 5
+      exit
+    end
+      
+    active_daemon_time = File.read(lockfilename)
+    puts "This daemon time: #{this_daemon_time}"
+    puts "Active daemon time: #{active_daemon_time}"
+    if this_daemon_time != active_daemon_time
+      puts "No longer active daemon, exiting..."
+      sleep 5
+      exit
+    end
+    
+    conn.get '/housekeeper'
+  rescue => e
+    p e.message
+  end
+  
+  sleep 30
+end

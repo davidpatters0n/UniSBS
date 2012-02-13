@@ -1,0 +1,19 @@
+<table>
+  <thead>
+    <th>Id</th>
+    <th>Time</th>
+    <th>Log Class</th>
+    <th>Log Type</th>
+    <th>Actions</th>
+  </thead>
+
+<% Logentry.all.each do |logentry| %>
+  <tr>
+    <td><%= logentry.id %></td>
+    <td><%= logentry.created_at %></td>
+    <td><%= logtype logentry %></td>
+    <td><%= logentry.logclass.name %></td>
+    <td><%= link_to 'Show', logentry_path(logentry) %></td>
+  </tr>
+<% end %>
+</table>

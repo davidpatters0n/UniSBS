@@ -2,8 +2,10 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.1.3'
 gem 'rake', '0.9.2'
+gem 'activesupport'
 
 gem 'devise'
+gem 'faraday'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'

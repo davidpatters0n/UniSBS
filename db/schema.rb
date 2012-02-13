@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120210102105) do
+ActiveRecord::Schema.define(:version => 20120211174721) do
 
   create_table "admin_levels", :force => true do |t|
     t.string   "name"
@@ -37,8 +37,27 @@ ActiveRecord::Schema.define(:version => 20120210102105) do
     t.string   "haulier_code"
   end
 
+  create_table "company_logentries", :force => true do |t|
+    t.string "name"
+    t.string "haulier_code"
+  end
+
   create_table "granularities", :force => true do |t|
     t.integer  "minutes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "logclasses", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "logentries", :force => true do |t|
+    t.integer  "logclass_id"
+    t.integer  "loggable_id"
+    t.string   "loggable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

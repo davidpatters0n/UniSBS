@@ -46,7 +46,9 @@ SBSPortal::Application.routes.draw do
   #
   # Transaction Logs (TODO)
   #
-  get '/logs' => 'dashboard#logs', :as => 'logs' 
+  get '/logs' => 'dashboard#logs', :as => 'logs'
+
+  resources :logentries
   
   #
   # Search bar
@@ -59,6 +61,12 @@ SBSPortal::Application.routes.draw do
 
   post    '/soa/bookings/confirm'              => 'soa/bookings#confirm'
 
+  ###################################################
+  # Housekeeper -- background processing            #
+  ###################################################
+  get '/housekeeper' => 'housekeeper/housekeeper#tip'
+  post '/housekeeper' => 'housekeeper/housekeeper#tip'
+
   #
   # Diary pages
   #
@@ -68,7 +76,6 @@ SBSPortal::Application.routes.draw do
   # Then slot_day resources are /cannock/20120101
   resources :sites, :only => [:show], :path => "", :as => :diary do
     resources :slot_days, :path => "", :only => [:show]
-    
   end
   
   get "/slot_days/bookingmangement"
