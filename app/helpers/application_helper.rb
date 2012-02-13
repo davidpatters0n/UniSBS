@@ -63,4 +63,8 @@ module ApplicationHelper
     end
   end
 
+  def formatminutes(value)
+    Time.at(value * 60).strftime('%H:%M') 
+  end
+
 end
