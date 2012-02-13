@@ -22,8 +22,8 @@ lockfilename = File.dirname(__FILE__) + "/housekeeper_daemon.lock"
 while true
   begin
     unless File.exists?(lockfilename)
-      puts "Lockfile removed, exiting..."
-      sleep 5
+      puts "Lockfile removed, exiting in 3 seconds..."
+      sleep 3
       exit
     end
       
@@ -31,12 +31,12 @@ while true
     puts "This daemon time: #{this_daemon_time}"
     puts "Active daemon time: #{active_daemon_time}"
     if this_daemon_time != active_daemon_time
-      puts "No longer active daemon, exiting..."
-      sleep 5
+      puts "No longer active daemon, exiting in 3 seconds..."
+      sleep 3
       exit
     end
     
-    conn.get '/housekeeper'
+    conn.post '/housekeeper'
   rescue => e
     p e.message
   end
