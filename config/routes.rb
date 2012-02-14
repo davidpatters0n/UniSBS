@@ -25,6 +25,9 @@ SBSPortal::Application.routes.draw do
   # we can do this because we don't use the show action
   scope "/admin", :path_names => { :edit=>"" } do
 
+    match 'controlpanel' => 'controlpanel#show', :via => :get
+    post 'controlpanel/restart_housekeeper' => 'controlpanel#restart_housekeeper', :as => 'controlpanel_restart_housekeeper'
+    
     # /admin/users/1
     resources :users, :except => [:show]
     
@@ -38,6 +41,7 @@ SBSPortal::Application.routes.draw do
    
     match ':id/slots' => 'sites#edit_slots', :via => :get
     match ':id/slots' => 'sites#update_slots', :via => :post
+
   end
   
   # /myaccount shortcut to current users account
