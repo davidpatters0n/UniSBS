@@ -56,7 +56,9 @@ class SlotTimesController < ApplicationController
   # PUT /slot_times/1
   # PUT /slot_times/1.json
   def update
-    @slot_time = SlotTime.find(params[:id])
+   @slot_time = Diary.find(params[:diary_id]).slot_days.where
+   (:day => Date.parse(params[:slot_day]).first.slot_times.all.find 
+   { |t| t.time_slot.strftime("%H:%M") == params[:time] }
 
     respond_to do |format|
       if @slot_time.update_attributes(params[:slot_time])
@@ -81,3 +83,4 @@ class SlotTimesController < ApplicationController
     end
   end
 end
+

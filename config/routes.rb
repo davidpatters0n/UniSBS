@@ -2,6 +2,7 @@ SBSPortal::Application.routes.draw do
 
   # Routes for authenticating users
   devise_for :users
+  
 
   # Dashboard root
   root :to => 'dashboard#index'
@@ -11,8 +12,8 @@ SBSPortal::Application.routes.draw do
   #
 
   resources :bookings
-  #resources :slot_times
-  #resources :slot_days
+  resources :slot_time
+  resources :slot_days
 
   #
   # Administrative routes
@@ -67,9 +68,10 @@ SBSPortal::Application.routes.draw do
   # /cannock, /doncaster which redirects to current day
   # Then slot_day resources are /cannock/20120101
   resources :sites, :only => [:show], :path => "", :as => :diary do
-    resources :slot_days, :path => "", :only => [:show]
-    
+  resources :slot_days, :only => [:show] do
+    resources :slot_times
   end
+end
   
   get "/slot_days/bookingmangement"
   get "/slot_days/transport"
@@ -79,3 +81,4 @@ SBSPortal::Application.routes.draw do
   ##################################################
   match '*a', :to => 'errors#routing'
 end
+

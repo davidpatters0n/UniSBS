@@ -1,104 +1,171 @@
-
-<%# This becomes the main diary view %>
-
-<% @slot_times.each do |slot_time| %>
-  <p><%= slot_time.time_slot %>
-<% end %>
-
 <head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>Hourly Scheduler</title>
-		<style>
-			td {
-				background: #EEE;
-				padding: 4px;
-				cursor: pointer;
-			}
-			td:hover {
-				background: #777;
-				color: #FFF;
-			}
-			.hour {
-				width: 60px;
-			}
-			.mini {
-				width: 20px;
-			}
-			#modal {
-				border: 1px solid #AAA;
-				background: #FFF;
-				display: none;
-				padding: 10px;
-				width: 200px;
-				top: 100px;
-				left: 100px;
-				position: absolute;
-			}
-		</style>
-		</head> <table id="myTable"></table>
-		
-		
-		<div id="modal">
-			<form action="#">
-				Enter a company name:
-				<br/>
-				<input id="modalInput" type="text" />
-				<br/>
-				<button id="modalBtn">
-					Done
-				</button>
-			</form>
-		</div>
-		<script>
-			var hours = [1, 2, 3, 4, 5, 6, 7], increment = 15, current = {};
+	<style>
+		td {
+			background: #EEE;
+			padding: 4px;
+			cursor: pointer;
+			border: 1px solid transparent;
+			min-width: 50px;
+		}
+		td:hover {
+			background: #777;
+			color: #FFF;
+		}
+		.dashed-cell {
+			border: 1px dashed #555;
+		}
+		.hour {
+			width: 60px;
+		}
+		.mini {
+			width: 20px;
+		}
+		#modal {
+			border: 1px solid #AAA;
+			background: #FFF;
+			display: none;
+			padding: 10px;
+			width: 200px;
+			top: 100px;
+			left: 100px;
+			position: absolute;
+		}
 
-			get('modalBtn').addEventListener('click', closeModal, false);
+	</style>
+</head>
+<body>
+	<table id="myTable"></table>
+	<div id="modal">
+		<form action="#">
+			Enter a company name:
+			<br/>
+			<input id="modalInput" type="text" />
+			<br/>
+			<button id="modalBtn">
+				Done
+			</button>
+		</form>
+	</div>
+</body>
+<script src="jquery-1.7.1.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+	/*	$(document).ready(function() {
+var tr = $('<tr></tr>');
+var td = $('<td></td>');
+tr.append(td);
+$('div#contentpad').append(tr);
+$('div#contentpad').append(td);
 
-			var modal = get('modal'), myTable = get('myTable'), input = get('modalInput'), l = hours.reverse().length, temp = [];
+$('<div></div>').addClass('mini').addClass('hour') => <div class="mini hour"></div>
+var div = $('<div></div>').addClass('mini').addClass('mini')
+var div = $('<div></div>').addClass('mini').addClass('hour')
 
-			temp[0] = document.createElement('tr');
-			temp[1] = temp[0].appendChild(document.createElement('td'));
-			temp[1].setAttribute('class', 'mini');
-			temp[2] = temp[0].appendChild(temp[1].cloneNode(true));
-			temp[3] = temp[0].appendChild(temp[1].cloneNode(true));
-			temp[1].setAttribute('class', 'hour');
-			temp[2].innerHTML = '+';
-			temp[3].innerHTML = '-';
-			temp.length = 1;
-			while(l--) {
-				temp[1] = temp[0].cloneNode(true);
-				temp[2] = temp[1].children;
-				temp[2][0].innerHTML = hours[l] + ':00';
-				temp[2][1].addEventListener('click', showModal, false);
-				temp[2][2].addEventListener('click', removeSlot, false);
-				myTable.appendChild(temp[1]);
-			}
+var myHTMLContent = $("")
 
-			temp.length = 0;
+var plusButton = $(".plusButton").html("+")
+$("h2:first").html('This is new <em>header</em> content'); // changes the h2, and adds some emphasis
 
-			function showModal() {
-				current.parent = this.parentNode;
-				input.value = '';
-				modal.style.display = 'block';
-				input.focus();
-			}
+****Still working on****
 
-			function closeModal() {
-				var elems = current.parent.children, l = elems.length, tar = elems[l - 3];
-				insert = tar.cloneNode(true);
-				insert.innerHTML = input.value;
-				current.parent.insertBefore(insert, elems[l - 2]);
-				modal.style.display = 'none';
-				input.value = '';
-			}
+}); */
 
-			function removeSlot() {
-				var parent = this.parentNode, elems = parent.children, l = elems.length, tar = elems[l - 3];
-				if(elems.length > 3)
-					parent.removeChild(tar);
-			}
+var hours = [<% @slot_times.each do |slot_time| %><%= (slot_time.time_slot / 60).to_s %>,<% end %>
+	], increment = 15, current = {};
+	get('modalBtn').addEventListener('click', closeModal, false);
 
-			function get(a) {
-				return document.getElementById(a);
-			}
-		</script>
+	var modal = get('modal'), myTable = get('myTable'), input = get('modalInput'), l = hours.reverse().length, temp = [];
+
+	temp[0] = document.createElement('tr');
+	temp[1] = temp[0].appendChild(document.createElement('td'));
+	temp[1].setAttribute('class', 'mini');
+	temp[2] = temp[0].appendChild(temp[1].cloneNode(true));
+	temp[3] = temp[0].appendChild(temp[1].cloneNode(true));
+	temp[1].setAttribute('class', 'hour');
+	temp[2].innerHTML = '+';
+	temp[3].innerHTML = '-';
+	temp.length = 1;
+	while(l--) {
+		temp[1] = temp[0].cloneNode(true);
+		temp[2] = temp[1].children;
+		temp[2][0].innerHTML = hours[l] + ':00';
+		//temp[2][1].addEventListener('click',showModal,false);
+		temp[2][1].addEventListener('click', addCell, false);
+		temp[2][2].addEventListener('click', removeSlot, false);
+		myTable.appendChild(temp[1]);
+	}
+
+	temp.length = 0;
+
+	function addCell() {
+		var elems = this.parentNode.children, l = elems.length, tar = elems[l - 3];
+		insert = tar.cloneNode(true);
+		insert.innerHTML = '';
+		tar.setAttribute('class', '');
+		insert.setAttribute('class', 'dashed-cell');
+		this.parentNode.insertBefore(insert, elems[l - 2]);
+		var time = $(this).parent().find('td.hour').html();
+		var slot_time = {
+			'time' : time
+		}
+		$.put("/" + getDiaryId() + "/slot_days/" + getSlotId + "/slot_times/" + 0, slot_time);
+	}
+
+	function closeModal() {
+		$.post("/", {
+			method_to_handle_request : "value"
+		}, function(data) {
+			// do something with data
+		});
+		var elems = current.parent.children, l = elems.length, tar = elems[l - 3];
+		insert = tar.cloneNode(true);
+		insert.innerHTML = input.value;
+		current.parent.insertBefore(insert, elems[l - 2]);
+		modal.style.display = 'none';
+		input.value = '';
+	}
+
+	function removeSlot() {
+		var parent = this.parentNode, elems = parent.children, l = elems.length, tar = elems[l - 3];
+		if(elems.length > 3)
+			parent.removeChild(tar);
+	}
+
+	function getDiaryId() {
+		var path = document.location.href;
+		// href - = "/Cannock/2012-02-11"
+		var a = path.split('/');
+
+		var id = a[1];
+		//The array is the result of the split
+
+		//If href is a full URL then set the id to 3 being the fourth element which will be the site:id Cannock
+		if(a[0] != "") {
+			id = a[3];
+			//Take result and store it as an id
+		}
+		return id;
+	}
+
+	function getSlotId() {
+		var path = document.location.href;
+		var a = path.split('/');
+
+		var id = a[3];
+
+		// If href is a full url, then we get a wrong id here
+		if(a[0] != "") {
+			id = a[5];
+			//Same principle applies, get fifth element the date_id.
+		}
+		return id;
+	}
+
+	/* Count the elements of array, can see the the date
+	 *(and the id what you very need) is right to the diary id, by two element.
+	 *
+	 * >href.split(“/”) [‘http:’, “”,’localhost:300’,’Cannock’,’slot_days’,’2012-02-11’]*/
+
+	function get(a) {
+		return document.getElementById(a);
+	}
+</script>
