@@ -51,7 +51,7 @@ class Soa::BookingsController < Soa::SoaController
       
       booking.save!
 
-      status = 202
+      status = 200
     rescue Exception => e
       status = 406
       text = e.message

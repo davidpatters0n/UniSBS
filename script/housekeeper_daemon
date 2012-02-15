@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby.exe
 
-require 'faraday'
 require 'logger'
+require 'faraday'
+require 'active_support'
 
 # This simple $tee class outputs to stdout as well as to log
 class Tee
@@ -55,6 +56,7 @@ end
 class HousekeepingDaemonRoster
 
   def initialize
+    @next_endofday = DateTime.now
     @connection = Faraday.new(:url => 'http://localhost') do |builder|
       builder.request  :url_encoded
       builder.response :logger
@@ -63,9 +65,9 @@ class HousekeepingDaemonRoster
   end
 
   def check!
-    if @next_endofday.nil or @next_endofday < Time.now
+    if @next_endofday < DateTime.now
       $tee.info 'Requesting end of day...'
-      @next_endofday = Time.now.end_of_day
+      @next_endofday = DateTime.now.end_of_day
       $tee.info "Next end of day is #{@next_endofday}..."
     end
   end
