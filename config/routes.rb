@@ -79,6 +79,7 @@ SBSPortal::Application.routes.draw do
   # Then slot_day resources are /cannock/20120101
   resources :sites, :only => [:show], :path => "", :as => :diary do
     resources :slot_days, :path => "", :only => [:show]
+    resources :slot_times
   end
   
   get "/slot_days/bookingmangement"

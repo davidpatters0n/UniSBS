@@ -1,6 +1,14 @@
+<<<<<<< HEAD
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/
+*.swp
+=======
 .bundle
 db/*.sqlite3
 log/*.log
 tmp/
 *.swp
 script/housekeeper_daemon.lock
+>>>>>>> 93bda13c36401e76df18f629949441f39280c106

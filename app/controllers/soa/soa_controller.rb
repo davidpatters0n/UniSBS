@@ -26,6 +26,16 @@ class Soa::SoaController < ApplicationController
     Digest::SHA2.hexdigest(token)
   end
 
+    def self.token_filename
+    "#{Rails.root}/config/tokens/endpoint_me.token"
+  end
+
+  def get_portal_token
+    File.read(Soa::SoaController.token_filename).rstrip
+  end
+
+ end
+
   def restrict_soa_token
 
     # Get the expected random security token
@@ -62,12 +72,3 @@ class Soa::SoaController < ApplicationController
     end
   end
 
-  def self.token_filename
-    "#{Rails.root}/config/tokens/endpoint_me.token"
-  end
-
-  def get_portal_token
-    File.read(Soa::SoaController.token_filename).rstrip
-  end
-
-end

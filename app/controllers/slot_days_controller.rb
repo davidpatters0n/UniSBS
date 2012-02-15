@@ -38,5 +38,29 @@ class SlotDaysController < PortalController
     end
 
   end
+  
+  def create 
+    #TODO 
+    #Need transfer a day and a time and a capacity for creation
+    @slot_day = SlotDay.new(:day=>params[:day])
+    #create slot_time
+    @slot_day.slot_times << SlotTime.new(:time_slot=>params[:time],:capacity=>params[:capacity]);
+    @slot_day.save
+  end
 
+ def update 
+  @slot_day = SlotDay.find(params[:id])
+  @slot_time = @slot_day.slot_times.find_by_time_slot(params[:time_slot])
+  if @slot_time.nil?
+    #add slot time
+    @slot_time = SlotTime.new(:time_slot=>params[:time_slot],:capacity=>params[:capacity]);
+    @slot_time.slot_day_id = params[:id]
+  else
+    #set slot time
+    @slot_time = @slot_time[0]
+  end if
+  @slot_time.capacity = params[:capacity]
+  @slot_time.save
+
+ end
 end
