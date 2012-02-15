@@ -4,6 +4,12 @@
       <th colspan=2>Housekeeper</th>
     </tr>
   </thead>
+  <% Site.all.each do |site| %>
+    <tr>
+      <td><b>Days in advance for <%= site.name %></b></td>
+      <td><%= site.days_available_until %></td>
+    </tr>
+  <% end %>
   <tr>
     <td><b>Daemon</b></td>
     <td>
@@ -11,28 +17,35 @@
     </td>
   </tr>
   <tr>
-    <td><b>Status</b></td>
+    <td><b>Status after restart</b></td>
     <td id="restart_housekeeper_result">&nbsp;</td>
   </tr>
-    <tr>
-      <td class="blankrow" colspan=2></td>
-    </tr>
-  </table>
-</table>
+  <tr>
+    <td class="blankrow" colspan=2></td>
+  </tr>
 
-<table>
   <thead>
-    <tr>
-      <th colspan=2>SOA Connection</th>
-    </tr>
+    <th colspan=2>SOA Connection</th>
   </thead>
   <tr>
     <td><b>Last Request</b></td>
-    <td><%= l @soa.updated_at %></td>
+    <td><%= formatlastdone @soa.updated_at %></td>
   </tr>
-    <tr>
-      <td class="blankrow" colspan=2></td>
-    </tr>
-  </table>
-</table>
+  <tr>
+    <td class="blankrow" colspan=2></td>
+  </tr>
 
+  <thead>
+    <tr>
+      <th colspan=2>About</th>
+    </tr>
+  </thead>
+  <tr>
+    <td><b>Version</b></td>
+    <td>Dev 0.8</td>
+  </tr>
+  <tr>
+    <td class="blankrow" colspan=2></td>
+  </tr>
+</table>
+</table>

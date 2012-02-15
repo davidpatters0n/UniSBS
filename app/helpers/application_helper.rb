@@ -63,6 +63,14 @@ module ApplicationHelper
     end
   end
 
+  def formatlastdone(value)
+    if value.nil?
+      "never"
+    else
+      l value
+    end
+  end
+
   def formatminutes(value)
     Time.at(value * 60).strftime('%H:%M') 
   end

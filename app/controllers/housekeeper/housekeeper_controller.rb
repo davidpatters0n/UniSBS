@@ -11,6 +11,10 @@ class Housekeeper::HousekeeperController < ApplicationController
 
   def endofday
     logger.info "Running end of day housekeeping"
+    
+    Site.all.each do |site|
+      site.construct_days!
+    end
     respond_to do |format|
       format.html { render :text => "Complete", :status => 200 }
     end

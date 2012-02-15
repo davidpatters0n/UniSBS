@@ -78,4 +78,23 @@ class Site < ActiveRecord::Base
     end
   end
 
+  def days_available_until
+    i = 0
+    while true 
+      day = Date.today + i
+      return day unless find_day(day)
+      i += 1
+    end
+  end
+
+  def construct_days!
+    for i in (0..days_in_advance)
+      day = Date.today + i
+      unless find_day(day)
+        logger.info "Constructing day #{day} for site #{name}..."
+        construct_day! day
+      end
+    end
+  end
+
 end

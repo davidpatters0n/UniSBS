@@ -7,6 +7,7 @@
 <% end %>
 <% if current_user.is_global_admin? %>
   <%= icon_menu_item "Companies", "despatch.png", companies_path %>
+  <%= icon_menu_item "Control Panel", "admin.png", controlpanel_path %>
 <% end %>
 <%= icon_menu_item "", "back.png", '/' %>
 <%= end_icon_menu %>

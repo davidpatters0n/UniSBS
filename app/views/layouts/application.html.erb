@@ -36,9 +36,12 @@
       	<div id="lowerheadercurve"></div>
       </div>
       <div id="lowerheaderright">
-      	<span><a href="link1">link1</a></span>-
-      	<span><a href="link2">link2</a></span>-
-      	<span><a href="link3">link3</a></span>
+        <% Site.all.each do |site| %>
+          <span><%= link_to site.name, diary_path(site) %></span>
+        <% end %>
+        <% if current_user.is_an_admin? %>
+          <span><%= link_to "Admin", admin_path %></span>
+        <% end %>
       </div>
     </div>
     
