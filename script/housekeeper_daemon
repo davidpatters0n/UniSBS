@@ -2,9 +2,11 @@
 
 require 'logger'
 require 'faraday'
-require 'active_support'
+require 'active_support/all'
 
-# This simple $tee class outputs to stdout as well as to log
+# This simple Tee class outputs to stdout as well as to file
+# object methods are passed to both stdout/file loggers, class
+# methods are delegated to the Logger class
 class Tee
 
   attr_accessor :stdout_logger
@@ -15,13 +17,28 @@ class Tee
     @stdout_logger = Logger.new(STDOUT)
   end
 
-  def method_missing name, *args
-    @stdout_logger.send(name, *args)
-    @file_logger.send(name, *args)
+  def method_missing(name, *args, &block)
+    @stdout_logger.send(name, *args, &block)
+    @file_logger.send(name, *args, &block)
   end
+
+  def respond_to?(symbol, include_private=false)
+    @stdout_logger.respond_to?(symbol, include_private)
+  end
+  
+  def self.method_missing(name, *args, &block)
+    Logger.send(name, *args, &block)
+  end
+
+
+  def self.respond_to?(symbol, include_private=false)
+    Logger.respond_to?(symbol, include_private)
+  end
+
 end
 
 $tee = Tee.new(File.expand_path("../../log/housekeeper_daemon.log", __FILE__))
+$tee.level = Logger::DEBUG
 
 if ARGV[0].nil?
   $tee.fatal "Usage: housekeeper_daemon {uniqueid}"
@@ -34,7 +51,7 @@ class HousekeepingDaemonLockfile
 
   def initialize(uniqueid)
     @filename = File.expand_path('../housekeeper_daemon.lock', __FILE__)
-    @uniqueid = uniqueid
+    @uniqueid = uniqueid.strip
   end
 
   def check!
@@ -43,7 +60,7 @@ class HousekeepingDaemonLockfile
       exit
     end
 
-    active_uniqueid = File.read(@filename)
+    active_uniqueid = File.read(@filename).strip
     unless @uniqueid == active_uniqueid
       $tee.info "Our daemon:    '#{@uniqueid}'"
       $tee.info "Active daemon: '#{active_uniqueid}'"
@@ -57,17 +74,29 @@ class HousekeepingDaemonRoster
 
   def initialize
     @next_endofday = DateTime.now
-    @connection = Faraday.new(:url => 'http://localhost') do |builder|
-      builder.request  :url_encoded
-      builder.response :logger
-      builder.adapter  :net_http
+    @connection = Faraday.new(:url => 'http://localhost') do |b|
+      b.request  :url_encoded
+      b.response :logger, $tee
+      b.adapter  :net_http
     end
+  end
+
+  def request_endofday
+    @connection.post('/housekeeper/endofday')
   end
 
   def check!
     if @next_endofday < DateTime.now
       $tee.info 'Requesting end of day...'
-      @next_endofday = DateTime.now.end_of_day
+      response = request_endofday
+      if response.status == 200
+        $tee.info "Success"
+        @next_endofday = DateTime.now.end_of_day
+      else
+        $tee.warn "End of day request status was #{response.status}"
+        $tee.warn "Retry in 30 seconds"
+        @next_endofday = DateTime.now + 30.seconds
+      end
       $tee.info "Next end of day is #{@next_endofday}..."
     end
   end

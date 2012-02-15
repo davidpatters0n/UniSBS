@@ -68,8 +68,7 @@ SBSPortal::Application.routes.draw do
   ###################################################
   # Housekeeper -- background processing            #
   ###################################################
-  get '/housekeeper' => 'housekeeper/housekeeper#tip'
-  post '/housekeeper' => 'housekeeper/housekeeper#tip'
+  post '/housekeeper/endofday' => 'housekeeper/housekeeper#endofday'
 
   #
   # Diary pages

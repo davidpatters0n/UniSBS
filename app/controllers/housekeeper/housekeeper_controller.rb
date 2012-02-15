@@ -9,6 +9,13 @@ class Housekeeper::HousekeeperController < ApplicationController
     end
   end
 
+  def endofday
+    logger.info "Running end of day housekeeping"
+    respond_to do |format|
+      format.html { render :text => "Complete", :status => 200 }
+    end
+  end
+
   private
 
   def restrict_local
