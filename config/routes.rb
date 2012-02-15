@@ -2,7 +2,6 @@ SBSPortal::Application.routes.draw do
 
   # Routes for authenticating users
   devise_for :users
-  
 
   # Dashboard root
   root :to => 'dashboard#index'
@@ -12,8 +11,8 @@ SBSPortal::Application.routes.draw do
   #
 
   resources :bookings
-  resources :slot_time
-  resources :slot_days
+  #resources :slot_times
+  #resources :slot_days
 
   #
   # Administrative routes
@@ -26,6 +25,9 @@ SBSPortal::Application.routes.draw do
   # we can do this because we don't use the show action
   scope "/admin", :path_names => { :edit=>"" } do
 
+    match 'controlpanel' => 'controlpanel#show', :via => :get
+    post 'controlpanel/restart_housekeeper' => 'controlpanel#restart_housekeeper', :as => 'controlpanel_restart_housekeeper'
+    
     # /admin/users/1
     resources :users, :except => [:show]
     
@@ -39,6 +41,7 @@ SBSPortal::Application.routes.draw do
    
     match ':id/slots' => 'sites#edit_slots', :via => :get
     match ':id/slots' => 'sites#update_slots', :via => :post
+
   end
   
   # /myaccount shortcut to current users account
@@ -47,7 +50,9 @@ SBSPortal::Application.routes.draw do
   #
   # Transaction Logs (TODO)
   #
-  get '/logs' => 'dashboard#logs', :as => 'logs' 
+  get '/logs' => 'dashboard#logs', :as => 'logs'
+
+  resources :logentries
   
   #
   # Search bar
@@ -60,6 +65,12 @@ SBSPortal::Application.routes.draw do
 
   post    '/soa/bookings/confirm'              => 'soa/bookings#confirm'
 
+  ###################################################
+  # Housekeeper -- background processing            #
+  ###################################################
+  get '/housekeeper' => 'housekeeper/housekeeper#tip'
+  post '/housekeeper' => 'housekeeper/housekeeper#tip'
+
   #
   # Diary pages
   #
@@ -68,17 +79,16 @@ SBSPortal::Application.routes.draw do
   # /cannock, /doncaster which redirects to current day
   # Then slot_day resources are /cannock/20120101
   resources :sites, :only => [:show], :path => "", :as => :diary do
-  resources :slot_days, :only => [:show] do
+    resources :slot_days, :path => "", :only => [:show]
     resources :slot_times
   end
-end
   
   get "/slot_days/bookingmangement"
   get "/slot_days/transport"
   
-  ##################################################
-  # Fallback route; don't put anything after this! #
-  ##################################################
+  ###################################################
+  # Fallback routes; don't put anything after this! #
+  ###################################################
+  match '/soa/*a', :to => 'soa/errors#routing'
   match '*a', :to => 'errors#routing'
 end
-

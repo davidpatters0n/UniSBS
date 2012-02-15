@@ -1,0 +1,89 @@
+#!/usr/bin/env ruby.exe
+
+require 'faraday'
+require 'logger'
+
+# This simple $tee class outputs to stdout as well as to log
+class Tee
+
+  attr_accessor :stdout_logger
+  attr_accessor :file_logger
+
+  def initialize(filename)
+    @file_logger = Logger.new(filename)
+    @stdout_logger = Logger.new(STDOUT)
+  end
+
+  def method_missing name, *args
+    @stdout_logger.send(name, *args)
+    @file_logger.send(name, *args)
+  end
+end
+
+$tee = Tee.new(File.expand_path("../../log/housekeeper_daemon.log", __FILE__))
+
+if ARGV[0].nil?
+  $tee.fatal "Usage: housekeeper_daemon {uniqueid}"
+  exit
+end
+
+class HousekeepingDaemonLockfile
+  attr_reader :filename
+  attr_reader :uniqueid
+
+  def initialize(uniqueid)
+    @filename = File.expand_path('../housekeeper_daemon.lock', __FILE__)
+    @uniqueid = uniqueid
+  end
+
+  def check!
+    unless File.exists?(@filename)
+      $tee.info 'Lockfile removed, no longer active. Exiting...'
+      exit
+    end
+
+    active_uniqueid = File.read(@filename)
+    unless @uniqueid == active_uniqueid
+      $tee.info "Our daemon:    '#{@uniqueid}'"
+      $tee.info "Active daemon: '#{active_uniqueid}'"
+      $tee.info 'Lockfile change, no longer active daemon. Exiting...'
+      exit
+    end
+  end
+end
+
+class HousekeepingDaemonRoster
+
+  def initialize
+    @connection = Faraday.new(:url => 'http://localhost') do |builder|
+      builder.request  :url_encoded
+      builder.response :logger
+      builder.adapter  :net_http
+    end
+  end
+
+  def check!
+    if @next_endofday.nil or @next_endofday < Time.now
+      $tee.info 'Requesting end of day...'
+      @next_endofday = Time.now.end_of_day
+      $tee.info "Next end of day is #{@next_endofday}..."
+    end
+  end
+  
+end
+
+lockfile = HousekeepingDaemonLockfile.new(ARGV[0])
+roster = HousekeepingDaemonRoster.new
+
+$tee.info "Housekeeper Tipping Process '#{lockfile.uniqueid}'"
+while true
+  begin
+    lockfile.check!
+    roster.check!
+  rescue => e
+    $tee.debug e.backtrace
+    $tee.fatal e.message
+  end  
+  sleep 3
+end
+

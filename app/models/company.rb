@@ -5,6 +5,14 @@ class Company < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
 
+  after_create do |record|
+    logger.debug "Creating company logentry"
+    CompanyLogentry.create({
+      :logclass_name => "create",
+      :name => name,
+      :haulier_code => haulier_code})
+  end
+
   def self.internal_name
     'internal'
   end
