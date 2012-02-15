@@ -21,6 +21,21 @@ class Soa::SoaController < ApplicationController
     end
   end
 
+  def encrypt_token(token)
+    #Digest::MD5.hexdigest(token)
+    Digest::SHA2.hexdigest(token)
+  end
+
+    def self.token_filename
+    "#{Rails.root}/config/tokens/endpoint_me.token"
+  end
+
+  def get_portal_token
+    File.read(Soa::SoaController.token_filename).rstrip
+  end
+
+ end
+
   def restrict_soa_token
 
     # Get the expected random security token
@@ -31,7 +46,8 @@ class Soa::SoaController < ApplicationController
       expected_token = nil
     else
       logger.debug "Next Token is '#{@soa.next_token} [password]'"
-      expected_token = Digest::MD5.hexdigest( "#{@soa.next_token} Clyde_01" )
+      portal_token = get_portal_token()
+      expected_token = encrypt_token("#{@soa.next_token}#{portal_token}")
     end
     
     # Check whether the cookie token matches the expected token
@@ -45,12 +61,9 @@ class Soa::SoaController < ApplicationController
 
     # Generate new security token for next request
     @soa = Soa.new if @soa.nil?
-    @soa.next_token = SecureRandom.base64(32).delete "=/+" 
+    @soa.next_token = SecureRandom.base64(96).gsub(/\+/, '_').gsub(/\//, '-').delete("=")
     @soa.save!
     cookies[:soa_token] = { :value => @soa.next_token }
-
-    # Set the token for the next request
-    logger.debug "Next token #{cookies[ :soa_token ]}"
     
     unless token_ok
       respond_to do |format|
@@ -59,4 +72,3 @@ class Soa::SoaController < ApplicationController
     end
   end
 
-end

@@ -1,3 +1,38 @@
-<div class='button_bar'>
-  <%= button_to "Restart Housekeeper...", controlpanel_restart_housekeeper_path, :remote => true, :id => "restart_housekeeper" %>
-</div>
+<table>
+  <thead>
+    <tr>
+      <th colspan=2>Housekeeper</th>
+    </tr>
+  </thead>
+  <tr>
+    <td><b>Daemon</b></td>
+    <td>
+      <%= button_to "Restart...", controlpanel_restart_housekeeper_path, :remote => true, :id => "restart_housekeeper" %>
+    </td>
+  </tr>
+  <tr>
+    <td><b>Status</b></td>
+    <td id="restart_housekeeper_result">&nbsp;</td>
+  </tr>
+    <tr>
+      <td class="blankrow" colspan=2></td>
+    </tr>
+  </table>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan=2>SOA Connection</th>
+    </tr>
+  </thead>
+  <tr>
+    <td><b>Last Request</b></td>
+    <td><%= l @soa.updated_at %></td>
+  </tr>
+    <tr>
+      <td class="blankrow" colspan=2></td>
+    </tr>
+  </table>
+</table>
+

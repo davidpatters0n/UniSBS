@@ -7,11 +7,16 @@ class ControlpanelController < PortalController
   end
 
   def restart_housekeeper
-    HousekeeperDaemonControl.restart
+    if HousekeeperDaemonControl.restart
+      @result = "Daemon restarted"
+    else
+      @result = "Could not restart daemon"
+    end
   end
 
   def show
     @main_heading = 'Control Panel'
+    @soa = Soa.find(:first)
   end
 
 end
