@@ -47,12 +47,8 @@ Site.names.each do |sitename|
   site.construct_initial_time_slot_capacities!
   puts "         ...#{site.time_slot_capacities.count} time slots"
 
-  puts "      Creating Slot Days for #{sitename}..."
- 
-  site.construct_day! Date.today-1
-  site.construct_day! Date.today
-  site.construct_day! Date.today+1
-
+  puts "      Creating Slot Days for #{sitename}..." 
+  site.construct_days!
 end
 
 
