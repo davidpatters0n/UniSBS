@@ -12,7 +12,7 @@ gem 'faraday'
 
 gem 'sqlite3'
 gem 'faraday'
-#gem 'therubyracer'
+gem 'therubyracer'
 #gem 'libv8', '3.3.10.4'
 
 

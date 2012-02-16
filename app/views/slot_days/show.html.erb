@@ -29,7 +29,7 @@
 		left: 100px;
 		position: absolute;
 	}
-
+
 </style>
 <div id="timeSlotContent"></div>
 <script src="jquery-1.7.1.min.js" type="text/javascript"></script>
@@ -60,7 +60,6 @@
 			$(add).click(addCell);
 			// Delegates addCell func.
 			$(remove).click(removeCell);
-			// Doh..
 		}
 		$('div#timeSlotContent').append(table);
 		});
@@ -83,18 +82,14 @@
 
 			var targetCell = $(this).parent().find('td.dashed-cell:last');
 			alert(targetCell);
-			//targetCell.html('Fooo')
 			targetCell.remove();
-			//var parent = this.parentNode, elems = parent.children, l = elems.length, tar = elems[l - 3];
-			//if(elems.length > 3)
-			//	parent.removeChild(tar);
 		}
 
 		function closeModal() {
 			$.post("/", {
 				method_to_handle_request : "value"
 			}, function(data) {
-				// do something with data
+
 			});
 			var elems = current.parent.children, l = elems.length, tar = elems[l - 3];
 			insert = tar.cloneNode(true);

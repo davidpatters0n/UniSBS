@@ -29,7 +29,11 @@
   </thead>
   <tr>
     <td><b>Last Request</b></td>
-    <td><%= formatlastdone @soa.updated_at %></td>
+    <% if @soa %>
+      <td><%= formatlastdone @soa.updated_at %></td>
+    <% else %>
+      <td><%= formatlastdone nil %>
+    <% end %>
   </tr>
   <tr>
     <td class="blankrow" colspan=2></td>
