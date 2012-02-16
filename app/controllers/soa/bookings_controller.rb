@@ -8,29 +8,53 @@ class Soa::BookingsController < Soa::SoaController
   # params[:booking][:number_of_pallets]  #integer
   def confirm
 
-    begin
-      raise 'booking information missing' if params[:booking].nil?
-      company_id = Company.find_by_haulier_code(
-                         params[:booking][:haulier_code])
 
-      raise 'haulier code not found' if company_id.nil?
+    begin
+      # default response
+      text = 'booking confirmed'
+
+      raise 'booking information missing' if params[:booking].nil?
+
+      haulier_code = params[:booking][:haulier_code]
+      if haulier_code.nil? or haulier_code.empty?
+        haulier_code = "Unknown!"
+      end
+      
+      company = Company.find_by_haulier_code(haulier_code)
+      if company.nil?
+        text << "; unexpected haulier code '#{haulier_code}'"
+        company = Company.create(:name => "#{haulier_code}!!", :haulier_code => haulier_code)
+      end
+      raise "Cannot find or create company for haulier code '#{haulier_code}'" if company.nil?
     
-      booking = Booking.find_or_initialise_by_reference_number_and_company_id(
+      booking = Booking.find_or_initialize_by_reference_number_and_company_id(
                      params[:booking][:reference_number],
-                     company_id)
+                     company.id)
 
       raise 'could not find or initialise booking' if booking.nil?
 
-      booking.site = params[:booking][:site]
-      bookings.confirmation_time = params[:booking][:appointment_time]
-      bookigns.number_of_pallets = params[:booking][:number_of_pallets]
+      booking.confirmed_appointment = params[:booking][:appointment_time]
+      if booking.confirmed_appointment.nil?
+        text << "; no confirmed appointment time"
+      end
+
+      site = Site.find_by_name(params[:booking][:site])
+      if site.nil?
+        text << "; unknown site '#{params[:booking][:site]}'"
+      else
+      # TODO find slot_time for given site and appointment time (provisional and confirmed)
+      # Determine which slot_time to stuff ourselves into
+      end
+
+      
+      booking.pallets_expected = params[:booking][:number_of_pallets]
+      
       booking.save!
 
-      status = 202
-      text = 'booking confirmed'
-    rescue Exception => exc
+      status = 200
+    rescue Exception => e
       status = 406
-      text = esc.message
+      text = e.message
     end
 
     respond_to do |format|

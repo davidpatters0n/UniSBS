@@ -21,37 +21,49 @@ class Soa::SoaController < ApplicationController
     end
   end
 
+  def encrypt_token(token)
+    #Digest::MD5.hexdigest(token)
+    Digest::SHA2.hexdigest(token)
+  end
+
+    def self.token_filename
+    "#{Rails.root}/config/tokens/endpoint_me.token"
+  end
+
+  def get_portal_token
+    File.read(Soa::SoaController.token_filename).rstrip
+  end
+
+ end
+
   def restrict_soa_token
 
-    # Until we see differently...
-    token_ok = true
-
-    # Next, find the expected security token
+    # Get the expected random security token
     @soa = Soa.find(:first)
-    unless @soa.nil?
-      exp_token = Digest::MD5.hexdigest( "#{@soa.next_token} Clyde_01" )
-      logger.debug "Next Token is #{@soa.next_token}"
-    else
-      exp_token = nil
+    
+    if @soa.nil?
       logger.debug "Next Token is <blank>"
+      expected_token = nil
+    else
+      logger.debug "Next Token is '#{@soa.next_token} [password]'"
+      portal_token = get_portal_token()
+      expected_token = encrypt_token("#{@soa.next_token}#{portal_token}")
+    end
+    
+    # Check whether the cookie token matches the expected token
+    logger.debug "Expected cookie #{expected_token}"
+    logger.debug "Received cookie #{cookies[:soa_token]}"
+    if expected_token.nil? or expected_token != cookies[:soa_token]
+      token_ok = false
+    else
+      token_ok = true
     end
 
     # Generate new security token for next request
-    next_token = rand(2**128)
     @soa = Soa.new if @soa.nil?
-    @soa.next_token = next_token
+    @soa.next_token = SecureRandom.base64(96).gsub(/\+/, '_').gsub(/\//, '-').delete("=")
     @soa.save!
-
-    # Check whether the found token matches
-    if exp_token.nil? || exp_token != cookies[ :soa_token ]
-      token_ok = false
-    end
-
-    # Set the token for the next request
-    logger.debug "Expect  cookie #{exp_token}"
-    logger.debug "Current cookie #{cookies[ :soa_token ]}"
-    cookies[ :soa_token ] = { :value => next_token }
-    logger.debug "Setting cookie #{cookies[ :soa_token ]}"
+    cookies[:soa_token] = { :value => @soa.next_token }
     
     unless token_ok
       respond_to do |format|
@@ -60,4 +72,3 @@ class Soa::SoaController < ApplicationController
     end
   end
 
-end

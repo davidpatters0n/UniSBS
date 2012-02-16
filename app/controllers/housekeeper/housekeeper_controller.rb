@@ -1,0 +1,28 @@
+class Housekeeper::HousekeeperController < ApplicationController
+
+  before_filter :restrict_local
+
+  def tip
+    logger.debug "Housekeeper has been tipped"
+    respond_to do |format|
+      format.html { render :text => "Thank you", :status => 200 }
+    end
+  end
+
+  def endofday
+    logger.info "Running end of day housekeeping"
+    respond_to do |format|
+      format.html { render :text => "Complete", :status => 200 }
+    end
+  end
+
+  private
+
+  def restrict_local
+    unless request.local?
+      logger.debug "Non-local request to housekeeper"
+      access_denied
+    end
+  end
+
+end
