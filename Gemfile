@@ -2,7 +2,6 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.1.3'
 gem 'rake', '0.9.2'
-gem 'activesupport'
 
 gem 'devise'
 gem 'faraday'
@@ -11,10 +10,6 @@ gem 'faraday'
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-gem 'faraday'
-gem 'therubyracer'
-#gem 'libv8', '3.3.10.4'
-
 
 # Gems used only for assets and not required
 # in production environments by default.
