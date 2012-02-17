@@ -1,15 +1,20 @@
 class HousekeeperDaemonControl
 
   def self.start
-    daemon_start_time = take_lock()
-    daemon_command = base_daemon_command()
-    if ['mingw32'].include? Config::CONFIG['host_os']
-      daemon_command = "start ruby #{daemon_command} '#{daemon_start_time}'"
+
+    if Rails.application.config.housekeeper_deamon_options
+      options = Rails.application.config.housekeeper_deamon_options
     else
-      daemon_command << " '#{daemon_start_time}' &"
+      options = ""
     end
 
-    system(daemon_command)
+    if ['mingw32'].include? Config::CONFIG['host_os']
+      cmd = "start ruby #{daemon_script} #{options}"
+    else
+      cmd << "nohup ruby #{daemon_script} #{options} 2>&1 &"
+    end
+
+    system(cmd)
   end
 
   def self.restart
@@ -22,18 +27,12 @@ class HousekeeperDaemonControl
 
   private
 
-  def self.base_daemon_command
+  def self.daemon_script
     "#{Rails.root}/script/housekeeper_daemon"
   end
 
   def self.daemon_lockfile
-    base_daemon_command + '.lock'
-  end
-
-  def self.take_lock
-    daemon_start_time = Time.now.to_s
-    File.open(daemon_lockfile, 'w') {|f| f.write(daemon_start_time) }
-    return daemon_start_time
+    daemon_script + '.lock'
   end
 
 end

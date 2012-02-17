@@ -13,5 +13,5 @@ class SlotTime < ActiveRecord::Base
       x
     end
   end
-  
+
 end

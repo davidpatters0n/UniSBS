@@ -72,8 +72,11 @@ class Site < ActiveRecord::Base
     time_slot_capacities.each do |time_slot_capacity|
       slot_time = SlotTime.find_or_create_by_slot_day_id_and_time_slot(:slot_day_id => slot_day.id, :time_slot => time_slot_capacity.minutes)
       raise "Could not find or create slot day" if slot_time.nil?
-      # TODO determine if weekend or weekday
-      slot_time.capacity = time_slot_capacity.weekday_capacity
+      if day.saturday? or day.sunday?
+        slot_time.capacity = time_slot_capacity.weekend_capacity
+      else
+        slot_time.capacity = time_slto_capacity.weekday_capacity
+      end
       slot_time.save!
     end
   end

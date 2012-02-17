@@ -32,4 +32,6 @@ SBSPortal::Application.configure do
   # These have special access to the soa controllers
   config.soa_whitelist = [ '127.0.0.1', '10.0.0.243' ].freeze
   #['10.0.0.243', '10.0.0.250'].freeze
+
+  config.housekeeper_deamon_options = "-p3000"
 end

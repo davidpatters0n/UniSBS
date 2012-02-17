@@ -1,8 +1,9 @@
-#!/usr/bin/env ruby.exe
+#!/usr/bin/env ruby
 
 require 'logger'
 require 'faraday'
 require 'active_support/all'
+require 'optparse'
 
 # This simple Tee class outputs to stdout as well as to file
 # object methods are passed to both stdout/file loggers, class
@@ -37,21 +38,14 @@ class Tee
 
 end
 
-$tee = Tee.new(File.expand_path("../../log/housekeeper_daemon.log", __FILE__))
-$tee.level = Logger::DEBUG
-
-if ARGV[0].nil?
-  $tee.fatal "Usage: housekeeper_daemon {uniqueid}"
-  exit
-end
-
 class HousekeepingDaemonLockfile
   attr_reader :filename
   attr_reader :uniqueid
 
-  def initialize(uniqueid)
+  def initialize
     @filename = File.expand_path('../housekeeper_daemon.lock', __FILE__)
-    @uniqueid = uniqueid.strip
+    @uniqueid = Time.now.to_s.strip
+    File.open(@filename, 'w') {|f| f.write(@uniqueid) }
   end
 
   def check!
@@ -72,9 +66,9 @@ end
 
 class HousekeepingDaemonRoster
 
-  def initialize
+  def initialize(port)
     @next_endofday = DateTime.now
-    @connection = Faraday.new(:url => 'http://localhost') do |b|
+    @connection = Faraday.new(:url => "http://localhost:#{port}") do |b|
       b.request  :url_encoded
       b.response :logger, $tee
       b.adapter  :net_http
@@ -103,8 +97,41 @@ class HousekeepingDaemonRoster
   
 end
 
-lockfile = HousekeepingDaemonLockfile.new(ARGV[0])
-roster = HousekeepingDaemonRoster.new
+$tee = Tee.new(File.expand_path("../../log/housekeeper_daemon.log", __FILE__))
+$tee.level = Logger::INFO
+
+port = 80
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: housekeeper_daemon [options]"
+
+  opts.on("-p",
+          "--port N", Integer,
+          "Port of rails web server on localhost") do |p|
+         port = p
+  end 
+
+  opts.on("--verbosity [LEVEL]", [:DEBUG, :INFO, :WARN],
+          "Level of logging output (DEBUG/INFO/WARN)") do |verbosity|
+    case verbosity
+    when :DEBUG
+      $tee.level = Logger::DEBUG
+    when :INFO
+      $tee.level = Logger::INFO
+    when :WARN
+      $tee.level = Logger::WARN
+    end
+  end
+  
+  opts.on_tail("-h", "--help", "Lists command-line options") do
+    puts opts
+    exit
+  end
+
+end.parse!
+
+lockfile = HousekeepingDaemonLockfile.new
+roster = HousekeepingDaemonRoster.new(port)
 
 $tee.info "Housekeeper Tipping Process '#{lockfile.uniqueid}'"
 while true
