@@ -4,6 +4,7 @@ class SlotDay < ActiveRecord::Base
   has_many :slot_times
   accepts_nested_attributes_for :slot_times
   has_many :bookings, :through => :slot_times
+  accepts_nested_attributes_for :bookings
  
   # The day in format YYYYMMDD
   def daystamp

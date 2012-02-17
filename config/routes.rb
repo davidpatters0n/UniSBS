@@ -82,7 +82,7 @@ SBSPortal::Application.routes.draw do
     resources :slot_times do
       post 'add_slot' => 'slot_days#add_slot', :as => 'add_slot'
       post 'remove_slot' => 'slot_days#remove_slot', :as => 'remove_slot'
-      
+      put 'set_capacity' => 'slot_days#set_capacity', :as => 'set_capacity'
     end
   end
   

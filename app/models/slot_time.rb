@@ -14,4 +14,14 @@ class SlotTime < ActiveRecord::Base
     end
   end
 
+  def number_of_pallets
+    bookings.each.inject(0) do |result, booking|
+      if booking.pallets_expected
+        result + booking.pallets_expected
+      else
+        result
+      end
+    end
+  end
+
 end

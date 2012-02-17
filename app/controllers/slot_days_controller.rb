@@ -10,11 +10,6 @@ class SlotDaysController < PortalController
   def show
     # The route passes in the 'daystamp' which is in the form YYYYMMDD:
     daystamp = params[:id]
-
-    # TODO - we need to convert the daystamp back into the day:datetime attribute
-
-    # get the slot day
-    #@slot_day = SlotDay.find(:first, :conditions => ["site_id=? and DATE(day)=?", @site.id, daystamp])
     @slot_day = @site.find_day daystamp
 
     if @slot_day.nil?
@@ -44,6 +39,12 @@ class SlotDaysController < PortalController
       #@bookings = @slot_day.bookings.find
     end
 
+    @slot_times.each do |slot_time|
+      new_booking = slot_time.bookings.build
+      new_booking.slot_time_id = slot_time.id
+      new_booking.company_id = current_user.company.id
+    end
+
   end
   
   def add_slot
@@ -66,6 +67,22 @@ class SlotDaysController < PortalController
     rescue => e
       logger.error "Failed to remove slot from slot time: #{e.message}"
     end
+  end
+
+  def set_capacity
+    logger.debug "Setting capacity"
+    @slot_time = SlotTime.find_by_id(params[:slot_time_id])
+    begin
+      @slot_time.capacity = params[:slot_time][:capacity]
+      @slot_time.save!
+    rescue => e
+      logger.error "Failed to set capacity for slot time: #{e.message}"
+    end
+
+    #render :template=>"slot_days/set_capacity.js.erb"
+    @slot_time = SlotTime.find_by_id params[:slot_time_id]
+    @slot_day = @slot_time.slot_day
+    redirect_to diary_slot_day_path(@site, @slot_day)
   end
 
 end
