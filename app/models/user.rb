@@ -32,6 +32,10 @@ class User < ActiveRecord::Base
   def is_booking_manager?
     company.is_internal?
   end
+
+  def is_transport_user?
+    company.is_external?
+  end
  
   def logged_in_as
     nickname or email

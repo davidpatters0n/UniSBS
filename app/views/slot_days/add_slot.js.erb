@@ -1,0 +1,4 @@
+$(".time<%= @slot_time.id %>").after("<%= escape_javascript render :partial => "free_slot" %>");
+<% if enable_remove? @slot_time %>
+$("#remove_slot<%= @slot_time.id %>").attr("disabled", false);
+<% end %>

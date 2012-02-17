@@ -36,8 +36,39 @@ class SlotDaysController < PortalController
     if @slot_day
       @slot_times = @slot_day.slot_times
     end
+    
+    if current_user.is_booking_manager?
+      @bookings = @slot_day.bookings
+    else
+      # TODO filter bookings by transport user's company
+      #@bookings = @slot_day.bookings.find
+    end
 
   end
+  
+  def add_slot
+    logger.debug "Adding slot"
+    @slot_time = SlotTime.find_by_id(params[:slot_time_id])
+    begin
+      @slot_time.capacity += 1 
+      @slot_time.save!
+    rescue => e
+      logger.error "Failed to add slot to slot time: #{e.message}"
+    end  
+  end
+  
+  def remove_slot
+    logger.debug "Removing slot"
+    @slot_time = SlotTime.find_by_id(params[:slot_time_id])
+    begin 
+      @slot_time.capacity -= 1 
+      @slot_time.save!
+    rescue => e
+      logger.error "Failed to remove slot from slot time: #{e.message}"
+    end
+  end
+  
+  
   
   def create 
     #TODO 

@@ -1,0 +1,7 @@
+var targetCell = $(".time<%= @slot_time.id %>").parent().find('td.dashed-cell:last');
+targetCell.remove();
+<% if disable_remove? @slot_time %>
+  $("#remove_slot<%= @slot_time.id %>").attr("disabled", true);
+<% end %>
+
+

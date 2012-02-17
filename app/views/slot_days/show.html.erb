@@ -6,10 +6,6 @@
 		border: 1px solid transparent;
 		min-width: 50px;
 	}
-	td:hover {
-		background: #777;
-		color: #FFF;
-	}
 	.dashed-cell {
 		border: 1px dashed #555;
 	}
@@ -29,11 +25,31 @@
 		left: 100px;
 		position: absolute;
 	}
-
+
+
 </style>
+
+<table>
+<% @slot_times.each do |slot_time| %>
+<tr class="slot_time<%= slot_time.id %>">
+	<td class="time<%= slot_time.id %>"><%= formatminutes slot_time.time_slot %></td>
+	<% @bookings.each do |booking| %>
+	<% end %>
+	<% for i in 1..slot_time.number_of_free_slots %>
+	  <%= render :partial => "free_slot"%>
+	  
+	<% end %>
+	<td><%= button_to "Add", diary_slot_time_add_slot_path(@site, slot_time), :remote => true, :id => "add_slot" %></td>
+	<td><%= button_to "Remove", diary_slot_time_remove_slot_path(@site, slot_time), :remote => true, :id => "remove_slot#{slot_time.id}", :disabled => disable_remove?(slot_time) %></td>
+</tr>
+<% end %>
+</table>
+
 <div id="timeSlotContent"></div>
 <script src="jquery-1.7.1.min.js" type="text/javascript"></script>
+<%= javascript_include_tag "ajax_request_PUT" %>
 <script type="text/javascript">
+
 		$(document).ready(function() {
 	var times = [<% @slot_times.each do |slot_time| %><%= (slot_time.time_slot / 60).to_s %>,<% end %>
 		]
@@ -60,6 +76,7 @@
 			$(add).click(addCell);
 			// Delegates addCell func.
 			$(remove).click(removeCell);
+			
 		}
 		$('div#timeSlotContent').append(table);
 		});
@@ -75,15 +92,14 @@
 			var slot_time = {
 				'time' : time
 			}
-			$.put("/" + getDiaryId() + "/slot_days/" + getSlotId + "/slot_times/" + 0, slot_time);
+			$.put("<%= "#{@site.name}/{@slot_day.day}/" %>" + getDiaryId() + getSlotId + "/slot_times/" + 0, slot_time);
 		}
 
 		function removeCell() {
 
 			var targetCell = $(this).parent().find('td.dashed-cell:last');
-			alert(targetCell);
 			targetCell.remove();
-		}
+	} 
 
 		function closeModal() {
 			$.post("/", {
@@ -99,11 +115,11 @@
 			input.value = '';
 		}
 
-		function removeSlot() {
+/*		function removeSlot() {
 			var parent = this.parentNode, elems = parent.children, l = elems.length, tar = elems[l - 3];
 			if(elems.length > 3)
 				parent.removeChild(tar);
-		}
+	} */
 
 		function getDiaryId() {
 			var path = document.location.href;
