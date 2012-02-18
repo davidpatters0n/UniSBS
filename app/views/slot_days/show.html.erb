@@ -44,7 +44,7 @@
   </td>
 <% end %>
   
-  <% slot_time.bookings.each do |booking| %>
+  <% slot_time.bookings_visible_to(current_user).each do |booking| %>
     <% unless booking.id.nil? %>
       <%= render :partial => "booking", :locals => { :booking => booking } %>
     <% else %>

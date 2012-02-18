@@ -5,7 +5,15 @@ class SlotTime < ActiveRecord::Base
   belongs_to :slot_day
   
   validates :capacity, :numericality => { :only_integer => true, :greater_than_or_equal_to => 0}
-  
+ 
+  def bookings_visible_to(user)
+    if user.is_booking_manager?
+      bookings.all
+    else
+      Booking.where(:slot_time_id => id, :company_id => user.company.id)
+    end
+  end
+
   def number_of_free_slots
     x = capacity - bookings.count
     if x < 0
