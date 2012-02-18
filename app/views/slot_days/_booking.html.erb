@@ -1,10 +1,8 @@
-<td class="booking" onclick='$(this).dialog()'>
+<td class="booking" onclick='$("#booking<%= booking.id %>").dialog()'>
+  <%= booking.reference_number %>
   <div style="display:none;">
-    <div id="dialog" title="Edit Booking">
-      <%= form_for booking do |f| %>
-        <%= f.label :reference_number %>
-        <%= f.text_field :reference_number %>
-      <% end %>
+    <div id="booking<%= booking.id %>" title="Edit Booking">
+      <%= render :partial => "booking_dialog", :locals => { :booking => booking } %>
     </div>
   </div>
 </td>

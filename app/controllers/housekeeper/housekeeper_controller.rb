@@ -2,6 +2,10 @@ class Housekeeper::HousekeeperController < ApplicationController
 
   before_filter :restrict_local
 
+  def check_base_class
+    logger.debug "Housekeeper Controller"
+  end
+
   def tip
     logger.debug "Housekeeper has been tipped"
     respond_to do |format|

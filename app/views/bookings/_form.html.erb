@@ -21,7 +21,10 @@
     </thead>
     <tr>
       <td><%= f.label :company %></td>
-      <td><%= @booking.company.name %></td>
+      <td>
+        <%= f.hidden_field :company_id %>
+        <%= @booking.company.name %>
+      </td>
     </tr>
     <tr>
       <td><%= f.label :reference_number %></td>
@@ -29,11 +32,15 @@
     </tr>
     <tr>
       <td><%= f.label :provisional_appointment %></td>
-      <td><%= l @booking.provisional_appointment %></td>
+      <td>
+        <%= f.hidden_field :provisional_appointment %>
+        <%= l @booking.provisional_appointment %>
+      </td>
     </tr>
     <tr>
       <td><%= f.label :confirmed_appointment %></td>
       <td>
+        <% f.hidden_field :confirmed_appointment %>
         <% if @booking.confirmed_appointment %>
           <%= l @booking.confirmed_appointment %>
         <% else %>
@@ -46,7 +53,9 @@
       <td><%= f.number_field :pallets_expected, :size => 5 %></td>
     </tr>
     <tr>
-      <td class="blankrow" colspan=2></td>
+      <td class="blankrow" colspan=2>
+        <%= f.hidden_field :slot_time_id %>
+      </td>
     </tr>
   </table>
   <div class="actions">

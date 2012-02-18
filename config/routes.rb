@@ -10,9 +10,8 @@ SBSPortal::Application.routes.draw do
   # Routes for inspecting data
   #
 
-  resources :bookings
-  #resources :slot_times
-  #resources :slot_days
+  # Bookings can be created only through the SOA or diary screen, so we don't include the new action:
+  resources :bookings, :except => :new
 
   #
   # Administrative routes

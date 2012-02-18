@@ -57,6 +57,7 @@
     <% end %>
     <%= button_to "Remove", diary_slot_time_remove_slot_path(@site, slot_time), :remote => true, :id => "remove_slot#{slot_time.id}", :disabled => disable_remove?(slot_time) %>
   </td>
+<% end %>
   
   <% slot_time.bookings.each do |booking| %>
     <% unless booking.id.nil? %>
@@ -69,7 +70,6 @@
       </div>
     <% end %>
   <% end %>
-<% end %>
   
   <% for i in 1..slot_time.number_of_free_slots %>
     <%= render :partial => "free_slot", :locals => { :slot_time => slot_time } %>  

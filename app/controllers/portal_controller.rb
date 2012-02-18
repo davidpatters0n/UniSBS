@@ -12,4 +12,8 @@ class PortalController < ApplicationController
 
   before_filter :authenticate_user!
 
+  def check_base_class
+    logger.debug "Portal Controller"
+  end
+
 end

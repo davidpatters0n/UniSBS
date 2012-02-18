@@ -8,6 +8,10 @@ class Soa::SoaController < ApplicationController
   before_filter :restrict_soa_ip
   before_filter :restrict_soa_token
 
+  def check_base_class
+    logger.debug "Soa Controller"
+  end
+  
   # Restrict access to the IP for the SOA system only.
   # This controller isn't available to general web users
   def restrict_soa_ip

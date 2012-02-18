@@ -1,7 +1,12 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  before_filter :check_base_class
   before_filter :set_cache_buster
+
+  def check_base_class
+    raise "Not allowing direct use of ApplicationContoller as parent class"
+  end
 
   # avoid caching
   def set_cache_buster
