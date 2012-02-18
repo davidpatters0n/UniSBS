@@ -47,7 +47,11 @@
   <% slot_time.bookings_visible_to(current_user).each do |booking| %>
     <% unless booking.id.nil? %>
       <%= render :partial => "booking", :locals => { :booking => booking } %>
-    <% else %>
+    <% end %>
+  <% end %>
+  
+  <% slot_time.bookings.each do |booking| %>
+    <% if booking.id.nil? %>
       <div style="display:none;">
         <div id="create_booking<%= slot_time.id %>" title="Create Booking">
           <%= render :partial => "booking_dialog", :locals => { :booking => booking } %>
