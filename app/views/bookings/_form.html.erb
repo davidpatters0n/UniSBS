@@ -21,7 +21,7 @@
     </thead>
     <tr>
       <td><%= f.label :company %></td>
-      <td><%= collection_select(:booking, :company_id, Company.external, :id, :name, :prompt => 'Select Company') %></td>
+      <td><%= @booking.company.name %></td>
     </tr>
     <tr>
       <td><%= f.label :reference_number %></td>
@@ -29,11 +29,17 @@
     </tr>
     <tr>
       <td><%= f.label :provisional_appointment %></td>
-      <td><%= f.datetime_select :provisional_appointment, :prompt => true %></td>
+      <td><%= l @booking.provisional_appointment %></td>
     </tr>
     <tr>
       <td><%= f.label :confirmed_appointment %></td>
-      <td><%= f.datetime_select :confirmed_appointment, :prompt => true %></td>
+      <td>
+        <% if @booking.confirmed_appointment %>
+          <%= l @booking.confirmed_appointment %>
+        <% else %>
+          <em>unconfirmed</em>
+        <% end %>
+      </td>
     </tr>
     <tr>
       <td><%= f.label :pallets_expected %></td>

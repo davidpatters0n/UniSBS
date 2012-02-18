@@ -54,12 +54,25 @@ class BookingsController < ApplicationController
   # POST /bookings.json
   def create
     @booking = Booking.new(params[:booking])
-
-    respond_to do |format|
-      if @booking.save
-        format.html { redirect_to @booking, notice: 'Booking was successfully created.' }
+    @site = @booking.site
+    @slot_day = @booking.slot_day
+    if @booking.save
+      if @site and @slot_day
+      flash[:notice] = 'Booking was successfully created'
+        respond_to do |format|
+          format.html { redirect_to diary_slot_day_path(@booking.site, @booking.slot_day) }
+        end
       else
-        @main_heading = 'Manually Create Booking'
+        # we shouldn't get here, since provisional bookings should always be
+        # against a slot time, day and site. But just in case...
+        flash[:error] = 'Unexpectedly could not go to site or day of booking'
+        respond_to do |format|
+          format.html { redirect_to booking_path(@booking) }
+        end
+      end
+    else
+      @main_heading = 'Review New Booking'
+      respond_to do |format|
         format.html { render action: "new" }
       end
     end

@@ -1,3 +1,5 @@
 <%= render 'form' %>
 
-<%= link_to 'Cancel', bookings_path %>
+<% if @site and @slot_day %>
+  <%= link_to 'Back to Diary', diary_slot_day_path(@site, @slot_day) %>
+<% end %>

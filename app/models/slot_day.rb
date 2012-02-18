@@ -15,4 +15,8 @@ class SlotDay < ActiveRecord::Base
     daystamp
   end
 
+  def to_datetime
+    DateTime.new(day.year, day.month, day.day)
+  end
+
 end

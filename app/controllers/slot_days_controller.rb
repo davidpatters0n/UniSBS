@@ -39,10 +39,13 @@ class SlotDaysController < PortalController
       #@bookings = @slot_day.bookings.find
     end
 
+    datetime = @slot_day.day.to_datetime
+
     @slot_times.each do |slot_time|
-      new_booking = slot_time.bookings.build
-      new_booking.slot_time_id = slot_time.id
-      new_booking.company_id = current_user.company.id
+      new_booking = slot_time.bookings.build(
+        :company => current_user.company,
+        :provisional_appointment => datetime + slot_time.time_slot.minutes)
+      logger.debug new_booking.inspect
     end
 
   end
@@ -79,7 +82,6 @@ class SlotDaysController < PortalController
       logger.error "Failed to set capacity for slot time: #{e.message}"
     end
 
-    #render :template=>"slot_days/set_capacity.js.erb"
     @slot_time = SlotTime.find_by_id params[:slot_time_id]
     @slot_day = @slot_time.slot_day
     redirect_to diary_slot_day_path(@site, @slot_day)

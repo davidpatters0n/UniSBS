@@ -15,12 +15,12 @@ class Booking < ActiveRecord::Base
     end
   end
 
+  def slot_day
+    slot_time.slot_day if slot_time
+  end
+
   def site
-    if slot_time and slot_time.slot_day
-      slot_time.slot_day.site
-    else
-      nil
-    end
+    slot_day.site if slot_day
   end
 
 end

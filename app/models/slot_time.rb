@@ -1,6 +1,7 @@
 class SlotTime < ActiveRecord::Base
   
   has_many :bookings
+  accepts_nested_attributes_for :bookings
   belongs_to :slot_day
   
   validates :capacity, :numericality => { :only_integer => true, :greater_than_or_equal_to => 0}
