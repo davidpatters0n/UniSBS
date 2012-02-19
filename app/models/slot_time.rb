@@ -15,6 +15,9 @@ class SlotTime < ActiveRecord::Base
   end
 
   def number_of_free_slots
+    if capacity.nil?
+      return 0
+    end
     x = capacity - bookings.count
     if x < 0
       0

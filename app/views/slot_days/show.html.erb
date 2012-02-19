@@ -9,8 +9,20 @@
   .dashed-cell {
     background: #FFF;
 		border: 1px dashed #555;
+  }
+  
+  #toolbar {
+		padding: 10px 4px;
 	}
+
 </style>
+
+<span id="toolbar" class="ui-widget-header ui-corner-all">
+  <input type="text" id="datepicker" size=30> 
+  <button id="today">today</button>
+</span>
+
+<p>
 
 <table>
   <thead>
@@ -66,3 +78,32 @@
 </tr>
 <% end %>
 </table>
+
+<script>
+  $(function() {
+    $("#datepicker").datepicker({
+      dateFormat: "DD, d MM, yy",
+      onSelect: function(dateText, inst)
+      {
+        var newdate = new Date(dateText);
+        var yyyy = newdate.getFullYear().toString();
+        var mm = (newdate.getMonth() + 1).toString();
+        var dd = newdate.getDate().toString();
+        if (mm.length == 1) {
+         mm = '0' + mm;
+        }
+        if (dd.length == 1) {
+          dd = '0' + dd;
+        }
+        document.location.href = yyyy + '-' + mm + '-' + dd;
+      }
+    }).datepicker("setDate", new Date("<%= @slot_day.day %>"));
+  });
+
+  $("#today").button().click(function()
+  {
+    document.location.href = "<%= diary_url(@site) %>";
+  });
+
+</script>
+
