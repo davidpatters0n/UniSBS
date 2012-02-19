@@ -1,4 +1,4 @@
-class LogentriesController < ApplicationController
+class LogentriesController < PortalController
   
   before_filter :authorise
 

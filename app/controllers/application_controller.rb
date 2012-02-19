@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  before_filter :check_base_class
+  before_filter :check_base_class, :unless => :devise_controller?
   before_filter :set_cache_buster
 
   def check_base_class

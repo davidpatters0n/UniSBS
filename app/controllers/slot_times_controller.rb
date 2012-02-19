@@ -1,4 +1,4 @@
-class SlotTimesController < ApplicationController
+class SlotTimesController < PortalController
   # GET /slot_times
   # GET /slot_times.json
   def index
