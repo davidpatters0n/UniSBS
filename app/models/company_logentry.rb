@@ -11,4 +11,8 @@ class CompanyLogentry < ActiveRecord::Base
     logentry.save
   end
 
+  def content_summary
+    "#{name}, #{haulier_code}"
+  end
+
 end

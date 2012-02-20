@@ -1,9 +1,10 @@
-<table>
+<table id="indextable">
   <thead>
     <th>Id</th>
     <th>Time</th>
     <th>Log Class</th>
     <th>Log Type</th>
+    <th>Content Summary</th>
     <th>Actions</th>
   </thead>
 
@@ -13,7 +14,15 @@
     <td><%= logentry.created_at %></td>
     <td><%= logtype logentry %></td>
     <td><%= logentry.logclass.name %></td>
+    <td><%= logentry.loggable.content_summary %></td>
     <td><%= link_to 'Show', logentry_path(logentry) %></td>
   </tr>
 <% end %>
 </table>
+
+<script>
+$(document).ready(function() {
+    $('#indextable').dataTable();
+} );
+</script>
+

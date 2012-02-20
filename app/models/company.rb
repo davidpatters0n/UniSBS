@@ -1,15 +1,18 @@
 class Company < ActiveRecord::Base
 
-  has_many :users
-  has_many :bookings
+  has_many :users, :dependent => :restrict
+  has_many :bookings, :dependent => :restrict
 
   validates_presence_of :name
   validates_uniqueness_of :name
 
-  after_create do |record|
-    logger.debug "Creating company logentry"
+  after_create   {|record| log("create")}
+  after_update   {|record| log("update")}
+  before_destroy {|record| log("delete")}
+
+  def log(logclass_name)
     CompanyLogentry.create({
-      :logclass_name => "create",
+      :logclass_name => logclass_name,
       :name => name,
       :haulier_code => haulier_code})
   end

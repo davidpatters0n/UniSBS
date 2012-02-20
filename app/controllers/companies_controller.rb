@@ -69,6 +69,19 @@ class CompaniesController < PortalController
     end
   end
 
+  def destroy
+    begin
+      @company = Company.find_by_id(params[:id])
+      @company.destroy
+    rescue => e
+      flash[:error] = e.message
+    end
+
+    respond_to do |format|
+      format.html { redirect_to(companies_url) }
+    end
+  end
+
   def assign_company_details(company)
 
     if company.is_internal?
@@ -83,6 +96,10 @@ class CompaniesController < PortalController
       end
       
       company.name = params[:company][:name]
+    end
+
+    if params[:company][:haulier_code]
+      company.haulier_code = params[:company][:haulier_code]
     end
 
     company.save

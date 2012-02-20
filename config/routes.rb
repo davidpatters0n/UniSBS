@@ -31,7 +31,7 @@ SBSPortal::Application.routes.draw do
     resources :users, :except => [:show]
     
     # /admin/companies/1
-    resources :companies, :except => [:show, :destroy]
+    resources :companies, :except => [:show]
     
     # sites have fixed names and cannot be created/deleted through user
     # action. To give a clean URL, we skip having 'sites' in the path.

@@ -1,4 +1,4 @@
-<table>
+<table id="indextable">
   <thead><tr>
     <th>Id</th>
     <th>Email Address</th>
@@ -60,3 +60,10 @@
 <br />
 
 <%= link_to 'Create New User', new_user_path %> | <%= link_to 'Back to Admin', admin_path %>
+
+<script>
+$(document).ready(function() {
+    $('#indextable').dataTable();
+} );
+</script>
+

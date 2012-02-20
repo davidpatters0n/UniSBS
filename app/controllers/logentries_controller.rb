@@ -8,13 +8,13 @@ class LogentriesController < PortalController
 
   def show
     @logentry = Logentry.find_by_id(params[:id])
+    @loggable = @logentry.loggable
     @main_heading = 'Log Entry'
   end
 
   # GET /bookings
-  # GET /bookings.json
   def index
-    @main_heading = 'Log Enties'
+    @main_heading = 'Log Entries'
   end
 
 end

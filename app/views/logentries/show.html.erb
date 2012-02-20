@@ -1,0 +1,36 @@
+<table>
+  <thead>
+    <th>General</th>
+    <th>Value</th>
+  </thead>
+  <tr>
+    <td><b>Log Entry Id</b></td>
+    <td><%= @logentry.id %></td>
+  </tr>
+  <tr>
+    <td><b>Time</b></td>
+    <td><%= @logentry.created_at %></td>
+  </tr>
+  <tr>
+    <td><b>Log</b></td>
+    <td><%= logtype @logentry %></td>
+  </tr>
+  <tr>
+    <td><b>Log Class</b></td>
+    <td><%= @logentry.logclass.name %></td>
+  </tr>
+  <thead>
+    <th><%= logtype @logentry %>-specific</th>
+    <th>Value</th>
+  </thead>
+  <% for attribute in @loggable.attributes.keys %>
+    <tr>
+      <% if attribute.humanize == 'Id' %>
+        <td><b><%= logtype @logentry %> Log Id</b></td>
+      <% else %>
+        <td><b><%= attribute.humanize %></b></td>
+      <% end %>
+      <td><%= @loggable.attributes[attribute].to_s %></td>
+    </tr>
+  <% end %>
+</table>

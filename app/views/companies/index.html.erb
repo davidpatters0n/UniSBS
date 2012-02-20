@@ -2,9 +2,12 @@
 <% if @companies.nil? or @companies.empty? %>
   <p><em>No transport companies have been defined yet.</em></p>
 <% else %>
-  <table>
+
+  <table id='indextable'>
     <thead>
       <th>Company Name</th>
+      <th>Haulier Code</th>
+      <th>Action</th>
     </thead>
     <% @companies.each do |company| %>
       <tr>
@@ -15,10 +18,28 @@
             <%= link_to company.name, edit_company_path(company) %>
           <% end %>
         </td>
+        <td>
+          <%= company.haulier_code %>
+        </td>
+        <td>
+          <%= link_to 'Edit', edit_company_path(company) %>,
+          <%= link_to 'Remove', company, confirm: 'Are you sure?', method: :delete %>
+        </td>
       </tr>
     <% end %>
   </table>
-  <br />
 <% end %>
 
-<%= link_to 'Create New Company', new_company_path %> | <%= link_to 'Back to Admin', admin_path %>
+<br />
+<br />
+
+<div class="button_bar">
+<%= link_to 'Create New Company', new_company_path %> <%= link_to 'Back to Admin', admin_path %>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#indextable').dataTable();
+} );
+</script>
+
