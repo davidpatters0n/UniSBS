@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  booking_id: 
+  company: MyString
+  reference_number: MyString
+  provisional_appointment: 2012-02-20 16:32:20
+  confirmed_appointment: 2012-02-20 16:32:20
+  pallets_expected: 1
+
+two:
+  booking_id: 
+  company: MyString
+  reference_number: MyString
+  provisional_appointment: 2012-02-20 16:32:20
+  confirmed_appointment: 2012-02-20 16:32:20
+  pallets_expected: 1

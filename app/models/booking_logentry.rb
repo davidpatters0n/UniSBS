@@ -1,5 +1,5 @@
-class CompanyLogentry < ActiveRecord::Base
-  
+class BookingLogentry < ActiveRecord::Base
+
   has_one :logentry, :as => :loggable, :dependent => :destroy
 
   attr_accessor :logclass_name
@@ -12,7 +12,6 @@ class CompanyLogentry < ActiveRecord::Base
   end
 
   def content_summary
-    "#{name}, #{haulier_code}"
+    "#{site}, #{company}, #{reference_number}"
   end
-
 end

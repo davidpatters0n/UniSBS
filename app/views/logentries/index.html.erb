@@ -21,13 +21,18 @@
     <td><%= logentry.id %></td>
     <td><%= l logentry.created_at %></td>
     <td><%= logentry.logclass.name %></td>
-    <% if @index_log_type.nil? %>
-      <td><%= logtype logentry %></td>
-      <td><%= logentry.loggable.content_summary %></td>
+    <% if logentry.loggable.nil? %>
+      <td><em>orphaned log entry</em></td>
+      <td></td>
     <% else %>
-      <% logentry.loggable.attributes.each do |attribute, value| %>
-        <% unless attribute.humanize == 'Id' %>
-          <td><%= value.to_s %></td>
+      <% if @index_log_type.nil? %>
+        <td><%= logtype logentry %></td>
+        <td><%= logentry.loggable.content_summary %></td>
+      <% else %>
+        <% logentry.loggable.attributes.each do |attribute, value| %>
+          <% unless attribute.humanize == 'Id' %>
+            <td><%= value.to_s %></td>
+          <% end %>
         <% end %>
       <% end %>
     <% end %>
