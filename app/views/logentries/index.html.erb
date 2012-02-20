@@ -3,18 +3,34 @@
     <th>Id</th>
     <th>Time</th>
     <th>Log Class</th>
-    <th>Log Type</th>
-    <th>Content Summary</th>
+    <% if @index_log_type.nil? %>
+      <th>Log Type</th>
+      <th>Content Summary</th>
+    <% elsif @logentries.first %>
+      <% @logentries.first.loggable.attributes.each do |attribute, value| %>
+        <% unless attribute.humanize == 'Id' %>
+          <th><%= attribute.humanize %></th>
+        <% end %>
+      <% end %>
+    <% end %>
     <th>Actions</th>
   </thead>
 
-<% Logentry.all.each do |logentry| %>
+<% @logentries.each do |logentry| %>
   <tr>
     <td><%= logentry.id %></td>
-    <td><%= logentry.created_at %></td>
-    <td><%= logtype logentry %></td>
+    <td><%= l logentry.created_at %></td>
     <td><%= logentry.logclass.name %></td>
-    <td><%= logentry.loggable.content_summary %></td>
+    <% if @index_log_type.nil? %>
+      <td><%= logtype logentry %></td>
+      <td><%= logentry.loggable.content_summary %></td>
+    <% else %>
+      <% logentry.loggable.attributes.each do |attribute, value| %>
+        <% unless attribute.humanize == 'Id' %>
+          <td><%= value.to_s %></td>
+        <% end %>
+      <% end %>
+    <% end %>
     <td><%= link_to 'Show', logentry_path(logentry) %></td>
   </tr>
 <% end %>

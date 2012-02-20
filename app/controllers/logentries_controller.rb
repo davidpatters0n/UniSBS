@@ -14,7 +14,16 @@ class LogentriesController < PortalController
 
   # GET /bookings
   def index
-    @main_heading = 'Log Entries'
+    if params[:id].nil?
+      @main_heading = 'Log Entries'
+      @logentries = Logentry.all
+    else
+      @index_log_type  = params[:id].classify
+      modelname = "#{@index_log_type}Logentry"
+      @main_heading = "#{@index_log_type} Log"
+      @logentries = Logentry.where("loggable_type = ?", modelname)
+      @klass = modelname.constantize
+    end
   end
 
 end

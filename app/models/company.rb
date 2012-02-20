@@ -13,6 +13,7 @@ class Company < ActiveRecord::Base
   def log(logclass_name)
     CompanyLogentry.create({
       :logclass_name => logclass_name,
+      :company_id => id, 
       :name => name,
       :haulier_code => haulier_code})
   end

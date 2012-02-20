@@ -23,14 +23,14 @@
     <th><%= logtype @logentry %>-specific</th>
     <th>Value</th>
   </thead>
-  <% for attribute in @loggable.attributes.keys %>
+  <% @loggable.attributes.each do |attribute, value| %>
     <tr>
       <% if attribute.humanize == 'Id' %>
         <td><b><%= logtype @logentry %> Log Id</b></td>
       <% else %>
         <td><b><%= attribute.humanize %></b></td>
       <% end %>
-      <td><%= @loggable.attributes[attribute].to_s %></td>
+      <td><%= value %></td>
     </tr>
   <% end %>
 </table>

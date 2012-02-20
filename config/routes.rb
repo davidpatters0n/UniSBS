@@ -52,6 +52,7 @@ SBSPortal::Application.routes.draw do
   get '/logs' => 'dashboard#logs', :as => 'logs'
 
   resources :logentries
+  match '/logs/:id' => 'logentries#index', :via => :get, :as => 'log'
   
   #
   # Search bar
