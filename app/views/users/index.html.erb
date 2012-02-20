@@ -4,8 +4,8 @@
     <th>Email Address</th>
     <% if current_user.is_global_admin? %>
       <th>Company</th>
-      <th>Administrator</th>
     <% end %>
+    <th>Administrator</th>
     <th>Actions</th>
   </tr></thead>
 
@@ -24,7 +24,6 @@
     </td>
 
     <% if current_user.is_global_admin? %>
-
       <td>
         <% if user.company.is_external? %>
           <%= link_to user.company.name, edit_company_path(user.company) %>
@@ -32,13 +31,13 @@
           internal
         <% end %>
       </td>
+    <% end %>
 
       <td>
         <% if user.admin_level %>
           <%= user.admin_level.name %>
         <% end %>
       </td>
-    <% end %>
 
     <td>
       <% if current_user == user %>

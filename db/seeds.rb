@@ -14,6 +14,7 @@ puts "Starting seeding " + Time.now.strftime( "%H:%M:%S" )
 
 puts "Creating admin levels..."
 local_admin = AdminLevel.find_or_create_by_name('local')
+grant_local_admin = AdminLevel.find_or_create_by_name('local+grant')
 global_admin = AdminLevel.find_or_create_by_name('global')
 
 puts "Creating internal company..."
@@ -50,8 +51,6 @@ Site.names.each do |sitename|
   puts "      Creating Slot Days for #{sitename}..." 
   site.construct_days!
 end
-
-
 
 puts "Completed seeding " + Time.now.strftime( "%H:%M:%S" )
 ###########################################################

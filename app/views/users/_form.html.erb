@@ -13,7 +13,6 @@
 
   <table>
 
-
     <tr>
       <td class="th" colspan=2>Login Details</td>
     </tr>
@@ -47,24 +46,37 @@
     <tr>
       <td class="blankrow" colspan=2></td>
     </tr>
-
-    <% if current_user.is_global_admin? %>
+    
     <tr>
       <td class="th" colspan=2>Roles and Privileges</td>
     </tr>
-    <tr>
-      <td><%= f.label :company %></td>
-      <td><%= collection_select(:user, :company_id, Company.all, :id, :name, :prompt => 'Select Company')  %> <%= link_to 'New Company', new_company_path %></td>
-    </tr>
+    
+    <% if @user.company_id.nil? and current_user.is_global_admin? %>
+      <tr>
+        <td><%= f.label :company %></td>
+        <td><%= collection_select(:user, :company_id, Company.all, :id, :name, :prompt => 'Select Company')  %> <%= link_to 'New Company', new_company_path %></td>
+      </tr>
+    <% else %>
+      <tr>
+        <td><%= f.label :company %></td>
+        <td><%= @user.company.name %></td>
+      </tr>
+    <% end %>
+
     <tr>
       <td><%= f.label :admin_level, 'Administrator?' %></td>
-      <td><%= collection_select(:user, :admin_level_id, AdminLevel.all, :id, :name, :include_blank => 'No')  %></td>
+      <% if current_user.is_global_admin? %>
+        <td><%= collection_select(:user, :admin_level_id, @admin_levels, :id, :name, :include_blank => 'no')  %></td>
+      <% elsif current_user.has_grant_privilege? and not @user.has_grant_privilege? %>
+        <td><%= f.check_box(:admin_level_id, {}, AdminLevel.find_by_name('local').id, nil) %></td>
+      <% else %>
+        <td><%= @user.admin_level.name %>
+      <% end %>
     </tr>
+    
     <tr>
       <td class="blankrow" colspan=2></td>
     </tr>
-    <% end %>
-
 
     <% if current_user.can_see_identifying_data(@user) %>
       <tr>

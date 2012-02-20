@@ -4,6 +4,7 @@ class UsersController < PortalController
   before_filter :authorize_admin, :only => [ :index, :new, :create ]
   before_filter :authorize_visible, :except => [ :index, :new, :create ]
   before_filter :setup_edit_instance_vars, :only => [ :edit, :update ]
+  before_filter :setup_new_instance_vars, :only => [ :new, :create]
 
   #
   # Filter methods
@@ -21,10 +22,22 @@ class UsersController < PortalController
     if params[:id] and params[:id] != current_user.id.to_s
       @user = User.find_by_id(params[:id])
       @main_heading = 'Edit User Details'
+      @own_account = false
     else
       @user = current_user
       @main_heading = 'My Account'
+      @own_account = true
     end
+    @admin_levels = current_user.admin_levels_can_assign_to(@user)
+  end
+
+  def setup_new_instance_vars
+    @user = User.new
+    @main_heading = "Create New User"
+    @own_account = false
+
+    # only used by global admins:
+    @admin_levels = current_user.admin_levels_can_assign_to(@user)
   end
 
   #
@@ -44,13 +57,12 @@ class UsersController < PortalController
 
   # GET /users/:id/edit
   def edit
-
     if @user
       respond_to do |format|
         format.html # edit.html.erb
       end
     else
-      respond_to { |format| redirect_to routing_error_path }
+      redirect_to routing_error_path
     end
   end
 
@@ -71,16 +83,13 @@ class UsersController < PortalController
         respond_to { |format| format.html { render :edit, :location=> myaccount_url } }
       end
     else
-      respond_to { |format| redirect_to routing_error_path }
+      redirect_to routing_error_path
     end
 
   end
 
   # GET /users/new
   def new
-    @user = User.new
-    @main_heading = "Create New User"
-
     respond_to do |format|
       format.html # new.html.erb
     end
@@ -88,9 +97,6 @@ class UsersController < PortalController
 
   # POST /users
   def create
-    @user = User.new
-    @main_heading = "Create New User"
-    
     if assign_account_details(@user)
       flash[:notice] = 'User was successfully created'
       respond_to { |format| format.html { redirect_to edit_user_path(@user) } }
@@ -145,7 +151,12 @@ class UsersController < PortalController
         user.remember_me = value
 
       when 'admin_level_id'
-        if value != user.admin_level_id.to_s and current_user.is_global_admin?
+        if value != user.admin_level_id.to_s
+          
+          unless current_user.has_grant_privilege?
+            flash[:alert] = 'You do not have that privilege'
+            return false
+          end
 
           # Admin cannot take rights away from himself            
           if user.id == current_user.id
@@ -153,30 +164,29 @@ class UsersController < PortalController
             return false
           end
 
-          user.admin_level_id = value
+          if value.empty? or current_user.admin_levels_can_assign_to(user).collect{|a| a.id.to_s}.include?(value)
+            user.admin_level_id = value
+          else
+            flash[:alert] = "Disallowed change of admin level for that user"
+            return false
+          end
         end
 
       when 'company_id'
-        if value != user.company_id.to_s and current_user.is_an_admin?
-
-          if user.is_global_admin?
-            flash[:alert] = 'Global admin cannot change companies'
-            return false
-          end
-
-          if current_user.is_global_admin?
-            user.company_id = value          
-          elsif current_user.is_local_admin? and value == current_user.company_id.to_s
-            # local admin can set a new user to own company
-            user.company_id ||= current_user.company_id
-          end
-
+        # cannot change, only assign for new user
+        if user.company_id.nil? and current_user.is_global_admin?
+          user.company_id = value      
         end
       else
         logger.debug "Not processing user param #{key}:=#{value}"
       end
     end
-    
+
+    if user.company_id.nil?
+      # local admin can set a new user to own company
+      user.company_id ||= current_user.company_id
+    end
+
     user.save
   end
 
