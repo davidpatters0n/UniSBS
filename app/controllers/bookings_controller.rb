@@ -61,6 +61,12 @@ class BookingsController < PortalController
   # POST /bookings.json
   def create
     @booking = Booking.new(params[:booking])
+    unless @booking and @booking.slot_time and @booking.slot_time.number_of_free_slots > 0
+      flash[:notice] = 'Slot no longer available'
+      redirect_to :back
+      return
+    end
+
     if @booking.save
       flash[:notice] = 'Booking was successfully created'
       goto_booking(@booking)

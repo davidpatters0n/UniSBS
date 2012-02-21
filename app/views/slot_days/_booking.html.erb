@@ -1,4 +1,4 @@
-<td class="booking" onclick='$("#booking<%= booking.id %>").dialog()'>
+<td class="<%= booking.status %>" onclick='$("#booking<%= booking.id %>").dialog()'>
   <center>
   <%= booking.reference_number %>
   <% if current_user.is_booking_manager? %>

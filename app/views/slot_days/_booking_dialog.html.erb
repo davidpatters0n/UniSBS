@@ -1,4 +1,4 @@
-<% if current_user.is_transport_user? %>
+<% if current_user.is_transport_user? and booking.provisional? %>
   <%= form_for booking do |f| %>
     <%= f.hidden_field :slot_time_id %>
     <%= f.hidden_field :company_id %>
@@ -33,4 +33,6 @@
   <%= booking.reference_number %><br />
   <b>Pallets Expected</b><br />
   <%= booking.pallets_expected %><br />
+  <b>Status</b></br />
+  <%= booking.status %><br />
 <% end %>
