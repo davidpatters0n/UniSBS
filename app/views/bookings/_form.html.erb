@@ -62,3 +62,31 @@
     <%= f.submit %>
   </div>
 <% end %>
+
+<% if @booking.id and current_user.is_booking_manager? %>
+  <button id="confirm_appointment">test confirmation</button>
+  <div style="display:none;">
+    <div id="confirm_appointment_dialog" title="Test Confirm Booking">
+      <%= form_for @booking, :url => booking_confirmation_path(@booking) do |f| %>
+        <%= f.hidden_field :id %>
+        <%= f.datetime_select :confirmed_appointment %><br />
+        <b>Clear provisional appointment:</b><%= check_box_tag "make_unexpected" %><br />
+        <%= f.submit %>
+      <% end %>
+    </div>
+  </div>
+  
+<script>
+  $(function() {
+/*    $("#datepicker").datepicker({
+      dateFormat: "DD, d MM, yy",
+    }); */
+
+    $("#confirm_appointment").button().click(function()
+    {
+      $("#confirm_appointment_dialog").dialog();
+    });
+  });
+  
+</script>
+<% end %>

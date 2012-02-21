@@ -56,7 +56,8 @@ class Booking < ActiveRecord::Base
   end
 
   def expired?
-    provisional? and Time.now > (provisional_appointment + site.provisional_bookings_expire_after.minutes)
+    false
+    #provisional? and Time.now > (provisional_appointment + site.provisional_bookings_expire_after.minutes)
   end
 
   def status
@@ -67,8 +68,17 @@ class Booking < ActiveRecord::Base
     elsif provisional?
       return 'provisional'
     elsif confirmed?
-      return 'confirmed'
+      if provisional_appointment.nil?
+        return 'unexpected'
+      else
+        return 'confirmed'
+      end
+    else
+      return 'unknown'
     end
+  end
+
+  def update_slot!
   end
 
 end
