@@ -1,14 +1,19 @@
 <style>
 	td {
 		background: #EEE;
-		padding: 4px;
-		cursor: pointer;
+    padding: 4px;
+    <% if current_user.is_transport_user? %>
+      cursor: pointer;
+    <% end %>
 		border: 1px solid transparent;
 		min-width: 50px;
 	}
   .dashed-cell {
     background: #FFF;
 		border: 1px dashed #555;
+  }
+  .booking {
+    cursor: pointer;
   }
   
   #toolbar {
@@ -39,7 +44,7 @@
     <% end %>
   </thead>
 <% @slot_times.each do |slot_time| %>
-<tr class="slot_time<%= slot_time.id %>">
+<tr id="slot_time<%= slot_time.id %>">
   <td>
     <%= formatminutes slot_time.time_slot %>
   </td>

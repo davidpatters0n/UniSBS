@@ -59,7 +59,7 @@ module ApplicationHelper
 
   def formatdate(value)
     unless value.nil?
-      l value
+      value.strftime('%H:%M, %A %e %b %Y')
     end
   end
 
@@ -67,7 +67,7 @@ module ApplicationHelper
     if value.nil?
       "never"
     else
-      l value
+      formatdate value
     end
   end
 

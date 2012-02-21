@@ -47,4 +47,28 @@ class Booking < ActiveRecord::Base
     slot_day.site if slot_day
   end
 
+  def provisional?
+    confirmed_appointment.nil?
+  end
+
+  def confirmed?
+    not confirmed_appointment.nil?
+  end
+
+  def expired?
+    provisional? and Time.now > (provisional_appointment + site.provisional_bookings_expire_after.minutes)
+  end
+
+  def status
+    if confirmed_appointment.nil? and provisional_appointment.nil?
+      return 'unknown'
+    elsif expired?
+      return 'expired'
+    elsif provisional?
+      return 'provisional'
+    elsif confirmed?
+      return 'confirmed'
+    end
+  end
+
 end
