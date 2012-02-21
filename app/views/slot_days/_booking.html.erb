@@ -6,7 +6,7 @@
   <% end %>
 </center>
 <div style="display:none;">
-  <% if current_user.is_booking_manager? %>
+  <% if not booking.provisional? or current_user.is_booking_manager? %>
     <div id="booking<%= booking.id %>" title="Booking Information">
   <% else %>
     <div id="booking<%= booking.id %>" title="Edit Booking">
