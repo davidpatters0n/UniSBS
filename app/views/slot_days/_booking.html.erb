@@ -1,7 +1,16 @@
-<td class="booking" onclick='$("#booking<%= booking.id %>").dialog()'>
+<td class="<%= booking.status %>" onclick='$("#booking<%= booking.id %>").dialog()'>
+  <center>
   <%= booking.reference_number %>
-  <div style="display:none;">
+  <% if current_user.is_booking_manager? %>
+    (<%= booking.company_name %>)
+  <% end %>
+</center>
+<div style="display:none;">
+  <% if not booking.provisional? or current_user.is_booking_manager? %>
+    <div id="booking<%= booking.id %>" title="Booking Information">
+  <% else %>
     <div id="booking<%= booking.id %>" title="Edit Booking">
+  <% end %>
       <%= render :partial => "booking_dialog", :locals => { :booking => booking } %>
     </div>
   </div>

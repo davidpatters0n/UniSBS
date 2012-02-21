@@ -8,6 +8,8 @@ class SlotDaysController < PortalController
   end
 
   def show
+    session[:booking_context] = 'diary'
+
     # The route passes in the 'daystamp' which is in the form YYYYMMDD:
     daystamp = params[:id]
     @slot_day = @site.find_day daystamp

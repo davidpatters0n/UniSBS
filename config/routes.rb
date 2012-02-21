@@ -11,7 +11,9 @@ SBSPortal::Application.routes.draw do
   #
 
   # Bookings can be created only through the SOA or diary screen, so we don't include the new action:
-  resources :bookings, :except => :new
+  resources :bookings, :except => :new do
+    match 'confirmation', :as => 'confirmation'
+  end
 
   #
   # Administrative routes

@@ -1,14 +1,40 @@
 <style>
-	td {
-		background: #EEE;
-		padding: 4px;
-		cursor: pointer;
+
+  table.diary tbody tr td {
+    background :transparent;
+  }
+
+  td {
+    padding: 4px;
+    <% if current_user.is_transport_user? %>
+      cursor: pointer;
+    <% end %>
 		border: 1px solid transparent;
-		min-width: 50px;
-	}
-  .dashed-cell {
-    background: #FFF;
-		border: 1px dashed #555;
+  }
+
+  td.dashed-cell {
+		border: 3px solid #CCCCCC;
+		min-width: 150px;
+  }
+  td.provisional {
+    cursor: pointer;
+		border: 3px solid #000000;
+		min-width: 150px;
+  }
+  td.unexpected {
+    cursor: pointer;
+		border: 3px solid #FF0000;
+		min-width: 150px;
+  }
+  td.moved {
+    cursor: pointer;
+		border: 3px solid #FFCC00;
+		min-width: 150px;
+  }
+  td.confirmed {
+    cursor: pointer;
+		border: 3px solid #006600;
+		min-width: 150px;
   }
   
   #toolbar {
@@ -24,7 +50,7 @@
 
 <p>
 
-<table>
+<table class="diary">
   <thead>
     <th>
       Time
@@ -39,12 +65,12 @@
     <% end %>
   </thead>
 <% @slot_times.each do |slot_time| %>
-<tr class="slot_time<%= slot_time.id %>">
-  <td>
+<tr class="slot_time" id="slot_time<%= slot_time.id %>">
+  <td class="time-cell">
     <%= formatminutes slot_time.time_slot %>
   </td>
 <% if current_user.is_booking_manager? %>
-  <td>
+  <td class="pallets">
     <%= slot_time.number_of_pallets %>
   </td>
   <td class="button_bar">

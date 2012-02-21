@@ -8,7 +8,7 @@ class SlotTime < ActiveRecord::Base
  
   def bookings_visible_to(user)
     if user.is_booking_manager?
-      bookings.all
+      bookings
     else
       Booking.where(:slot_time_id => id, :company_id => user.company.id)
     end

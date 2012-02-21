@@ -1,4 +1,4 @@
-var targetCell = $(".slot_time<%= @slot_time.id %>").find('td.dashed-cell:last');
+var targetCell = $("#slot_time<%= @slot_time.id %>").find('td.dashed-cell:last');
 targetCell.remove();
 $("#capacity<%= @slot_time.id %>").val("<%=@slot_time.capacity%>")
 <% if disable_remove? @slot_time %>

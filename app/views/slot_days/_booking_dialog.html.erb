@@ -1,14 +1,38 @@
-<%= form_for booking do |f| %>
-  <%= f.hidden_field :slot_time_id %>
-  <%= f.hidden_field :company_id %>
-  <%= f.hidden_field :provisional_appointment %>
-  <%= l booking.provisional_appointment %><br />
+<% if current_user.is_transport_user? and booking.provisional? %>
+  <%= form_for booking do |f| %>
+    <%= f.hidden_field :slot_time_id %>
+    <%= f.hidden_field :company_id %>
+    <% if booking.provisional? %>
+      <%= f.hidden_field :provisional_appointment %>
+      <%= formatdate booking.provisional_appointment %><br />
+    <% else %>
+      <%= formatdate booking.confirmed_appointment %>
+    <% end %>
+    <br />
+    <%= f.label :reference_number %><br />
+    <%= f.text_field :reference_number %><br />
+    <%= f.label :pallets_expected %><br />
+    <%= f.number_field :pallets_expected, :size=>3, :min=>0 %><br />
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% end %>
+  <% if booking.id %>
+    <%= link_to 'Remove', booking, confirm: 'Are you sure?', method: :delete %>
+  <% end %>
+<% else %>
+  <% if booking.confirmed_appointment.nil? %>
+    <%= formatdate booking.provisional_appointment %><br />
+  <% else %>
+    <%= formatdate booking.confirmed_appointment %><br />
+  <% end %>
   <br />
-  <%= f.label :reference_number %><br />
-  <%= f.text_field :reference_number %><br />
-  <%= f.label :pallets_expected %><br />
-  <%= f.number_field :pallets_expected, :size=>3, :min=>0 %><br />
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <b>Company:</b><br />
+  <%= booking.company.name %><br />
+  <b>Reference Number</b><br />
+  <%= booking.reference_number %><br />
+  <b>Pallets Expected</b><br />
+  <%= booking.pallets_expected %><br />
+  <b>Status</b></br />
+  <%= booking.status %><br />
 <% end %>
