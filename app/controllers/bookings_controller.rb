@@ -5,6 +5,7 @@ class BookingsController < PortalController
   def index
     if current_user.is_booking_manager? 
       @bookings = Booking.all
+    # @bookings = Booking.filter(params[:search], [:name, :company, :site])
     @main_heading = 'Bookings'
     else
       @bookings = current_user.company.bookings

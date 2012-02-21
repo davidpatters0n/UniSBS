@@ -75,7 +75,7 @@ class Site < ActiveRecord::Base
       if day.saturday? or day.sunday?
         slot_time.capacity = time_slot_capacity.weekend_capacity
       else
-        slot_time.capacity = time_slto_capacity.weekday_capacity
+        slot_time.capacity = time_slot_capacity.weekday_capacity
       end
       slot_time.save!
     end

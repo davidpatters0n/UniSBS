@@ -1,5 +1,7 @@
 class Booking < ActiveRecord::Base
 
+#  include FilterScope
+
   belongs_to :site
   belongs_to :company
   belongs_to :slot_time 
@@ -46,5 +48,13 @@ class Booking < ActiveRecord::Base
   def site
     slot_day.site if slot_day
   end
-
-end
+  
+#  def self.search(search = nil)
+#  if search
+#    s = "%#{params[:s]}%"
+#    where('name LIKE ? OR company LIKE ? OR site LIKE ?' [s, s, s])
+ # else
+#    self
+#  end
+#end
+end 

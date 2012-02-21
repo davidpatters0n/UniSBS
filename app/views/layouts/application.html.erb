@@ -1,72 +1,72 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title><%= home_title %></title>
-  <%= stylesheet_link_tag "application" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tag %>
-  <link rel="icon" href="<%= image_path 'favicon.ico' %>" type="image/ico" />
-  <link rel="shortcut icon" href="<%= image_path 'favicon.ico' %>" type="image/ico" />
-</head>
-<body>
-
-<header>
-  <div id="shadowheader">
-    <div id="upperheader">
-      <%if signed_in? %>
-        <div id="account">
-          <span>
-            Logged in as: <b><%= current_user.logged_in_as %></b>&nbsp;&nbsp;
-            <%= link_to 'My Account', myaccount_path %>
-            <%= link_to 'Sign out', destroy_user_session_path,
-                        :method => :delete %>
-            </span>
-		  </div>
-        <% end %>
-        <div id="hometitle" onclick="location.href='/';">
-          <%= home_title %></div>
-      </div>
-      <div id="lowerheaderthin"></div>
-    </div>
-    <div id="lowerheader">
-      <div id="lowerheaderleft">
-        <input id="gensearch" type="text" placeholder="search"/>
-      </div>
-      <div id="lowerheadermid">
-      	<div id="lowerheadercurve"></div>
-      </div>
-      <div id="lowerheaderright">
-        <% Site.all.each do |site| %>
-          <span><%= link_to site.name, diary_path(site) %></span>
-        <% end %>
-        <% if current_user and current_user.is_an_admin? %>
-          <span><%= link_to "Admin", admin_path %></span>
-        <% end %>
-      </div>
-    </div>
-    
-    <div id="rightheaderback"></div>
-    <div id="rightheadercurve"></div>
-    <div id="rightheadertop"></div>
-    <div id="rightheader"><%= image_tag('application_logo.png') %></div>
-</header>
-
-
-<div id="content">
-
-<h1><%= main_heading %></h1>
-
-<div id="contentscroll">
-  <div id="flashcontainer">
-    <% flash.each do |key, value| %>
-      <div class="flash <%= key %>"><%= value %></div>
-    <% end %>
-    <% flash.clear %>
-  </div>
-  <div id="contentpad"> 
-<%= yield %>
-  </div>
-</div>
-
-</body>
+	<head>
+		<title><%= home_title %></title>
+		<%= stylesheet_link_tag "application" %>
+		<%= javascript_include_tag "application" %>
+		<%= csrf_meta_tag %>
+		<link rel="icon" href="<%= image_path 'favicon.ico' %>" type="image/ico" />
+		<link rel="shortcut icon" href="<%= image_path 'favicon.ico' %>" type="image/ico" />
+	</head>
+	<body>
+		<header>
+			<div id="shadowheader">
+				<div id="upperheader">
+					<%if signed_in? %>
+					<div id="account">
+						<span> Logged in as: <b><%= current_user.logged_in_as %></b>&nbsp;&nbsp;
+							<%= link_to 'My Account', myaccount_path %>
+							<%= link_to 'Sign out', destroy_user_session_path,
+                :method => :delete %> </span>
+					</div>
+					<% end %>
+					<div id="hometitle" onclick="location.href='/';">
+						<%= home_title %>
+					</div>
+				</div>
+				<div id="lowerheaderthin"></div>
+			</div>
+			<div id="lowerheader">
+				<div id="lowerheaderleft">
+					<input id="gensearch" type="text" placeholder="search"/>
+					<!--<%= form_tag bookings_path, :method => 'get' do %>
+					<p>
+					<%= text_field_tag :search, params[:search] %>
+					<%= submit_tag "Search", :name => nil %>
+					</p>
+					<% end %> -->
+				</div>
+				<div id="lowerheadermid">
+					<div id="lowerheadercurve"></div>
+				</div>
+				<div id="lowerheaderright">
+					<% Site.all.each do |site| %> <span><%= link_to site.name, diary_path(site) %></span>
+					<% end %>
+					<% if current_user and current_user.is_an_admin? %> <span><%= link_to "Admin", admin_path %></span>
+					<% end %>
+				</div>
+			</div>
+			<div id="rightheaderback"></div>
+			<div id="rightheadercurve"></div>
+			<div id="rightheadertop"></div>
+			<div id="rightheader">
+				<%= image_tag('application_logo.png') %>
+			</div>
+		</header>
+		<div id="content">
+			<h1><%= main_heading %></h1>
+			<div id="contentscroll">
+				<div id="flashcontainer">
+					<% flash.each do |key, value| %>
+					<div class="flash <%= key %>">
+						<%= value %>
+					</div>
+					<% end %>
+					<% flash.clear %>
+				</div>
+				<div id="contentpad">
+					<%= yield %>
+				</div>
+			</div>
+	</body>
 </html>

@@ -48,10 +48,10 @@
     <%= slot_time.number_of_pallets %>
   </td>
   <td class="button_bar">
-    <%= button_to "Add", diary_slot_time_add_slot_path(@site, slot_time), :remote => true, :id => "add_slot" %>
     <%= form_for slot_time, :url => diary_slot_time_set_capacity_path(@site, slot_time) do |f| %>
       <%= f.number_field :capacity, :id=>"capacity#{slot_time.id}", :size=>2, :min=>0, :onchange => 'this.form.submit();' %>
     <% end %>
+     <%= button_to "Add", diary_slot_time_add_slot_path(@site, slot_time), :remote => true, :id => "add_slot" %>
     <%= button_to "Remove", diary_slot_time_remove_slot_path(@site, slot_time), :remote => true, :id => "remove_slot#{slot_time.id}", :disabled => disable_remove?(slot_time) %>
   </td>
 <% end %>
