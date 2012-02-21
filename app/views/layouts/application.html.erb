@@ -27,14 +27,10 @@
 				<div id="lowerheaderthin"></div>
 			</div>
 			<div id="lowerheader">
-				<div id="lowerheaderleft">
-					<input id="gensearch" type="text" placeholder="search"/>
-					<!--<%= form_tag bookings_path, :method => 'get' do %>
-					<p>
-					<%= text_field_tag :search, params[:search] %>
-					<%= submit_tag "Search", :name => nil %>
-					</p>
-					<% end %> -->
+				<div id="lowerheaderleft"> 
+					<%= form_tag bookings_path, :method => 'get' do %>
+					<%= text_field_tag :search, params[:search],  :placeholder => "Search" %>
+					<% end %> 
 				</div>
 				<div id="lowerheadermid">
 					<div id="lowerheadercurve"></div>

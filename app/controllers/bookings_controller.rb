@@ -7,8 +7,9 @@ class BookingsController < PortalController
     session[:booking_context] = 'index'
 
     if current_user.is_booking_manager? 
-      @bookings = Booking.all
-    # @bookings = Booking.filter(params[:search], [:name, :company, :site])
+    #  @bookings = Booking.all
+    # @bookings = Booking.filter(params[:search], [:reference_number, :company_id])
+     @bookings = Booking.includes(:company).filter(params[:search], [:reference_number, "companies.name"])
     @main_heading = 'Bookings'
     else
       @bookings = current_user.company.bookings
