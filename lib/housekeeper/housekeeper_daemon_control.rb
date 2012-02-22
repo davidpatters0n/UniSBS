@@ -8,10 +8,10 @@ class HousekeeperDaemonControl
       options = ""
     end
 
-    if ['mingw32'].include? Config::CONFIG['host_os']
+    if Config::CONFIG['host_os'] and ['mingw32'].include? Config::CONFIG['host_os']
       cmd = "start ruby #{daemon_script} #{options}"
     else
-      cmd << "nohup ruby #{daemon_script} #{options} 2>&1 &"
+      cmd = "nohup ruby #{daemon_script} #{options} 2>&1 &"
     end
 
     system(cmd)

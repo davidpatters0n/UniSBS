@@ -17,8 +17,11 @@ local_admin = AdminLevel.find_or_create_by_name('local')
 grant_local_admin = AdminLevel.find_or_create_by_name('local+grant')
 global_admin = AdminLevel.find_or_create_by_name('global')
 
-puts "Creating internal company..."
-internal_company = Company.find_or_create_by_name(Company.internal_name)
+internal_company = Company.find_by_id(1)
+if internal_company.nil?
+  puts "Creating internal company..."
+  internal_company = Company.create(:id => 1, :name => "internal")
+end
 
 # User model does not allow mass-assignment so we don't use
 # the usual find_or_create_by approach:
