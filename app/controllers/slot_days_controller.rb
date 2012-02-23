@@ -33,13 +33,6 @@ class SlotDaysController < PortalController
     if @slot_day
       @slot_times = @slot_day.slot_times
     end
-    
-    if current_user.is_booking_manager?
-      @bookings = @slot_day.bookings
-    else
-      # TODO filter bookings by transport user's company
-      #@bookings = @slot_day.bookings.find
-    end
 
     datetime = @slot_day.day.to_datetime
 

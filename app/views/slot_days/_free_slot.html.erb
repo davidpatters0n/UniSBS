@@ -1,8 +1,3 @@
-<% if current_user.is_transport_user? %>
-  <td class="dashed-cell" onclick='$("#create_booking<%= slot_time.id %>").dialog()'>
-    <center>free</center>
-  </td>
-<% else %>
-  <td class="dashed-cell"></td>
-<% end %>
-
+<td class="dashed-cell" onclick='$("#create_booking<%= slot_time.id %>").dialog()'>
+  <center>free</center>
+</td>

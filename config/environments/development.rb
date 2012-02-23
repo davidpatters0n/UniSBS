@@ -33,5 +33,5 @@ SBSPortal::Application.configure do
   config.soa_whitelist = [ '127.0.0.1', '10.0.0.243' ].freeze
   #['10.0.0.243', '10.0.0.250'].freeze
 
-  config.housekeeper_deamon_options = "-p3000"
+  config.housekeeper_deamon_options = "-p3001"
 end
