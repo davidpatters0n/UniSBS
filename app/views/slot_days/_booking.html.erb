@@ -2,7 +2,7 @@
 $(document).ready(function() 
 {
    $("#booking_<%= booking.id %>").qtip({
-      content: '<b>Booking Id:</b>&nbsp<%= booking.id %><br /><b>Company:</b>&nbsp<%= booking.company.name %><br /><b>Reference Number:</b>&nbsp<%= booking.reference_number %><br /><b>Pallets Expected:</b>&nbsp<%= booking.pallets_expected %><br /><b>Status:</b>&nbsp<%= booking.status %>',
+      content: '<b>Reference Number:</b>&nbsp<%= booking.reference_number %><br /><b>Company:</b>&nbsp<%= booking.company.name %><br /><b>Pallets Expected:</b>&nbsp<%= booking.pallets_expected %><br /><b>Status:</b>&nbsp<%= booking.status %>',
       style: {
       classes: 'ui-tooltip-blue ui-tooltip-shadow',
       position: {
