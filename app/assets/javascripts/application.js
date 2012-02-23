@@ -9,3 +9,5 @@
 //= require_tree .
 //
 //= require jquery-ui
+
+// Define our positioning and style arrays

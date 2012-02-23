@@ -1,4 +1,21 @@
-<td class="<%= booking.status %>" onclick='$("#booking<%= booking.id %>").dialog()'>
+<script>
+$(document).ready(function() 
+{
+   $("#booking_<%= booking.id %>").qtip({
+      content: '<b>Booking Id:</b>&nbsp<%= booking.id %><br /><b>Company:</b>&nbsp<%= booking.company.name %><br /><b>Reference Number:</b>&nbsp<%= booking.reference_number %><br /><b>Pallets Expected:</b>&nbsp<%= booking.pallets_expected %><br /><b>Status:</b>&nbsp<%= booking.status %>',
+      style: {
+      classes: 'ui-tooltip-blue ui-tooltip-shadow',
+      position: {
+      	corner: {
+      		target: 'center',
+      	}
+      	}
+      }
+   });
+});
+</script>
+
+<td class="<%= booking.status %>" id="booking_<%= booking.id %>" onclick='$("#booking<%= booking.id %>").dialog()'>
   <center>
   <%= booking.reference_number %>
   <% if current_user.is_booking_manager? %>
@@ -15,4 +32,3 @@
     </div>
   </div>
 </td>
-
