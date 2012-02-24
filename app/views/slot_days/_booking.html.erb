@@ -2,7 +2,7 @@
 $(document).ready(function() 
 {
    $("#booking_<%= booking.id %>").qtip({
-      content: '<b>Reference Number:</b>&nbsp<%= booking.reference_number %><br /><b>Company:</b>&nbsp<%= booking.company.name %><br /><b>Pallets Expected:</b>&nbsp<%= booking.pallets_expected %><br /><b>Status:</b>&nbsp<%= booking.status %>',
+      content: $("#booking_tooltip<%= booking.id %>"),
       style: {
       classes: 'ui-tooltip-blue ui-tooltip-shadow',
       position: {
@@ -25,6 +25,9 @@ $(document).ready(function()
   <div style="display:none;">
     <div id="booking<%= booking.id %>" title="Edit Booking">  
       <%= render :partial => "booking_dialog", :locals => { :booking => booking } %>
+    </div>
+    <div id="booking_tooltip<%= booking.id %>">
+      <%= render :partial => "booking_tooltip", :locals => { :booking => booking } %>
     </div>
   </div>
 </td>

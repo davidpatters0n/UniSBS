@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120220163220) do
+ActiveRecord::Schema.define(:version => 20120223130706) do
 
   create_table "admin_levels", :force => true do |t|
     t.string   "name"
@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(:version => 20120220163220) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "slot_time_id"
+    t.boolean  "live"
+    t.string   "comment"
   end
 
   create_table "companies", :force => true do |t|

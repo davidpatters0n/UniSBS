@@ -1,0 +1,19 @@
+<% if booking.live %>
+  Live Load<br />
+<% end %>
+
+<b>Reference Number:</b> <%= booking.reference_number %><br />
+<b>Status:</b> <%= booking.status %><br />
+
+<% if current_user.is_booking_manager? %>
+  <b>Company:</b> <%= booking.company.name %><br />
+<% end %>
+
+
+<% if booking.pallets_expected %>
+  <b>Pallets Expected:</b> <%= booking.pallets_expected %><br />
+<% end %>
+
+<% if booking.comment %>
+  <b>Comment:</b> <%= booking.comment %>
+<% end %>
