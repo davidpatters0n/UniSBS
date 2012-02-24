@@ -11,13 +11,14 @@
 
 <% @bookings.each do |booking| %>
   <tr>
-    <td><%= link_to booking.reference_number, booking_path(booking) %></td>
+    <td><%= booking.reference_number %></td>
     <td><% if booking.company %><%= booking.company.name %><% end %></td>
     <td><% if booking.site %><%= booking.site.name %><% end %></td>
     <td><%= formatdate booking.provisional_appointment %></td>
     <td><%= formatdate booking.confirmed_appointment %></td>
     <td><%= booking.pallets_expected %></td>
     <td>
+      <%= link_to_booking_in_diary 'Show in diary', booking %>,
       <%= link_to 'Edit', edit_booking_path(booking) %>,
       <%= link_to 'Remove', booking, confirm: 'Are you sure?', method: :delete %>
     </td>
