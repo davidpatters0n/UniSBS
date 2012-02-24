@@ -22,20 +22,15 @@ class BookingsController < PortalController
   end
 
   # GET /bookings/1
-  # GET /bookings/1.json
   def show
     @booking = Booking.find(params[:id])
-    @main_heading = 'View Booking'
-
-    respond_to do |format|
-      format.html # show.html.erb
-    end
+    goto_booking(@booking)
   end
 
   # GET /bookings/1/edit
   def edit
     @booking = Booking.find(params[:id])
-    @main_heading = 'Manually Edit Booking'
+    @main_heading = 'Edit Booking'
   end
 
   # Go to booking
@@ -43,24 +38,24 @@ class BookingsController < PortalController
     
     site = @booking.site
     slot_day = @booking.slot_day
+    slot_time = @booking.slot_time
     
+    # don't need to check slot_time because it is optional
     if session[:booking_context] and session[:booking_context] == 'diary' and site and slot_day
-      
       # Go the diary page
       respond_to do |format|
-        format.html { redirect_to diary_slot_day_path(site, slot_day) }
+        format.html { redirect_to diary_slot_day_time_path(site, slot_day, slot_time) }
       end
     else
 
-      # Go to booking page
+      # Go to booking edit page
       respond_to do |format|
-        format.html { redirect_to booking_path(@booking) }
+        format.html { redirect_to edit_booking_path(@booking) }
       end
     end
   end
 
   # POST /bookings
-  # POST /bookings.json
   def create
     @booking = Booking.new(params[:booking])
     unless @booking and @booking.slot_time and @booking.slot_time.number_of_free_slots > 0
@@ -81,7 +76,6 @@ class BookingsController < PortalController
   end
 
   # PUT /bookings/1
-  # PUT /bookings/1.json
   def update
     @booking = Booking.find(params[:id])
     if @booking.update_attributes(params[:booking])
@@ -121,7 +115,6 @@ class BookingsController < PortalController
   end
 
   # DELETE /bookings/1
-  # DELETE /bookings/1.json
   def destroy
     @booking = Booking.find(params[:id])
 
@@ -129,6 +122,7 @@ class BookingsController < PortalController
       if session[:booking_context] and session[:booking_context] == 'diary'
         site = @booking.site
         slot_day = @booking.slot_day
+        slot_time = @booking.slot_time
       end
 
       if @booking.destroy
@@ -138,11 +132,12 @@ class BookingsController < PortalController
       end
     end
 
+    # don't need to check slot_time; that's optional
     if site and slot_day
       
       # redirect to diary page
       respond_to do |format|
-        format.html { redirect_to diary_slot_day_path(site, slot_day) }
+        format.html { redirect_to diary_slot_day_time_path(site, slot_day, slot_time) }
       end
     else
 
@@ -151,6 +146,10 @@ class BookingsController < PortalController
         format.html { redirect_to bookings_url }
       end
     end
+  end
+
+  def diary_slot_day_time_path(*args)
+    @template.diary_slot_day_time_path(*args)
   end
 
 end
