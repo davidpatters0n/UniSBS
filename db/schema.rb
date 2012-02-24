@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120223130706) do
+ActiveRecord::Schema.define(:version => 20120224103720) do
 
   create_table "admin_levels", :force => true do |t|
     t.string   "name"
@@ -73,6 +73,19 @@ ActiveRecord::Schema.define(:version => 20120223130706) do
     t.integer  "logclass_id"
     t.integer  "loggable_id"
     t.string   "loggable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "site_logentries", :force => true do |t|
+    t.integer  "site_id"
+    t.string   "company"
+    t.string   "booking"
+    t.string   "name"
+    t.integer  "past_days_to_keep"
+    t.integer  "days_in_advance"
+    t.integer  "provisional_bookings_expire_after"
+    t.integer  "granularity_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

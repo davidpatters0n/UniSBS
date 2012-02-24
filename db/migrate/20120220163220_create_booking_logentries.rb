@@ -13,3 +13,6 @@ class CreateBookingLogentries < ActiveRecord::Migration
     end
   end
 end
+
+
+
