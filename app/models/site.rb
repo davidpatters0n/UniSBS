@@ -40,7 +40,7 @@ class Site < ActiveRecord::Base
       :past_days_to_keep => past_days_to_keep,
       :days_in_advance => days_in_advance,
       :provisional_bookings_expire_after => provisional_bookings_expire_after,
-      :granularity => granularity_minutes})
+      :granularity_minutes => granularity.minutes})
   end
 
 
