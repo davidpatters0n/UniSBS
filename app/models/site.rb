@@ -1,6 +1,8 @@
 class Site < ActiveRecord::Base
 
   belongs_to :granularity
+  belongs_to :booking
+  belongs_to :company
 
   has_many :slot_days
   has_many :time_slot_capacities, :order => "minutes"
@@ -22,6 +24,25 @@ class Site < ActiveRecord::Base
 
   # Everything except the name should be modifiable by global admin:
   attr_protected :name
+  
+  
+  after_create   {|record| log("create")}
+  after_update   {|record| log("update")}
+  before_destroy {|record| log("delete")}
+
+  def log(logclass_name)
+    SiteLogentry.create({
+      :logclass_name => logclass_name,
+      :site_id => id,
+      :company => company,
+      :booking => booking,
+      :name => name,
+      :past_days_to_keep => past_days_to_keep,
+      :days_in_advance => days_in_advance,
+      :provisional_bookings_expire_after => provisional_bookings_expire_after,
+      :granularity => granularity_minutes})
+  end
+
 
   def self.names
     ['Cannock', 'Doncaster']

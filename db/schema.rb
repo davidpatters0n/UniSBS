@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120224103720) do
+ActiveRecord::Schema.define(:version => 20120224124530) do
 
   create_table "admin_levels", :force => true do |t|
     t.string   "name"
@@ -85,7 +85,7 @@ ActiveRecord::Schema.define(:version => 20120224103720) do
     t.integer  "past_days_to_keep"
     t.integer  "days_in_advance"
     t.integer  "provisional_bookings_expire_after"
-    t.integer  "granularity_id"
+    t.integer  "granularity_minutes"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
