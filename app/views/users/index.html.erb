@@ -1,69 +1,41 @@
 <table id="indextable">
-  <thead><tr>
-    <th>Id</th>
-    <th>Email Address</th>
-    <% if current_user.is_global_admin? %>
-      <th>Company</th>
-    <% end %>
-    <th>Administrator</th>
-    <th>Actions</th>
-  </tr></thead>
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Email Address</th>
+			<% if current_user.is_global_admin? %> <th>Company</th>
+			<% end %> <th>Administrator</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<% if ! @users.nil? %>
+	<% @users.each do |user| %>
+	<tr>
+		<td><%= user.id %></td>
+		<td> <% if current_user.can_see_identifying_data(user) %>
+		<%= user.email %>
+		<% else %> <em>hidden</em> <% end %> </td>
+		<% if current_user.is_global_admin? %> <td> <% if user.company.is_external? %>
+		<%= link_to user.company.name, edit_company_path(user.company) %>
+		<% else %>
+		internal
+		<% end %> </td>
+		<% end %> <td> <% if user.admin_level %>
+		<%= user.admin_level.name %>
+		<% end %> </td>
+		<td> <% if current_user == user %>
+		<%= link_to 'Edit', myaccount_path %>
+		<% else %>
+		<%= link_to 'Edit', edit_user_path(user) %>
+		<% end %>
 
-<% if ! @users.nil? %>
-<% @users.each do |user| %>
-  <tr>
-    
-    <td><%= user.id %></td>
-
-    <td>
-      <% if current_user.can_see_identifying_data(user) %>
-        <%= user.email %>
-      <% else %>
-        <em>hidden</em>
-      <% end %>
-    </td>
-
-    <% if current_user.is_global_admin? %>
-      <td>
-        <% if user.company.is_external? %>
-          <%= link_to user.company.name, edit_company_path(user.company) %>
-        <% else %>
-          internal
-        <% end %>
-      </td>
-    <% end %>
-
-      <td>
-        <% if user.admin_level %>
-          <%= user.admin_level.name %>
-        <% end %>
-      </td>
-
-    <td>
-      <% if current_user == user %>
-        <%= link_to 'Edit', myaccount_path %>
-      <% else %>
-        <%= link_to 'Edit', edit_user_path(user) %>
-      <% end %>
-
-      <% if current_user.id != user.id %>
-        | <%= link_to 'Destroy', user, :confirm => 'Are you sure?',
-                                          :method => :delete %>
-      <% end %>
-    </td>
-
-  </tr>
-<% end %>
-<% end %>
+		<% if current_user.id != user.id %>
+		| <%= link_to 'Destroy', user, :confirm => 'Are you sure?',
+      :method => :delete %>
+		<% end %> </td>
+	</tr>
+	<% end %>
+	<% end %>
 </table>
-
 <br />
-
-<%= link_to 'Create New User', new_user_path %> | <%= link_to 'Back to Admin', admin_path %>
-
-<script>
-$(document).ready(function() {
-    $('#indextable').dataTable();
-} );
-</script>
-
+<%= link_to 'Create New User', new_user_path %> | <%= link_to 'Back to Admin', admin_path %> 

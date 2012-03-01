@@ -9,4 +9,6 @@
 //= require_tree .
 //
 //= require jquery-ui
-
+//= require datatable
+//= require granularity
+//= require datepicker

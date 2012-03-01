@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   belongs_to :admin_level
 
   validates_presence_of :company
+#  validates_presence_of :admin_level_id 
 
   # Which devise modules to include
   devise :database_authenticatable,

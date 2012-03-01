@@ -1,34 +1,24 @@
 <table id="indextable">
-  <thead>
-    <th>Reference number</th>
-    <th>Company</th>
-    <th>Site</th>
-    <th>Provisional appointment</th>
-    <th>Confirmed appointment</th>
-    <th>Pallets expected</th>
-    <th>Actions</th>
-  </thead>
-
-<% @bookings.each do |booking| %>
-  <tr>
-    <td><%= booking.reference_number %></td>
-    <td><% if booking.company %><%= booking.company.name %><% end %></td>
-    <td><% if booking.site %><%= booking.site.name %><% end %></td>
-    <td><%= formatdate booking.provisional_appointment %></td>
-    <td><%= formatdate booking.confirmed_appointment %></td>
-    <td><%= booking.pallets_expected %></td>
-    <td>
-      <%= link_to_booking_in_diary 'Show in diary', booking %>,
-      <%= link_to 'Edit', edit_booking_path(booking) %>,
-      <%= link_to 'Remove', booking, confirm: 'Are you sure?', method: :delete %>
-    </td>
-  </tr>
-<% end %>
+	<thead>
+		<th>Reference number</th>
+		<th>Company</th>
+		<th>Site</th>
+		<th>Provisional appointment</th>
+		<th>Confirmed appointment</th>
+		<th>Pallets expected</th>
+		<th>Actions</th>
+	</thead>
+	<% @bookings.each do |booking| %>
+	<tr>
+		<td><%= booking.reference_number %></td>
+		<td><% if booking.company %><%= booking.company.name %><% end %></td>
+		<td><% if booking.site %><%= booking.site.name %><% end %></td>
+		<td><%= formatdate booking.provisional_appointment %></td>
+		<td><%= formatdate booking.confirmed_appointment %></td>
+		<td><%= booking.pallets_expected %></td>
+		<td> <%= link_to_booking_in_diary 'Show in diary', booking %>,
+		<%= link_to 'Edit', edit_booking_path(booking) %>,
+		<%= link_to 'Remove', booking, confirm: 'Are you sure?', method: :delete %> </td>
+	</tr>
+	<% end %>
 </table>
-
-<script>
-$(document).ready(function() {
-    $('#indextable').dataTable();
-} );
-</script>
-
