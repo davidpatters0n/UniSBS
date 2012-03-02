@@ -55,14 +55,14 @@
 	<% else %>
 	<tr>
 		<td><%= f.label :company %></td>
-		<td><%= @user.company.name %></td>
+		<td><%= @user.company.try(:name) %></td>
 	</tr>
 	<% end %>
 	<tr>
 		<td><%= f.label :admin_level, 'Administrator?' %></td>
 		<% if current_user.is_global_admin? %> <td><%= collection_select(:user, :admin_level_id, @admin_levels, :id, :name, :include_blank => 'no')  %></td>
 		<% elsif current_user.has_grant_privilege? and not @user.has_grant_privilege? %> <td><%= f.check_box(:admin_level_id, {}, AdminLevel.find_by_name('local').id, nil) %></td>
-		<% else %> <td><%= @user.admin_level.name %>
+		<% else %> <td><%= @user.admin_level.try(:name) %> <!--.try() if object is nil raises an exception -->
 		<% end %>
 	</tr>
 	<tr>
