@@ -13,6 +13,13 @@
   <br />
   <%= f.text_field :reference_number %>
   <br />
+  Live 
+  <%= f.radio_button :live, true %>
+  <br />
+  Comment
+ 
+  <%= f.text_field(:comment, :size => 20) %>
+  <br /> 
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -1,4 +1,4 @@
-$(document).ready(function() {
+/*$(document).ready(function() {
 
 	$(function() {
 		$("#datepicker").datepicker({
@@ -22,4 +22,4 @@ $(document).ready(function() {
 	$("#today").button().click(function() {
 		document.location.href = "<%= diary_url(@site) %>";
 	});
-});
+}); */
