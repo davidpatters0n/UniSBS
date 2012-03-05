@@ -1,135 +1,88 @@
 <style>
-
-  table.diary tbody tr td {
-    background :transparent;
-  }
-
-  td {
-    padding: 4px;
-    <% if current_user.is_transport_user? %>
-      cursor: pointer;
-    <% end %>
-		border: 1px solid transparent;
-  }
-
-  td.dashed-cell {
-		border: 3px solid #CCCCCC;
-		min-width: 150px;
-  }
-  td.provisional {
-    cursor: pointer;
-		border: 3px solid #000000;
-		min-width: 150px;
-  }
-  td.unexpected {
-    cursor: pointer;
-		border: 3px solid #FF0000;
-		min-width: 150px;
-  }
-  td.moved {
-    cursor: pointer;
-		border: 3px solid #FFCC00;
-		min-width: 150px;
-  }
-  td.confirmed {
-    cursor: pointer;
-		border: 3px solid #006600;
-		min-width: 150px;
-  }
-  
-  #toolbar {
-		padding: 10px 4px;
+	table.diary tbody tr td {
+	background :transparent;
 	}
 
-</style>
-
-<span id="toolbar" class="ui-widget-header ui-corner-all">
-  <input type="text" id="datepicker" size=30> 
-  <button id="today">today</button>
-</span>
-
-<p>
-
-<table class="diary">
-  <thead>
-    <th>
-      Time
-    </th>
-    <% if current_user.is_booking_manager? %>
-      <th>
-        Pallets
-      </th>
-      <th>
-        Slots
-      </th>
-    <% end %>
-  </thead>
-<% @slot_times.each do |slot_time| %>
-<tr class="slot_time" id="slot_time<%= slot_time.id %>">
-  <td class="time-cell">
-    <%= formatminutes slot_time.time_slot %>
-  </td>
-<% if current_user.is_booking_manager? %>
-  <td class="pallets">
-    <%= slot_time.number_of_pallets %>
-  </td>
-  <td class="button_bar">
-    <%= form_for slot_time, :url => diary_slot_time_set_capacity_path(@site, slot_time) do |f| %>
-      <%= f.number_field :capacity, :id=>"capacity#{slot_time.id}", :size=>2, :min=>0, :onchange => 'this.form.submit();' %>
-    <% end %>
-     <%= button_to "Add", diary_slot_time_add_slot_path(@site, slot_time), :remote => true, :id => "add_slot" %>
-    <%= button_to "Remove", diary_slot_time_remove_slot_path(@site, slot_time), :remote => true, :id => "remove_slot#{slot_time.id}", :disabled => disable_remove?(slot_time) %>
-  </td>
-<% end %>
-  
-  <% slot_time.bookings_visible_to(current_user).each do |booking| %>
-    <% unless booking.id.nil? %>
-      <%= render :partial => "booking", :locals => { :booking => booking } %>
-    <% end %>
-  <% end %>
-  
-  <% slot_time.bookings.each do |booking| %>
-    <% if booking.id.nil? %>
-      <div style="display:none;">
-        <div id="create_booking<%= slot_time.id %>" title="Create Booking">
-          <%= render :partial => "booking_dialog", :locals => { :booking => booking } %>
-        </div>
-      </div>
-    <% end %>
-  <% end %>
-  
-  <% for i in 1..slot_time.number_of_free_slots %>
-    <%= render :partial => "free_slot", :locals => { :slot_time => slot_time } %>  
+	td {
+	padding: 4px;
+	<% if current_user.is_transport_user? %>
+	cursor: pointer;
 	<% end %>
-</tr>
-<% end %>
-</table>
+	border: 1px solid transparent;
+	}
 
-<script>
-  $(function() {
-    $("#datepicker").datepicker({
-      dateFormat: "DD, d MM, yy",
-      onSelect: function(dateText, inst)
-      {
-        var newdate = new Date(dateText);
-        var yyyy = newdate.getFullYear().toString();
-        var mm = (newdate.getMonth() + 1).toString();
-        var dd = newdate.getDate().toString();
-        if (mm.length == 1) {
-         mm = '0' + mm;
-        }
-        if (dd.length == 1) {
-          dd = '0' + dd;
-        }
-        document.location.href = yyyy + '-' + mm + '-' + dd;
-      }
-    }).datepicker("setDate", new Date("<%= @slot_day.day %>"));
-  });
+	td.dashed-cell {
+	border: 3px solid #CCCCCC;
+	min-width: 150px;
+	}
+	td.provisional {
+	cursor: pointer;
+	border: 3px solid #000000;
+	min-width: 150px;
+	}
+	td.unexpected {
+	cursor: pointer;
+	border: 3px solid #FF0000;
+	min-width: 150px;
+	}
+	td.moved {
+	cursor: pointer;
+	border: 3px solid #FFCC00;
+	min-width: 150px;
+	}
+	td.confirmed {
+	cursor: pointer;
+	border: 3px solid #006600;
+	min-width: 150px;
+	}
 
-  $("#today").button().click(function()
-  {
-    document.location.href = "<%= diary_url(@site) %>";
-  });
+	#toolbar {
+	padding: 10px 4px;
+	}
+</style>
+<span id="toolbar" class="ui-widget-header ui-corner-all">
+	<input type="text" id="datepicker" size=30>
+	<button id="today">
+		today
+	</button> </span>
+<p>
+	<table class="diary">
+		<thead>
+			<th> Time </th>
+			<% if current_user.is_booking_manager? %> <th> Pallets </th>
+			<th> Slots </th>
+			<% end %>
+		</thead>
+		<% @slot_times.each do |slot_time| %>
+		<tr class="slot_time" id="slot_time<%= slot_time.id %>">
+			<td class="time-cell"> <%= formatminutes slot_time.time_slot %> </td>
+			<% if current_user.is_booking_manager? %> <td class="pallets"> <%= slot_time.number_of_pallets %> </td>
+			<td class="button_bar"> <%= form_for slot_time, :url => diary_slot_time_set_capacity_path(@site, slot_time) do |f| %>
+			<%= f.number_field :capacity, :id=>"capacity#{slot_time.id}", :size=>2, :min=>0, :onchange => 'this.form.submit();' %>
+			<% end %>
+			<%= button_to "Add", diary_slot_time_add_slot_path(@site, slot_time), :remote => true, :id => "add_slot" %>
+			<%= button_to "Remove", diary_slot_time_remove_slot_path(@site, slot_time), :remote => true, :id => "remove_slot#{slot_time.id}", :disabled => disable_remove?(slot_time) %> </td>
+			<% end %>
 
-</script>
+			<% slot_time.bookings_visible_to(current_user).each do |booking| %>
+			<% unless booking.id.nil? %>
+			<%= render :partial => "booking", :locals => { :booking => booking } %>
+			<% end %>
+			<% end %>
 
+			<% slot_time.bookings.each do |booking| %>
+			<% if booking.id.nil? %>
+			<div style="display:none;">
+				<div id="create_booking<%= slot_time.id %>" title="Create Booking">
+					<%= render :partial => "booking_dialog", :locals => { :booking => booking } %>
+				</div>
+			</div>
+			<% end %>
+			<% end %>
+
+			<% for i in 1..slot_time.number_of_free_slots %>
+			<%= render :partial => "free_slot", :locals => { :slot_time => slot_time } %>
+			<% end %>
+		</tr>
+		<% end %>
+	</table>

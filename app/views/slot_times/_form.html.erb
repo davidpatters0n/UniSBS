@@ -1,25 +1,27 @@
 <%= form_for(@slot_time) do |f| %>
-  <% if @slot_time.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@slot_time.errors.count, "error") %> prohibited this slot_time from being saved:</h2>
-
-      <ul>
-      <% @slot_time.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :time_slot %><br />
-    <%= f.datetime_select :time_slot %>
-  </div>
-  <div class="field">
-    <%= f.label :capacity %><br />
-    <%= f.number_field :capacity %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<% if @slot_time.errors.any? %>
+<div id="error_explanation">
+	<h2><%= pluralize(@slot_time.errors.count, "error") %> prohibited this slot_time from being saved:</h2>
+	<ul>
+		<% @slot_time.errors.full_messages.each do |msg| %>
+		<li>
+			<%= msg %>
+		</li>
+		<% end %>
+	</ul>
+</div>
 <% end %>
+<div class="field">
+	<%= f.label :time_slot %>
+	<br />
+	<%= f.datetime_select :time_slot %>
+</div>
+<div class="field">
+	<%= f.label :capacity %>
+	<br />
+	<%= f.number_field :capacity %>
+</div>
+<div class="actions">
+	<%= f.submit %>
+</div>
+<% end %> 

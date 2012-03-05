@@ -1,33 +1,29 @@
 <script>
-$(document).ready(function() 
-{
-   $("#booking_<%= booking.id %>").qtip({
-      content: $("#booking_tooltip<%= booking.id %>"),
-      style: {
-      classes: 'ui-tooltip-blue ui-tooltip-shadow',
-      position: {
-      	corner: {
-      		target: 'center',
-      	}
-      	}
-      }
-   });
-});
+		$(document).ready(function()
+	{
+	$("#booking_<%= booking.id %>").qtip({
+	content: $("#booking_tooltip<%= booking.id %>
+		"),
+		style: { classes: 'ui-tooltip-blue ui-tooltip-shadow',
+			position: { corner: { target: 'center',
+					}
+				}
+			}
+		});
+		});
 </script>
-
 <td class="<%= booking.status %>" id="booking_<%= booking.id %>" onclick='$("#booking<%= booking.id %>").dialog()'>
-  <center>
-    <%= booking.reference_number %>
-    <% if current_user.is_booking_manager? %>
-      (<%= booking.company_name %>)
-    <% end %>
-  </center>
-  <div style="display:none;">
-    <div id="booking<%= booking.id %>" title="Edit Booking">  
-      <%= render :partial => "booking_dialog", :locals => { :booking => booking } %>
-    </div>
-    <div id="booking_tooltip<%= booking.id %>">
-      <%= render :partial => "booking_tooltip", :locals => { :booking => booking } %>
-    </div>
-  </div>
-</td>
+<center>
+	<%= booking.reference_number %>
+	<% if current_user.is_booking_manager? %>
+	(<%= booking.company_name %>)
+	<% end %>
+</center>
+<div style="display:none;">
+	<div id="booking<%= booking.id %>" title="Edit Booking">
+		<%= render :partial => "booking_dialog", :locals => { :booking => booking } %>
+	</div>
+	<div id="booking_tooltip<%= booking.id %>">
+		<%= render :partial => "booking_tooltip", :locals => { :booking => booking } %>
+	</div>
+</div></td>

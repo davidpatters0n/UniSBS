@@ -27,22 +27,19 @@
 				<div id="lowerheaderthin"></div>
 			</div>
 			<div id="lowerheader">
-				<div id="lowerheaderleft"> 
+				<div id="lowerheaderleft">
 					<%= form_tag bookings_path, :method => 'get' do %>
 					<%= text_field_tag :search, params[:search],  :placeholder => "Search" %>
-					<% end %> 
+					<% end %>
 				</div>
 				<div id="lowerheadermid">
 					<div id="lowerheadercurve"></div>
 				</div>
 				<div id="lowerheaderright">
-				<% if current_user and current_user.is_an_admin? %> <span><%= link_to "Admin", admin_path %></span>
-      
-        <% end %>
-          <span><%= link_to 'Bookings', bookings_path %></span>
+					<% if current_user and current_user.is_an_admin? %> <span><%= link_to "Admin", admin_path %></span>
+					<% end %> <span><%= link_to 'Bookings', bookings_path %></span>
 					<% Site.all.each do |site| %> <span><%= link_to site.name, diary_path(site) %></span>
 					<% end %>
-					
 				</div>
 			</div>
 			<div id="rightheaderback"></div>

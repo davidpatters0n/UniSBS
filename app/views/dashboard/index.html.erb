@@ -1,14 +1,14 @@
 <%= start_icon_menu %>
 <%= end_icon_row %>
 
-  <% Site.all.each do |site| %>
-    <%= icon_menu_item site.name, "stores.png", diary_path(site) %>
-  <% end %>
-  <%= icon_menu_item "Bookings", "admin.png", bookings_path %>
-  <% if current_user.is_an_admin? %>
-    <%= icon_menu_item "Administration", "admin.png", admin_path %>
-  <% end %>
-  <% if current_user.is_global_admin? %>
-    <%= icon_menu_item "Transactions", "logs.png", logs_path %>
-  <% end %>
-<%= end_icon_menu %>
+<% Site.all.each do |site| %>
+<%= icon_menu_item site.name, "stores.png", diary_path(site) %>
+<% end %>
+<%= icon_menu_item "Bookings", "admin.png", bookings_path %>
+<% if current_user.is_an_admin? %>
+<%= icon_menu_item "Administration", "admin.png", admin_path %>
+<% end %>
+<% if current_user.is_global_admin? %>
+<%= icon_menu_item "Transactions", "logs.png", logs_path %>
+<% end %>
+<%= end_icon_menu %> 

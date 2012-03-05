@@ -1,6 +1,7 @@
 class SiteLogentry < ActiveRecord::Base
 
   has_one :logentry, :as => :loggable, :dependent => :destroy
+  belongs_to :site
 
   attr_accessor :logclass_name
 

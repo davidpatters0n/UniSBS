@@ -149,7 +149,7 @@ class BookingsController < PortalController
   end
 
   def diary_slot_day_time_path(*args)
-    @template.diary_slot_day_time_path(*args)
+    view_context.diary_slot_day_time_path(*args)
   end
 
 end
