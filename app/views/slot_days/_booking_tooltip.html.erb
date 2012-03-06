@@ -1,6 +1,9 @@
 <% if booking.live %>
 Live Load
 <br />
+<% if booking.double_decker %> <b>Double Decker:</b><%= booking.double_decker %>
+<% end %>
+<br />
 <% end %> <b>Reference Number:</b> <%= booking.reference_number %>
 <br />
 <b>Status:</b> <%= booking.status %>
@@ -12,6 +15,7 @@ Live Load
 <% if booking.pallets_expected %> <b>Pallets Expected:</b> <%= booking.pallets_expected %>
 <br />
 <% end %>
-
 <% if booking.comment %> <b>Comment:</b> <%= booking.comment %>
 <% end %> 
+<br /> 
+

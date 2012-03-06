@@ -14,11 +14,13 @@
   <%= f.text_field :reference_number %>
   <br />
   Live 
-  <%= f.radio_button :live, true %>
+  <%= f.check_box :live %>
+  <br />
+  Double Decker
+  <%= f.check_box :double_decker %>  
   <br />
   Comment
- 
-  <%= f.text_field(:comment, :size => 20) %>
+  <%= f.text_area(:comment, :size => "29x4") %>
   <br /> 
   <div class="actions">
     <%= f.submit %>
