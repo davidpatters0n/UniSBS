@@ -59,7 +59,7 @@ module ApplicationHelper
 
   def formatdate(value)
     unless value.nil?
-      value.strftime('%H:%M, %A %e %b %Y')
+      value.strftime('%H:%M, %A %e %B %Y')
     end
   end
 
@@ -72,7 +72,7 @@ module ApplicationHelper
   end
 
   def formatminutes(value)
-    Time.at(value * 60).strftime('%H:%M') 
+    DateTime.(value * 60).strftime('%H:%M') 
   end
 
 end

@@ -2,7 +2,7 @@ class Soa::BookingsController < Soa::SoaController
 
   # POST /soa/booking/confirm
   # params[:booking][:reference_number]   #string
-  # params[:booking][:haulier_code]       #string
+  # params[:booking][:tms]       #string
   # params[:booking][:site]               #string
   # params[:booking][:confirmation_time]   #datetime
   # params[:booking][:number_of_pallets]  #integer
@@ -10,8 +10,8 @@ class Soa::BookingsController < Soa::SoaController
 
     begin
       raise 'booking information missing' if params[:booking].nil?
-      company_id = Company.find_by_haulier_code(
-                         params[:booking][:haulier_code])
+      company_id = Company.find_by_tms(
+                         params[:booking][:tms])
 
       raise 'haulier code not found' if company_id.nil?
     

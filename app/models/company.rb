@@ -5,6 +5,8 @@ class Company < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name
+  validates_presence_of :tms
+  validates_uniqueness_of :tms
 
   after_create   {|record| log("create")}
   after_update   {|record| log("update")}
@@ -15,7 +17,7 @@ class Company < ActiveRecord::Base
       :logclass_name => logclass_name,
       :company_id => id, 
       :name => name,
-      :haulier_code => haulier_code})
+      :tms => :tms})
   end
 
   def is_internal?
@@ -25,4 +27,11 @@ class Company < ActiveRecord::Base
   def is_external?
     not is_internal?
   end
+
+  scope :known, :conditions => ["tms NOT ?", "UNKNOWN"]
+
+  def is_known?
+    tms != "UNKNOWN"
+  end
+
 end

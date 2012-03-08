@@ -4,6 +4,7 @@ class SlotTime < ActiveRecord::Base
   accepts_nested_attributes_for :bookings
   belongs_to :slot_day
   
+  validates_presence_of :slot_day
   validates :capacity, :numericality => { :only_integer => true, :greater_than_or_equal_to => 0}
  
   def bookings_visible_to(user)
@@ -14,11 +15,15 @@ class SlotTime < ActiveRecord::Base
     end
   end
 
+  def number_of_slots_taken
+    bookings.inject(0) {|total, booking| total + booking.slots_taken_up}
+  end
+
   def number_of_free_slots
     if capacity.nil?
       return 0
     end
-    x = capacity - bookings.count
+    x = capacity - number_of_slots_taken
     if x < 0
       0
     else
@@ -34,6 +39,11 @@ class SlotTime < ActiveRecord::Base
         result
       end
     end
+  end
+
+  def datetime
+    dt = slot_day.day.to_datetime
+    return dt + time_slot.minutes
   end
 
 end

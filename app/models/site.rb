@@ -82,8 +82,9 @@ class Site < ActiveRecord::Base
     granularity.times.each do |minutes|
       tsc = TimeSlotCapacity.find_or_create_by_site_id_and_minutes(id, minutes)
       raise "Could not construct time slot capacity" if tsc.nil?
-      # We put in some non-zero values just to allow things to function by default:
-      tsc.update_attributes!(:weekday_capacity => 3, :weekend_capacity => 2)
+      # We put in some guestimated non-zero values just to allow things to
+      # function by default:
+      tsc.update_attributes!(:weekday_capacity => 6, :weekend_capacity => 6)
     end
   end
 

@@ -11,7 +11,7 @@
 		});
 		});
 </script>
-<td class="<%= booking.status %>" id="booking_<%= booking.id %>" onclick='$("#booking<%= booking.id %>").dialog()'>
+<td class="<%= booking.status %>" id="booking_<%= booking.id %>" colspan=<%= booking.slots_taken_up %> onclick='$("#booking<%= booking.id %>").dialog()'>
 <center>
 	<%= booking.reference_number %>
 	<% if current_user.is_booking_manager? %>

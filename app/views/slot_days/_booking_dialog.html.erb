@@ -17,7 +17,7 @@
   <%= f.check_box :live %>
   <br />
   Double Decker
-  <%= f.check_box :double_decker %>  
+  <%= f.check_box :double_decker, :id =>"double_decker#{booking.slot_time.id}" %>
   <br />
   Comment
   <%= f.text_area(:comment, :size => "29x4") %>

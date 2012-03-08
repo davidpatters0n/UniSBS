@@ -47,10 +47,10 @@
 	<tr>
 		<td class="th" colspan=2>Roles and Privileges</td>
 	</tr>
-	<% if @user.company_id.nil? and current_user.is_global_admin? %>
+	<% if @user.id.nil? and current_user.is_global_admin? %>
 	<tr>
 		<td><%= f.label :company %></td>
-		<td><%= collection_select(:user, :company_id, Company.all, :id, :name, :prompt => 'Select Company')  %> <%= link_to 'New Company', new_company_path %></td>
+		<td><%= collection_select(:user, :company_id, Company.known, :id, :name, :prompt => 'Select Company')  %> <%= link_to 'New Company', new_company_path %></td>
 	</tr>
 	<% else %>
 	<tr>

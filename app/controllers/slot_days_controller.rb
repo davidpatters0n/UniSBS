@@ -26,7 +26,7 @@ class SlotDaysController < PortalController
         redirect_to diary_slot_day_path(@site, @slot_day)
       end
     else
-      @main_heading = "#{@site.name} #{l @slot_day.day}"
+      @main_heading = "#{@site.name} #{@slot_day.day.strftime('%A %e %B %Y')}"
     end
 
     # we might want to show slot times just before/after so we use instance variable:

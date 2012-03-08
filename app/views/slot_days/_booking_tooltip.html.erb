@@ -15,7 +15,18 @@ Live Load
 <% if booking.pallets_expected %> <b>Pallets Expected:</b> <%= booking.pallets_expected %>
 <br />
 <% end %>
-<% if booking.comment %> <b>Comment:</b> <%= booking.comment %>
-<% end %> 
+
+<% if booking.comment %> <b>Comment:</b> <%= booking.comment %><br />
+<% end %>
+
+<% if booking.live %>
+  <b>Live</b><br />
+<% end %>
+
+<% if booking.double_decker %>
+  <b>Double-decker</b><br />
+<% end %>
+
+
 <br /> 
 

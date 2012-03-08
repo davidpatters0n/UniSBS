@@ -25,11 +25,7 @@
 
     <% if current_user.is_global_admin? %>
       <td>
-        <% if user.company.is_external? %>
-          <%= link_to user.company.name, edit_company_path(user.company) %>
-        <% else %>
-          internal
-        <% end %>
+        <%= link_to user.company.name, edit_company_path(user.company) %>
       </td>
     <% end %>
 

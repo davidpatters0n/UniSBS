@@ -19,10 +19,14 @@
 	<tr>
 		<td><%= f.label :name %></td>
 		<td><%= f.text_field :name %></td>
-	</tr>
-	<tr>
-		<td><%= f.label :haulier_code %></td>
-		<td><%= f.text_field :haulier_code %></td>
+  </tr>
+  <tr>
+	<td><%= f.label :tms %></td>
+  <% if @company.id.nil? %>
+		  <td><%= f.text_field :tms %></td>
+  <% else %>
+    <td><%= @company.tms %></td>
+  <% end %>
 	</tr>
 	<tr>
 		<td class="blankrow" colspan=2></td>

@@ -11,7 +11,7 @@
 		<% else %>
 		<%= link_to company.name, edit_company_path(company) %>
 		<% end %> </td>
-		<td> <%= company.haulier_code %> </td>
+		<td> <%= company.tms %> </td>
 		<td> <%= link_to 'Edit', edit_company_path(company) %>
 		<% if company.is_external? %>,
 		<%= link_to 'Remove', company, confirm: 'Are you sure?', method: :delete %>

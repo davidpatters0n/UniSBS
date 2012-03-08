@@ -58,8 +58,8 @@ class BookingsController < PortalController
   # POST /bookings
   def create
     @booking = Booking.new(params[:booking])
-    unless @booking and @booking.slot_time and @booking.slot_time.number_of_free_slots > 0
-      flash[:notice] = 'Slot no longer available'
+    unless @booking and @booking.slot_time and @booking.slot_time.number_of_free_slots >= @booking.slots_taken_up
+      flash[:notice] = 'No longer enough slots available'
       redirect_to :back
       return
     end

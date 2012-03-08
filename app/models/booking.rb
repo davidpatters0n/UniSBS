@@ -76,5 +76,15 @@ class Booking < ActiveRecord::Base
   def update_slot!
   end
 
+  def slots_taken_up
+    if double_decker
+      2
+    elsif reference_number
+      1
+    else
+      0
+    end
+  end
+
 end
 

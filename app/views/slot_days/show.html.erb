@@ -5,9 +5,7 @@
 
 	td {
 	padding: 4px;
-	<% if current_user.is_transport_user? %>
 	cursor: pointer;
-	<% end %>
 	border: 1px solid transparent;
 	}
 
@@ -55,7 +53,7 @@
 		</thead>
 		<% @slot_times.each do |slot_time| %>
 		<tr class="slot_time" id="slot_time<%= slot_time.id %>">
-			<td class="time-cell"> <%= formatminutes slot_time.time_slot %> </td>
+			<td class="time-cell"> <%= slot_time.datetime.strftime('%H:%M') %> </td>
 			<% if current_user.is_booking_manager? %> <td class="pallets"> <%= slot_time.number_of_pallets %> </td>
 			<td class="button_bar"> <%= form_for slot_time, :url => diary_slot_time_set_capacity_path(@site, slot_time) do |f| %>
 			<%= f.number_field :capacity, :id=>"capacity#{slot_time.id}", :size=>2, :min=>0, :onchange => 'this.form.submit();' %>
@@ -70,7 +68,11 @@
 			<% end %>
 			<% end %>
 
-			<% slot_time.bookings.each do |booking| %>
+			<% for i in 1..slot_time.number_of_free_slots %>
+			<%= render :partial => "free_slot", :locals => { :slot_time => slot_time } %>
+			<% end %>
+      
+      <% slot_time.bookings.each do |booking| %>
 			<% if booking.id.nil? %>
 			<div style="display:none;">
 				<div id="create_booking<%= slot_time.id %>" title="Create Booking">
@@ -80,9 +82,6 @@
 			<% end %>
 			<% end %>
 
-			<% for i in 1..slot_time.number_of_free_slots %>
-			<%= render :partial => "free_slot", :locals => { :slot_time => slot_time } %>
-			<% end %>
 		</tr>
 		<% end %>
 	</table>

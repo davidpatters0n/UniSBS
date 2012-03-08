@@ -12,7 +12,7 @@ class CompanyLogentry < ActiveRecord::Base
   end
 
   def content_summary
-    "#{name}, #{haulier_code}"
+    "#{tms}"
   end
 
 end
