@@ -17,8 +17,8 @@
 		<td><%= formatdate booking.confirmed_appointment %></td>
 		<td><%= booking.pallets_expected %></td>
 		<td> <%= link_to_booking_in_diary 'Show in diary', booking %>,
-		<%= link_to 'Edit', edit_booking_path(booking) %>,
-		<%= link_to 'Remove', booking, confirm: 'Are you sure?', method: :delete %> </td>
+		<%= link_to 'Edit', edit_booking_path(booking),:class => "classname" %>,
+		<%= link_to 'Remove', booking, confirm: 'Are you sure?', method: :delete, :class => "classname"%> </td>
 	</tr>
 	<% end %>
 </table>
