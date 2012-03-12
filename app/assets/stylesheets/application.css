@@ -27,10 +27,10 @@
 	background:-moz-linear-gradient( center top, #D5E3EE 5%, #D5E3EE 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='##D5E3EE', endColorstr='##D5E3EE');
 	background-color:#D5E3EE;
-}.classname:active {
+} /*.classname:active {
 	position:relative;
 	top:1px;
-}
+}*/
 
 input[type="submit"].classname{
 	padding: 3px 6px; 

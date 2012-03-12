@@ -5,7 +5,9 @@
 
 	td {
 	padding: 4px;
+	<% if current_user.is_transport_user? %>
 	cursor: pointer;
+	<% end %>
 	border: 1px solid transparent;
 	}
 
@@ -71,8 +73,8 @@
 			<% for i in 1..slot_time.number_of_free_slots %>
 			<%= render :partial => "free_slot", :locals => { :slot_time => slot_time } %>
 			<% end %>
-      
-      <% slot_time.bookings.each do |booking| %>
+
+			<% slot_time.bookings.each do |booking| %>
 			<% if booking.id.nil? %>
 			<div style="display:none;">
 				<div id="create_booking<%= slot_time.id %>" title="Create Booking">
@@ -81,11 +83,9 @@
 			</div>
 			<% end %>
 			<% end %>
-
 		</tr>
 		<% end %>
 	</table>
-	
 	<script>
 		
 		$(function() {
