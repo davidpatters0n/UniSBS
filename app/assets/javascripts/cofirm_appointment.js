@@ -8,3 +8,4 @@
       $("#confirm_appointment_dialog").dialog();
     });
   });
+  
