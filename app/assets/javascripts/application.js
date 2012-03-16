@@ -12,14 +12,3 @@
 //= require datatable
 //= require granularity
 //= require datepicker
-
-
-
-$(document).ready(function(){
-   $('.submit_me').bind('ajax:success', function(json){
-     $('#booking-confirmation').html(json.confirmation_status);
-   });
-});
-
-// controller
-// format.js { render :json => {:confirmation_status => "Something"} }

@@ -8,8 +8,6 @@ class SlotDaysController < PortalController
   end
 
   def show
-    @slot_times = SlotTime.includes(:slot_day).limit(6) 
-    # Booking.where(conditions).includes(:slot_days, :slot_times) 
     session[:booking_context] = 'diary'
 
     # The route passes in the 'daystamp' which is in the form YYYYMMDD:

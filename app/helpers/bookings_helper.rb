@@ -12,7 +12,7 @@ module BookingsHelper
       return text
     end
     
-    link_to text, diary_slot_day_time_path(site, slot_day, slot_time), :class => "classname" 
+    link_to text, diary_slot_day_time_path(site, slot_day, slot_time)
   end
   
 end

@@ -12,9 +12,9 @@
 		<%= link_to company.name, edit_company_path(company) %>
 		<% end %> </td>
 		<td> <%= company.tms %> </td>
-		<td> <%= link_to 'Edit', edit_company_path(company), :class => "classname" %>
+		<td> <%= link_to 'Edit', edit_company_path(company) %>
 		<% if company.is_external? %>,
-		<%= link_to 'Remove', company, confirm: 'Are you sure?', method: :delete, :class => "classname" %>
+		<%= link_to 'Remove', company, confirm: 'Are you sure?', method: :delete %>
 		<% end %> </td>
 	</tr>
 	<% end %>
@@ -22,5 +22,5 @@
 <br />
 <br />
 <div class="button_bar">
-	<%= link_to 'Create New Company', new_company_path, :class => "classname" %> <%= link_to 'Back to Admin', admin_path, :class => "classname" %>
+	<%= link_to 'Create New Company', new_company_path %> <%= link_to 'Back to Admin', admin_path %>
 </div>

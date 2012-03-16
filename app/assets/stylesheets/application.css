@@ -6,38 +6,5 @@
  *= require_tree .
 
 */
-.classname {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #D5E3EE), color-stop(1, #D5E3EE) );
-	background:-moz-linear-gradient( center top, #D5E3EE 5%, #D5E3EE 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#D5E3EE', endColorstr='#D5E3EE');
-	background-color:#D5E3EE;
-	-moz-border-radius:6px;
-	-webkit-border-radius:6px;
-	border-radius:6px;
-	border:1px solid #D5E3EE;
-	display:inline-block;
-/*	color:#ffffff; */
-	font-family:arial;
-	font-size:10px;
-	font-weight:normal;
-	padding:0px 6px;
-	text-decoration:none;
-}.classname:hover {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #D5E3EE), color-stop(1, #D5E3EE) );
-	background:-moz-linear-gradient( center top, #D5E3EE 5%, #D5E3EE 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='##D5E3EE', endColorstr='##D5E3EE');
-	background-color:#D5E3EE;
-} /*.classname:active {
-	position:relative;
-	top:1px;
-}*/
-
-input[type="submit"].classname{
-	padding: 3px 6px; 
-	color: black;
-}
 
 
-input[type="submit"]:hover { 
-	 color: #aaaaaa;
-	 }

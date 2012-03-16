@@ -1,7 +1,7 @@
 <%= form_for(@booking) do |f| %>
 <% if @booking.errors.any? %>
 <div id="error_explanation">
-	<h2><%= pluralize(@booking.errors.countI , "error") %> prohibited this booking from being saved:</h2>
+	<h2><%= pluralize(@booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
 	<ul>
 		<% @booking.errors.full_messages.each do |msg| %>
 		<li>
@@ -29,44 +29,42 @@
 	<tr>
 		<td><%= f.label :provisional_appointment %></td>
 		<td> <%= f.hidden_field :provisional_appointment %>
-		<!--%= raise @booking.provisional_appointment.inspect %--> 
 		<%= l @booking.provisional_appointment %> </td>
 	</tr>
-	 <tr>
-	      <td><%= f.label :confirmed_appointment %></td>
-	      <td id="booking-confirmation"> <% f.hidden_field :confirmed_appointment %>
-	      <% if @booking.confirmed_appointment %>
-	      <%= l @booking.confirmed_appointment %>
-	      <% else %> <em>unconfirmed</em> <% end %> </td>
-	    </tr>
-		<tr>
-			<td><%= f.label :pallets_expected %></td>
-			<td><%= f.number_field :pallets_expected, :size => 5 %></td>
-		</tr>
-		<tr>
-			<td class="blankrow" colspan=2> <%= f.hidden_field :slot_time_id %> </td>
-		</tr>
-	</table>
-	<div class="actions">
-		<%= f.submit :class => 'classname' %>
+	<tr>
+		<td><%= f.label :confirmed_appointment %></td>
+		<td> <% f.hidden_field :confirmed_appointment %>
+		<% if @booking.confirmed_appointment %>
+		<%= l @booking.confirmed_appointment %>
+		<% else %> <em>unconfirmed</em> <% end %> </td>
+	</tr>
+	<tr>
+		<td><%= f.label :pallets_expected %></td>
+		<td><%= f.number_field :pallets_expected, :size => 5 %></td>
+	</tr>
+	<tr>
+		<td class="blankrow" colspan=2> <%= f.hidden_field :slot_time_id %> </td>
+	</tr>
+</table>
+<div class="actions">
+	<%= f.submit %>
+</div>
+<% end %>
+
+<% if @booking.id and current_user.is_booking_manager? %>
+<button id="confirm_appointment">
+	test confirmation
+</button>
+<div style="display:none;">
+	<div id="confirm_appointment_dialog" title="Test Confirm Booking">
+		<%= form_for @booking, :url => booking_confirmation_path(@booking) do |f| %>
+		<%= f.hidden_field :id %>
+		<%= f.datetime_select :confirmed_appointment %>
+		<br />
+		<b>Clear provisional appointment:</b><%= check_box_tag "make_unexpected" %>
+		<br />
+		<%= f.submit %>
+		<% end %>
 	</div>
-	<% end %>
-	
-	<% if @booking.id and current_user.is_booking_manager? %>
-	<button style="padding: 3px 6px;" id="confirm_appointment" class ="classname">
-		test confirmation
-	</button>
-	
-	<div style="display:none;">
-		<div id="confirm_appointment_dialog" title="Test Confirm Booking">
-			<%= form_for @booking, :url => booking_confirmation_path(@booking), :remote => true do |f| %>
-			<%= f.hidden_field :id %>
-			<%= f.datetime_select :confirmed_appointment %>
-			<br />
-			<b>Clear provisional appointment:</b><%= check_box_tag "make_unexpected" %>
-			<br />
-			<%= f.submit :class => 'classname sumbit_me'%>
-			<% end %>
-		</div>
-	</div>
-	<% end %> 
+</div>
+<% end %> 
