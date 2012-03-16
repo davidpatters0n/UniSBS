@@ -37,14 +37,14 @@
 
     <td>
       <% if current_user == user %>
-        <%= link_to 'Edit', myaccount_path %>
+        <%= link_to 'Edit', myaccount_path, :class => 'classname' %>
       <% else %>
-        <%= link_to 'Edit', edit_user_path(user) %>
+        <%= link_to 'Edit', edit_user_path(user), :class => 'classname' %>
       <% end %>
 
       <% if current_user.id != user.id %>
         | <%= link_to 'Destroy', user, :confirm => 'Are you sure?',
-                                          :method => :delete %>
+                                          :method => :delete, :class => 'classname'%>
       <% end %>
     </td>
 

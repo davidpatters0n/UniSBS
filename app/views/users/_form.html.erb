@@ -81,7 +81,7 @@
 	</tr>
 	<% end %>
 </table>
-<%= f.submit %>
+<%= f.submit :class => 'classname' %>
 <% if current_user.is_an_admin? %>
-<%= link_to 'List all users', users_path %>
+<%= link_to 'List all users', users_path, :class => 'classname' %>
 <% end %> 

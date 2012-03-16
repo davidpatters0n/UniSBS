@@ -100,17 +100,23 @@ class BookingsController < PortalController
       @booking.update_slot!
       success = true
     rescue => e
-      flash[:error] = e.message
-      success = false
+       flash[:error] = e.message
+       success = false
     end
 
-    if success
-      flash[:notice] = 'Booking confirmed'
-      respond_to do |format|
-        format.html { redirect_to booking_path(@booking) }
-      end      
-    else
-      redirect_to :back
+    respond_to do |format|
+      format.html do
+        if success
+          flash[:notice] = 'Booking confirmed'
+        else
+          redirect_to :back
+        end
+        redirect_to booking_path(@booking)
+      end
+      format.js do
+        # do the update here
+        render 'update'
+      end
     end
   end
 
