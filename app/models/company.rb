@@ -15,7 +15,7 @@ class Company < ActiveRecord::Base
   def log(logclass_name)
     CompanyLogentry.create({
       :logclass_name => logclass_name,
-      :company_id => id, 
+      :company_id => id,
       :name => name,
       :tms => :tms})
   end
@@ -23,15 +23,16 @@ class Company < ActiveRecord::Base
   def is_internal?
     id == 1
   end
-  
+
   def is_external?
     not is_internal?
   end
 
-  scope :known, :conditions => ["tms NOT ?", "UNKNOWN"]
+  scope :known, :conditions => [ "tms != ?", "UNKNOWN"]
 
   def is_known?
     tms != "UNKNOWN"
   end
 
 end
+
