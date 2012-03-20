@@ -37,6 +37,13 @@
 	#toolbar {
 	padding: 10px 4px;
 	}
+
+  td form, td form div {
+    display: inline;
+  }
+  .buttons {
+    white-space: nowrap;
+  }
 </style>
 <span id="toolbar" class="ui-widget-header ui-corner-all">
 	<input type="text" id="datepicker" size=30>
@@ -48,18 +55,30 @@
 		<thead>
 			<th> Time </th>
 			<% if current_user.is_booking_manager? %> <th> Pallets </th>
-			<th> Slots </th>
+        <th colspan=0>Slots</th>
 			<% end %>
 		</thead>
 		<% @slot_times.each do |slot_time| %>
 		<tr class="slot_time" id="slot_time<%= slot_time.id %>">
 			<td class="time-cell"> <%= slot_time.datetime.strftime('%H:%M') %> </td>
-			<% if current_user.is_booking_manager? %> <td class="pallets"> <%= slot_time.number_of_pallets %> </td>
-			<td class="button_bar"> <%= form_for slot_time, :url => diary_slot_time_set_capacity_path(@site, slot_time) do |f| %>
-			<%= f.number_field :capacity, :id=>"capacity#{slot_time.id}", :size=>2, :min=>0, :onchange => 'this.form.submit();' %>
-			<% end %>
-			<%= button_to "Add", diary_slot_time_add_slot_path(@site, slot_time), :remote => true, :id => "add_slot" %>
-			<%= button_to "Remove", diary_slot_time_remove_slot_path(@site, slot_time), :remote => true, :id => "remove_slot#{slot_time.id}", :disabled => disable_remove?(slot_time) %> </td>
+      <% if current_user.is_booking_manager? %>
+        <td class="pallets"><%= slot_time.number_of_pallets %></td>
+        <td class="buttons">
+          <%= form_for slot_time, :url => diary_slot_time_set_capacity_path(@site, slot_time) do |f| %>
+            <a><%= f.number_field :capacity,
+                                :id=>"capacity#{slot_time.id}",
+                                :size=>2,
+                                :min=>0,
+                                :onchange => 'this.form.submit();' %></a>
+          <% end %>
+          <%= button_to "Add", 
+              diary_slot_time_add_slot_path(@site, slot_time),
+              :remote => true, :id => "add_slot" %>
+          <%= button_to "Remove",
+              diary_slot_time_remove_slot_path(@site, slot_time),
+              :remote => true, :id => "remove_slot#{slot_time.id}",
+              :disabled => disable_remove?(slot_time) %>
+        </td>
 			<% end %>
 
 			<% slot_time.bookings_visible_to(current_user).each do |booking| %>

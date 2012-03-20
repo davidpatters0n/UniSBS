@@ -1,9 +1,6 @@
 class BookingsController < PortalController
 
-  # GET /bookings
-  # GET /bookings.json
   def index
-
     session[:booking_context] = 'index'
 
     if current_user.is_booking_manager? 
@@ -15,22 +12,12 @@ class BookingsController < PortalController
       @bookings = current_user.company.bookings
     @main_heading = "#{current_user.company.name} Bookings"
     end
-
-    respond_to do |format|
-      format.html # index.html.erb
-    end
   end
 
   # GET /bookings/1
   def show
     @booking = Booking.find(params[:id])
     goto_booking(@booking)
-  end
-
-  # GET /bookings/1/edit
-  def edit
-    @booking = Booking.find(params[:id])
-    @main_heading = 'Edit Booking'
   end
 
   # Go to booking
@@ -75,7 +62,11 @@ class BookingsController < PortalController
     end
   end
 
-  # PUT /bookings/1
+  def edit
+    @booking = Booking.find(params[:id])
+    @main_heading = 'Edit Booking'
+  end
+  
   def update
     @booking = Booking.find(params[:id])
     if @booking.update_attributes(params[:booking])

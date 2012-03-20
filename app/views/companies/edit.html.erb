@@ -1,1 +1,24 @@
-<%= render 'form' %>
+<%= render :partial => 'shared/errors', :locals => {:target => @company} %>
+
+<%= form_for(@company) do |f| %>
+  <table>
+    <tr>
+      <td class="th" colspan=2>Company Details</td>
+    </tr>
+    <tr>
+      <td><%= f.label :name %></td>
+      <td><%= f.text_field :name %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :tms %></td>
+      <% if @company.id.nil? %>
+        <td><%= f.text_field :tms %></td>
+      <% else %>
+        <td><%= @company.tms %></td>
+      <% end %>
+    </tr>
+    <%= blankrow %>
+  </table>
+  <%= f.submit %> or <%= link_to 'List Companies', companies_path %>
+  <br />
+<% end %>

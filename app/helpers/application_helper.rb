@@ -75,5 +75,9 @@ module ApplicationHelper
     DateTime.(value * 60).strftime('%H:%M') 
   end
 
+  def blankrow
+    '<tr><td class="blankrow" colspan=2></td></tr>'.html_safe
+  end
+
 end
 

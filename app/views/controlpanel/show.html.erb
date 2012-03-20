@@ -1,49 +1,32 @@
 <table>
-	<thead>
-		<tr>
-			<th colspan=2>Housekeeper</th>
-		</tr>
-	</thead>
-	<% Site.all.each do |site| %>
-	<tr>
-		<td><b>Days in advance for <%= site.name %></b></td>
-		<td><%= site.days_available_until %></td>
-	</tr>
+
+  <thead><tr><th colspan=2>Housekeeper</th></tr></thead>
+  <% Site.all.each do |site| %>
+	  <tr>
+		  <td><b>Days in advance for <%= site.name %></b></td>
+		  <td><%= site.days_available_until %></td>
+	  </tr>
 	<% end %>
 	<tr>
 		<td><b>Daemon</b></td>
-		<td> <%= button_to "Restart...", controlpanel_restart_housekeeper_path, :remote => true, :id => "restartousekeeper" %> </td>
-	</tr>
-	<tr>
-		<td><b>Status after restart</b></td>
-		<td id="restart_housekeeper_result">&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="blankrow" colspan=2></td>
-	</tr>
-	<thead>
-		<th colspan=2>SOA Connection</th>
-	</thead>
+		<td> <%= button_to "Restart...", controlpanel_restart_housekeeper_path %> </td>
+  </tr>
+  <%= blankrow %>
+  
+  <thead><th colspan=2>SOA Connection</th></thead>
 	<tr>
 		<td><b>Last Request</b></td>
 		<% if @soa %> <td><%= formatlastdone @soa.updated_at %></td>
 		<% else %> <td><%= formatlastdone nil %>
 		<% end %>
-	</tr>
-	<tr>
-		<td class="blankrow" colspan=2></td>
-	</tr>
-	<thead>
-		<tr>
-			<th colspan=2>About</th>
-		</tr>
-	</thead>
+  </tr>
+  <%= blankrow %>
+  
+  <thead><tr><th colspan=2>About</th></tr></thead>
 	<tr>
 		<td><b>Version</b></td>
-		<td>Dev 0.8</td>
-	</tr>
-	<tr>
-		<td class="blankrow" colspan=2></td>
-	</tr>
+		<td>Dev 0.9</td>
+  </tr>
+  <%= blankrow %>
+
 </table>
-</table> 

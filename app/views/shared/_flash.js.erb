@@ -1,0 +1,14 @@
+$('#flashcontainer').empty();
+
+<% if flash != nil %>
+  <% flash.each do |key, value| %>
+    $('#flashcontainer').prepend( '<center><b><div class="flash <%= key %>"><%= escape_javascript(value) %></div></b></center>' );
+  <% end %>
+  <% flash.clear %>
+<% end %>
+
+$('.flash').prepend( "<div class='closeflash'></div>" );
+
+$('.closeflash').click( function() {
+  $(this).closest( '.flash' ).remove();
+} );

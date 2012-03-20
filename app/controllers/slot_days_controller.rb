@@ -52,7 +52,8 @@ class SlotDaysController < PortalController
     @slot_time.capacity += 1
       @slot_time.save!
     rescue => e
-    logger.error "Failed to add slot to slot time: #{e.message}"
+      logger.error "Failed to add slot to slot time: #{e.message}"
+      render :nothing => true
     end
   end
 
@@ -60,10 +61,11 @@ class SlotDaysController < PortalController
     logger.debug "Removing slot"
     @slot_time = SlotTime.find_by_id(params[:slot_time_id])
     begin
-    @slot_time.capacity -= 1
+      @slot_time.capacity -= 1
       @slot_time.save!
     rescue => e
-    logger.error "Failed to remove slot from slot time: #{e.message}"
+      logger.error "Failed to remove slot from slot time: #{e.message}"
+      render :nothing => true
     end
   end
 
@@ -74,7 +76,7 @@ class SlotDaysController < PortalController
       @slot_time.capacity = params[:slot_time][:capacity]
       @slot_time.save!
     rescue => e
-    logger.error "Failed to set capacity for slot time: #{e.message}"
+     flash[:alert] = "Could not change capacity because #{e.message}"
     end
 
     @slot_time = SlotTime.find_by_id params[:slot_time_id]

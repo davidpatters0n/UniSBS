@@ -1,26 +1,13 @@
 <table id='indextable'>
-	<thead>
-		<th>Company Name</th>
-		<th>Haulier Code</th>
-		<th>Action</th>
-	</thead>
-	<% @companies.each do |company| %>
-	<tr>
-		<td> <% if company.name.empty? %>
-		<%= link_to '(blank)', edit_company_path(company) %>
-		<% else %>
-		<%= link_to company.name, edit_company_path(company) %>
-		<% end %> </td>
-		<td> <%= company.tms %> </td>
-		<td> <%= link_to 'Edit', edit_company_path(company), :class => "classname" %>
-		<% if company.is_external? %>,
-		<%= link_to 'Remove', company, confirm: 'Are you sure?', method: :delete, :class => "classname" %>
-		<% end %> </td>
-	</tr>
-	<% end %>
+  <thead>
+    <th>Company Name</th>
+    <th>Haulier Code</th>
+  </thead>
+
+  <% @companies.each do |company| %>
+    <tr>
+      <td><%= link_to company.name, edit_company_path(company) %></td>
+      <td><%= company.tms %></td>
+    </tr>
+  <% end %>
 </table>
-<br />
-<br />
-<div class="button_bar">
-	<%= link_to 'Create New Company', new_company_path, :class => "classname" %> <%= link_to 'Back to Admin', admin_path, :class => "classname" %>
-</div>

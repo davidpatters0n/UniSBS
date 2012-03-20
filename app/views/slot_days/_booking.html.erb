@@ -18,6 +18,9 @@
     <% if current_user.is_booking_manager? %>
       (<%= booking.company_name %>)
     <% end %>
+    <% if booking.live %>
+      <a style="color:red"><b>LIVE</b></a>
+    <% end %>
   </center>
   <div style="display:none;">
     <div id="booking<%= booking.id %>" title="Edit Booking">
