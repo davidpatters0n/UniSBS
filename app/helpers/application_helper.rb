@@ -72,7 +72,9 @@ module ApplicationHelper
   end
 
   def formatminutes(value)
-    DateTime.(value * 60).strftime('%H:%M') 
+    h = value / 60
+    m = value % 60
+    return "%02d:%02d" % [h, m]
   end
 
   def blankrow

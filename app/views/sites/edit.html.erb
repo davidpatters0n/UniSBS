@@ -1,1 +1,50 @@
-<%= render 'form' %>
+<%= form_for @site do |f| %>
+<%= render :partial => 'shared/errors', :locals => {:target => @site} %>
+<div id="site_parameters">
+	<table id="site_parameters_table">
+		<tr>
+			<td class="th" colspan=2>Site Parameters</td>
+		</tr>
+		<tr>
+			<td><%= f.label :name %></td>
+			<td><%= @site.name %></td>
+		</tr>
+		<tr>
+			<td><%= f.label :past_days_to_keep %></td>
+			<td><%= f.number_field :past_days_to_keep, :size => 5 %> days</td>
+		</tr>
+		<tr>
+			<td><%= f.label :days_in_advance %></td>
+			<td><%= f.number_field :days_in_advance, :size => 5 %> days</td>
+		</tr>
+		<tr>
+			<td><%= f.label :provisional_bookings_expire_after, :size => 8 %></td>
+			<td><%= f.number_field :provisional_bookings_expire_after, :size => 8 %> minutes</td>
+    </tr>
+    <%= blankrow %>
+	</table>
+	<p>
+		<%= f.submit %>
+	</p>
+</div>
+<div id="site_templates">
+	<table id="site_templates_table">
+		<thead>
+			<tr>
+				<th> <%= collection_select(:site, :granularity_id, Granularity.all, :id, :minutes) %>
+				minute slots </th>
+				<th colspan=2> Slot Capacity </th>
+			</tr>
+			<tr>
+				<th>Time</th>
+				<th>Weekday</th>
+				<th>Weekend</th>
+			</tr>
+		</thead>
+		<%= f.fields_for :time_slot_capacities, @time_slot_capacities do |builder| %>
+		<%= render "time_fields", :f => builder %>
+  <% end %>
+  <%= blankrow %>
+	</table>
+</div>
+<% end %> 
