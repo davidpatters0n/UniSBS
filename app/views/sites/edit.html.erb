@@ -41,7 +41,7 @@
 				<th>Weekend</th>
 			</tr>
 		</thead>
-		<%= f.fields_for :time_slot_capacities, @time_slot_capacities do |builder| %>
+		<%= f.fields_for :template_capacities, @template_capacities do |builder| %>
 		<%= render "time_fields", :f => builder %>
   <% end %>
   <%= blankrow %>

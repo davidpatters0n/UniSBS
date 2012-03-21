@@ -1,8 +1,8 @@
 module SitesHelper
 
-  def id_for_timerow(time_slot_capacity)
+  def id_for_timerow(template_capacity)
     #"time_%04d" %
-    time_slot_capacity.minutes
+    template_capacity.minutes
   end
 
 end

@@ -17,37 +17,37 @@ class SitesController < PortalController
     access_denied unless @site
   end
 
-  def order_time_slot_capacities
-    @time_slot_capacities = @site.time_slot_capacities.sort {|a,b| a.minutes <=> b.minutes}
+  def order_template_capacities
+    @template_capacities = @site.template_capacities.sort {|a,b| a.minutes <=> b.minutes}
   end
 
-  def preprocess_time_slot_capacity_params
+  def preprocess_template_capacity_params
     granularity_minutes = Granularity.find_by_id(params[:site][:granularity_id]).minutes
     Granularity.allowed_minutes.each do |minutes|
       if minutes.modulo(granularity_minutes) == 0
         logger.debug "keep #{minutes}"
       else
-        if @site.time_slot_capacities.find_by_minutes(minutes)
+        if @site.template_capacities.find_by_minutes(minutes)
           logger.debug "#destroy #{minutes} from site"
-          params[:site][:time_slot_capacities_attributes].each{|key, value| value[:_destroy] = '1' if value[:minutes].to_i == minutes }
+          params[:site][:template_capacities_attributes].each{|key, value| value[:_destroy] = '1' if value[:minutes].to_i == minutes }
         else
           logger.debug "#delete #{minutes} from params"
-          params[:site][:time_slot_capacities_attributes].delete_if do |key, value|
+          params[:site][:template_capacities_attributes].delete_if do |key, value|
             value[:minutes].to_i == minutes
           end
         end
       end
     end
-    params[:site][:time_slot_capacities_attributes].each do |key, value|
-      logger.debug "Time Slot Capacity: #{value.inspect}"
+    params[:site][:template_capacities_attributes].each do |key, value|
+      logger.debug "Template Capacity: #{value.inspect}"
     end
   end
 
   # GET /admin/:name
   # This is for the site settings
   def edit
-    @site.setup_time_slot_capacities
-    order_time_slot_capacities
+    @site.setup_template_capacities
+    order_template_capacities
     respond_to { |format| format.html }
   end
 
@@ -55,13 +55,13 @@ class SitesController < PortalController
   # This is for the site settings
   def update
 
-    preprocess_time_slot_capacity_params
+    preprocess_template_capacity_params
           
     if @site.update_attributes(params[:site])
       flash[ :notice ] = "#{params[:id].camelize} reconfigured"
       respond_to { |format| format.html { redirect_to edit_site_path(@site) }}
     else
-      order_time_slot_capacities
+      order_template_capacities
       respond_to {|format| format.html { render :edit } }
     end
   end

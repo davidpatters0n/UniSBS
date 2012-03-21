@@ -39,7 +39,7 @@ class DiaryDaysController < PortalController
     @diary_times.each do |diary_time|
       new_booking = diary_time.bookings.build(
       :company => current_user.company,
-      :provisional_appointment => datetime + diary_time.time_slot.minutes)
+      :provisional_appointment => datetime + diary_time.minute_of_day.minutes)
       logger.debug new_booking.inspect
     end
 

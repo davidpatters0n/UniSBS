@@ -1,6 +1,6 @@
 class DiaryTime < ActiveRecord::Base
   
-  has_many :bookings
+  has_many :bookings, :dependent => :destroy
   accepts_nested_attributes_for :bookings
   belongs_to :diary_day
   
@@ -43,7 +43,7 @@ class DiaryTime < ActiveRecord::Base
 
   def datetime
     dt = diary_day.day.to_datetime
-    return dt + time_slot.minutes
+    return dt + minute_of_day.minutes
   end
 
 end

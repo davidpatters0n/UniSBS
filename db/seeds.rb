@@ -59,10 +59,10 @@ Site.names.each do |sitename|
                   :provisional_bookings_expire_after => 60,
                   :granularity_id => Granularity.find_by_minutes(15).id)
 
-  puts "      Creating Time Slot Capacities for #{sitename}"
+  puts "      Creating Template Capacities for #{sitename}"
   puts "         #{site.granularity.times}..."
-  site.construct_initial_time_slot_capacities!
-  puts "         ...#{site.time_slot_capacities.count} time slots"
+  site.construct_initial_template_capacities!
+  puts "         ...#{site.template_capacities.count} time slots"
 
   puts "      Creating Diary Days for #{sitename}..." 
   site.construct_days!

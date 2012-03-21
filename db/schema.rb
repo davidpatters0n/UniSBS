@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(:version => 20120308101716) do
 
   create_table "diary_times", :force => true do |t|
     t.integer  "diary_day_id"
-    t.datetime "time_slot"
+    t.datetime "minute_of_day"
     t.integer  "capacity"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -122,7 +122,7 @@ ActiveRecord::Schema.define(:version => 20120308101716) do
     t.datetime "updated_at"
   end
 
-  create_table "time_slot_capacities", :force => true do |t|
+  create_table "template_capacities", :force => true do |t|
     t.integer  "site_id"
     t.integer  "minutes"
     t.integer  "weekend_capacity"

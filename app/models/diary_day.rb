@@ -1,7 +1,7 @@
 class DiaryDay < ActiveRecord::Base
   
   belongs_to :site
-  has_many :diary_times
+  has_many :diary_times, :dependent => :destroy
   accepts_nested_attributes_for :diary_times
   has_many :bookings, :through => :diary_times
   accepts_nested_attributes_for :bookings

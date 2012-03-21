@@ -1,9 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  minute_of_day: 2012-02-08 09:31:04
   capacity: 1
+  site_id: 1
+  weekend: false
 
 two:
-  minute_of_day: 2012-02-08 09:31:04
   capacity: 1
+  site_id: 1
+  weekend: false
