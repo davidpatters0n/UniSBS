@@ -8,7 +8,7 @@ class SitesController < PortalController
   end
 
   def show
-    redirect_to diary_slot_day_path(@site, @site.find_today)
+    redirect_to diary_diary_day_path(@site, @site.find_today)
   end
 
   def setup_instance_variables

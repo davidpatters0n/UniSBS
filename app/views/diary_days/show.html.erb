@@ -58,43 +58,43 @@
         <th colspan=0>Slots</th>
 			<% end %>
 		</thead>
-		<% @slot_times.each do |slot_time| %>
-		<tr class="slot_time" id="slot_time<%= slot_time.id %>">
-			<td class="time-cell"> <%= slot_time.datetime.strftime('%H:%M') %> </td>
+		<% @diary_times.each do |diary_time| %>
+		<tr class="diary_time" id="diary_time<%= diary_time.id %>">
+			<td class="time-cell"> <%= diary_time.datetime.strftime('%H:%M') %> </td>
       <% if current_user.is_booking_manager? %>
-        <td class="pallets"><%= slot_time.number_of_pallets %></td>
+        <td class="pallets"><%= diary_time.number_of_pallets %></td>
         <td class="buttons">
-          <%= form_for slot_time, :url => diary_slot_time_set_capacity_path(@site, slot_time) do |f| %>
+          <%= form_for diary_time, :url => diary_diary_time_set_capacity_path(@site, diary_time) do |f| %>
             <a><%= f.number_field :capacity,
-                                :id=>"capacity#{slot_time.id}",
+                                :id=>"capacity#{diary_time.id}",
                                 :size=>2,
                                 :min=>0,
                                 :onchange => 'this.form.submit();' %></a>
           <% end %>
           <%= button_to "Add", 
-              diary_slot_time_add_slot_path(@site, slot_time),
+              diary_diary_time_add_slot_path(@site, diary_time),
               :remote => true, :id => "add_slot" %>
           <%= button_to "Remove",
-              diary_slot_time_remove_slot_path(@site, slot_time),
-              :remote => true, :id => "remove_slot#{slot_time.id}",
-              :disabled => disable_remove?(slot_time) %>
+              diary_diary_time_remove_slot_path(@site, diary_time),
+              :remote => true, :id => "remove_slot#{diary_time.id}",
+              :disabled => disable_remove?(diary_time) %>
         </td>
 			<% end %>
 
-			<% slot_time.bookings_visible_to(current_user).each do |booking| %>
+			<% diary_time.bookings_visible_to(current_user).each do |booking| %>
 			<% unless booking.id.nil? %>
 			<%= render :partial => "booking", :locals => { :booking => booking } %>
 			<% end %>
 			<% end %>
 
-			<% for i in 1..slot_time.number_of_free_slots %>
-			<%= render :partial => "free_slot", :locals => { :slot_time => slot_time } %>
+			<% for i in 1..diary_time.number_of_free_slots %>
+			<%= render :partial => "free_slot", :locals => { :diary_time => diary_time } %>
 			<% end %>
       
-      <% slot_time.bookings.each do |booking| %>
+      <% diary_time.bookings.each do |booking| %>
 			<% if booking.id.nil? %>
 			<div style="display:none;">
-				<div id="create_booking<%= slot_time.id %>" title="Create Booking">
+				<div id="create_booking<%= diary_time.id %>" title="Create Booking">
 					<%= render :partial => "booking_dialog", :locals => { :booking => booking } %>
 				</div>
 			</div>
@@ -123,7 +123,7 @@
 				}
 				document.location.href = yyyy + '-' + mm + '-' + dd;
 			}
-		}).datepicker("setDate", new Date("<%= @slot_day.day %>"));
+		}).datepicker("setDate", new Date("<%= @diary_day.day %>"));
 	});
 
 	$("#today").button().click(function() {

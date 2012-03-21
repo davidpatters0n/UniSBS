@@ -1,0 +1,7 @@
+<% if @diary_time.number_of_free_slots > 0 %>
+$("#diary_time<%= @diary_time.id %>").find('td:last').after("<%= escape_javascript render :partial => "free_slot", :locals => { :diary_time => @diary_time } %>");
+<% end %>
+$("#capacity<%= @diary_time.id %>").val("<%= @diary_time.capacity%>");
+<% if enable_remove? @diary_time %>
+$("#remove_slot<%= @diary_time.id %>").removeAttr("disabled");
+<% end %> 

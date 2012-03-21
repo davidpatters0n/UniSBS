@@ -1,6 +1,6 @@
-class CreateSlotDays < ActiveRecord::Migration
+class CreateDiaryDays < ActiveRecord::Migration
  def change
-    create_table :slot_days do |t|
+    create_table :diary_days do |t|
       t.date :day
       t.integer :site_id
 

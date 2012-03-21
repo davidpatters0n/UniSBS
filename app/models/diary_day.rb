@@ -1,9 +1,9 @@
-class SlotDay < ActiveRecord::Base
+class DiaryDay < ActiveRecord::Base
   
   belongs_to :site
-  has_many :slot_times
-  accepts_nested_attributes_for :slot_times
-  has_many :bookings, :through => :slot_times
+  has_many :diary_times
+  accepts_nested_attributes_for :diary_times
+  has_many :bookings, :through => :diary_times
   accepts_nested_attributes_for :bookings
  
   # The day in format YYYYMMDD

@@ -38,8 +38,8 @@ class Soa::BookingsController < Soa::SoaController
       if site.nil?
         text << "; unknown site '#{params[:booking][:site]}'"
       else
-      # TODO find slot_time for given site and appointment time (provisional and confirmed)
-      # Determine which slot_time to stuff ourselves into
+      # TODO find diary_time for given site and appointment time (provisional and confirmed)
+      # Determine which diary_time to stuff ourselves into
       end
       
       booking.pallets_expected = params[:booking][:number_of_pallets]

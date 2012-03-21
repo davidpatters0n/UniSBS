@@ -16,7 +16,7 @@
 				}
 				document.location.href = yyyy + '-' + mm + '-' + dd;
 			}
-		}).datepicker("setDate", new Date("<%= @slot_day.day %>"));
+		}).datepicker("setDate", new Date("<%= @diary_day.day %>"));
 	});
 
 	$("#today").button().click(function() {

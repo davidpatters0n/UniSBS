@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SlotTimeTest < ActiveSupport::TestCase
+class DiaryTimeTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

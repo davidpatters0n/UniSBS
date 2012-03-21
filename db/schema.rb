@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(:version => 20120308101716) do
     t.integer  "pallets_expected"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "slot_time_id"
+    t.integer  "diary_time_id"
     t.boolean  "live"
     t.string   "comment"
     t.boolean  "double_decker"
@@ -56,6 +56,21 @@ ActiveRecord::Schema.define(:version => 20120308101716) do
     t.string  "name"
     t.string  "tms"
     t.integer "company_id"
+  end
+
+  create_table "diary_days", :force => true do |t|
+    t.date     "day"
+    t.integer  "site_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "diary_times", :force => true do |t|
+    t.integer  "diary_day_id"
+    t.datetime "time_slot"
+    t.integer  "capacity"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "granularities", :force => true do |t|
@@ -97,21 +112,6 @@ ActiveRecord::Schema.define(:version => 20120308101716) do
     t.integer  "days_in_advance"
     t.integer  "provisional_bookings_expire_after"
     t.integer  "granularity_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "slot_days", :force => true do |t|
-    t.date     "day"
-    t.integer  "site_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "slot_times", :force => true do |t|
-    t.integer  "slot_day_id"
-    t.datetime "time_slot"
-    t.integer  "capacity"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

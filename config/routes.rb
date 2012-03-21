@@ -78,13 +78,13 @@ SBSPortal::Application.routes.draw do
   
   # Go to the diary page of a site directly with
   # /cannock, /doncaster which redirects to current day
-  # Then slot_day resources are /cannock/20120101
+  # Then diary_day resources are /cannock/20120101
   resources :sites, :only => [:show], :path => "", :as => :diary do
-    resources :slot_days, :path => "", :only => [:show]
-    resources :slot_times do
-      post 'add_slot' => 'slot_days#add_slot', :as => 'add_slot'
-      post 'remove_slot' => 'slot_days#remove_slot', :as => 'remove_slot'
-      put 'set_capacity' => 'slot_days#set_capacity', :as => 'set_capacity'
+    resources :diary_days, :path => "", :only => [:show]
+    resources :diary_times do
+      post 'add_slot' => 'diary_days#add_slot', :as => 'add_slot'
+      post 'remove_slot' => 'diary_days#remove_slot', :as => 'remove_slot'
+      put 'set_capacity' => 'diary_days#set_capacity', :as => 'set_capacity'
     end
   end
   

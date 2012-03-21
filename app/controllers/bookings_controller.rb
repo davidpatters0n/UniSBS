@@ -24,14 +24,14 @@ class BookingsController < PortalController
   def goto_booking(booking)
     
     site = @booking.site
-    slot_day = @booking.slot_day
-    slot_time = @booking.slot_time
+    diary_day = @booking.diary_day
+    diary_time = @booking.diary_time
     
-    # don't need to check slot_time because it is optional
-    if session[:booking_context] and session[:booking_context] == 'diary' and site and slot_day
+    # don't need to check diary_time because it is optional
+    if session[:booking_context] and session[:booking_context] == 'diary' and site and diary_day
       # Go the diary page
       respond_to do |format|
-        format.html { redirect_to diary_slot_day_time_path(site, slot_day, slot_time) }
+        format.html { redirect_to diary_diary_day_time_path(site, diary_day, diary_time) }
       end
     else
 
@@ -45,7 +45,7 @@ class BookingsController < PortalController
   # POST /bookings
   def create
     @booking = Booking.new(params[:booking])
-    unless @booking and @booking.slot_time and @booking.slot_time.number_of_free_slots >= @booking.slots_taken_up
+    unless @booking and @booking.diary_time and @booking.diary_time.number_of_free_slots >= @booking.slots_taken_up
       flash[:notice] = 'No longer enough slots available'
       redirect_to :back
       return
@@ -118,8 +118,8 @@ class BookingsController < PortalController
     if @booking
       if session[:booking_context] and session[:booking_context] == 'diary'
         site = @booking.site
-        slot_day = @booking.slot_day
-        slot_time = @booking.slot_time
+        diary_day = @booking.diary_day
+        diary_time = @booking.diary_time
       end
 
       if @booking.destroy
@@ -129,12 +129,12 @@ class BookingsController < PortalController
       end
     end
 
-    # don't need to check slot_time; that's optional
-    if site and slot_day
+    # don't need to check diary_time; that's optional
+    if site and diary_day
       
       # redirect to diary page
       respond_to do |format|
-        format.html { redirect_to diary_slot_day_time_path(site, slot_day, slot_time) }
+        format.html { redirect_to diary_diary_day_time_path(site, diary_day, diary_time) }
       end
     else
 
@@ -145,8 +145,8 @@ class BookingsController < PortalController
     end
   end
 
-  def diary_slot_day_time_path(*args)
-    view_context.diary_slot_day_time_path(*args)
+  def diary_diary_day_time_path(*args)
+    view_context.diary_diary_day_time_path(*args)
   end
 
 end

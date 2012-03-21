@@ -64,7 +64,7 @@ Site.names.each do |sitename|
   site.construct_initial_time_slot_capacities!
   puts "         ...#{site.time_slot_capacities.count} time slots"
 
-  puts "      Creating Slot Days for #{sitename}..." 
+  puts "      Creating Diary Days for #{sitename}..." 
   site.construct_days!
 end
 

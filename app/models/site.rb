@@ -4,7 +4,7 @@ class Site < ActiveRecord::Base
   belongs_to :booking
   belongs_to :company
 
-  has_many :slot_days
+  has_many :diary_days
   has_many :time_slot_capacities, :order => "minutes"
   accepts_nested_attributes_for :time_slot_capacities, :allow_destroy => true
   
@@ -53,7 +53,7 @@ class Site < ActiveRecord::Base
   end
 
   def find_day(daystamp)
-    slot_days.find(:first, :conditions => ["DATE(day)=?", daystamp])
+    diary_days.find(:first, :conditions => ["DATE(day)=?", daystamp])
   end
 
   def find_today
@@ -88,18 +88,18 @@ class Site < ActiveRecord::Base
     end
   end
 
-  # Creates a slot_day associated with this site, and based on its configuration
+  # Creates a diary_day associated with this site, and based on its configuration
   def construct_day!(day)
-    slot_day = SlotDay.find_or_create_by_site_id_and_day(:site_id => id, :day => day.beginning_of_day)
+    diary_day = DiaryDay.find_or_create_by_site_id_and_day(:site_id => id, :day => day.beginning_of_day)
     time_slot_capacities.each do |time_slot_capacity|
-      slot_time = SlotTime.find_or_create_by_slot_day_id_and_time_slot(:slot_day_id => slot_day.id, :time_slot => time_slot_capacity.minutes)
-      raise "Could not find or create slot day" if slot_time.nil?
+      diary_time = DiaryTime.find_or_create_by_diary_day_id_and_time_slot(:diary_day_id => diary_day.id, :time_slot => time_slot_capacity.minutes)
+      raise "Could not find or create slot day" if diary_time.nil?
       if day.saturday? or day.sunday?
-        slot_time.capacity = time_slot_capacity.weekend_capacity
+        diary_time.capacity = time_slot_capacity.weekend_capacity
       else
-        slot_time.capacity = time_slot_capacity.weekday_capacity
+        diary_time.capacity = time_slot_capacity.weekday_capacity
       end
-      slot_time.save!
+      diary_time.save!
     end
   end
 

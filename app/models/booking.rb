@@ -4,7 +4,7 @@ class Booking < ActiveRecord::Base
 
   belongs_to :site
   belongs_to :company
-  belongs_to :slot_time 
+  belongs_to :diary_time 
 
   validates_presence_of :company
   validates_presence_of :reference_number
@@ -34,12 +34,12 @@ class Booking < ActiveRecord::Base
       :pallets_expected => pallets_expected})
   end
 
-  def slot_day
-    slot_time.slot_day if slot_time
+  def diary_day
+    diary_time.diary_day if diary_time
   end
 
   def site
-    slot_day.site if slot_day
+    diary_day.site if diary_day
   end
  
   def provisional?
