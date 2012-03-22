@@ -33,22 +33,23 @@ class Soa::BookingsController < Soa::SoaController
       if booking.confirmed_appointment.nil?
         text << "; no confirmed appointment time"
       end
+ 
+      booking.pallets_expected = params[:booking][:number_of_pallets]
+      
+      booking.save!
 
       site = Site.find_by_name(params[:booking][:site])
       if site.nil?
         text << "; unknown site '#{params[:booking][:site]}'"
       else
-      # TODO find diary_time for given site and appointment time (provisional and confirmed)
-      # Determine which diary_time to stuff ourselves into
+        booking.check_confirmed_diary_time!(site)
       end
       
-      booking.pallets_expected = params[:booking][:number_of_pallets]
-      
-      booking.save!
-
       status = 200
     rescue Exception => e
       status = 406
+      logger.error e.message
+      logger.debug e.backtrace
       text = e.message
     end
 

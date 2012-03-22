@@ -81,22 +81,29 @@ class Booking < ActiveRecord::Base
     end
   end
 
-  def check_confirmed_diary_time!
-    return if provisional?
+  def check_confirmed_diary_time!(tosite)
+    if provisional?
+      logger.debug "Not checking diary_time; provisional booking"
+      return
+    end
 
-    nearest_diary_time = site.nearest_time!(confirmed_appointment, diary_time)
+    logger.debug "checking diary time for booking"
+    nearest_diary_time = tosite.nearest_time!(confirmed_appointment, diary_time)
+
     if diary_time.nil?
+      logger.debug "unexpected, assigning to #{nearest_diary_time.datetime}"
       # don't already have a diary time
-      diary_time = nearest_diary_time
-      save!
+      self.diary_time = nearest_diary_time
+      self.save!
       log("unexpected")
     end
 
     if nearest_diary_time != diary_time
+      logger.debug "moving from #{diary_time.datetime} to #{nearest_diary_time.datetime}"
       # changing diary time!
-      diary_time = nearest_diary_time
-      moved = true
-      save!
+      self.diary_time = nearest_diary_time
+      self.moved = true
+      self.save!
       log("moved")
     end
     

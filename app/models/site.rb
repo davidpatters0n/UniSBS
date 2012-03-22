@@ -7,7 +7,8 @@ class Site < ActiveRecord::Base
   has_many :diary_days
   has_many :template_capacities, :order => "minutes"
   accepts_nested_attributes_for :template_capacities, :allow_destroy => true
-  
+  has_many :diary_times, :through => :diary_days
+
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_presence_of :granularity
@@ -127,14 +128,14 @@ class Site < ActiveRecord::Base
     wanted_minute_of_day = (datetime.seconds_since_midnight/60).round
     
     # Find the DiaryTime just before the datetime
-    just_before = DiaryTime.find(:first,
+    just_before = diary_times.find(:first,
                    :conditions => ['diary_day_id=? AND minute_of_day<=?',
                                   diary_day.id, wanted_minute_of_day],
                    :order => 'minute_of_day DESC')
 
     # Find the DiaryTime just before the datetime
     begin
-      just_after = DiaryTime.find(:first,
+      just_after = diary_times.find(:first,
                    :conditions => ['diary_day_id=? AND minute_of_day>=?',
                                   diary_day.id, wanted_minute_of_day],
                    :order => 'minute_of_day ASC')
