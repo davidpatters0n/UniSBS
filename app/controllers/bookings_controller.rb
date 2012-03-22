@@ -131,8 +131,10 @@ class BookingsController < PortalController
       # If this is the last booking of the day and that day is not one that
       # should be available for booking, delete it. That way, it will no
       # longer appear on the bookings page
-      if diary_day.bookings.count == 0 and not diary_day.allow_new_bookings?
-        diary_day.destroy
+      if diary_day
+        if diary_day.bookings.count == 0 and not diary_day.allow_new_bookings?
+          diary_day.destroy
+        end
       end
     end
 
