@@ -1,6 +1,6 @@
 <tr id="<%= id_for_timerow(f.object) %>" class="timerow" >
   <%= f.hidden_field :id %>
   <td><%= f.hidden_field :minutes %><%= formatminutes f.object.minutes %></td>
-	<td><%= f.number_field :weekday_capacity, :size => 3 %></td>
-	<td><%= f.number_field :weekend_capacity, :size => 3 %></td>
+  <td><%= f.number_field :weekday_capacity, :size => 3, :class=>'weekday_capacity' %></td>
+  <td><%= f.number_field :weekend_capacity, :size => 3, :class=>'weekend_capacity' %></td>
 </tr>

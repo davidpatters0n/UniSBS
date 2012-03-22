@@ -58,6 +58,14 @@ class SitesController < PortalController
     preprocess_template_capacity_params
           
     if @site.update_attributes(params[:site])
+
+      @site.diary_days.each do |diary_day|
+        if diary_day.bookings.count == 0
+          diary_day.destroy
+        end
+      end
+      @site.construct_days!
+
       flash[ :notice ] = "#{params[:id].camelize} reconfigured"
       respond_to { |format| format.html { redirect_to edit_site_path(@site) }}
     else

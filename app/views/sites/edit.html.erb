@@ -28,23 +28,59 @@
 	</p>
 </div>
 <div id="site_templates">
-	<table id="site_templates_table">
-		<thead>
-			<tr>
-				<th> <%= collection_select(:site, :granularity_id, Granularity.all, :id, :minutes) %>
-				minute slots </th>
-				<th colspan=2> Slot Capacity </th>
-			</tr>
-			<tr>
-				<th>Time</th>
-				<th>Weekday</th>
-				<th>Weekend</th>
-			</tr>
-		</thead>
-		<%= f.fields_for :template_capacities, @template_capacities do |builder| %>
-		<%= render "time_fields", :f => builder %>
-  <% end %>
-  <%= blankrow %>
-	</table>
+  <table id="site_templates_table">
+    <thead>
+      <tr>
+        <th> <%= collection_select(:site, :granularity_id, Granularity.all, :id, :minutes) %>
+          minute slots </th>
+        <th colspan=2> Slot Capacity </th>
+      </tr>
+      <tr>
+        <th></th>
+        <th>Weekday</th>
+        <th>Weekend</th>
+      </tr>
+      <tr>
+        <th>Time</th>
+        <th><input type="button" onclick="inc_weekday();" value="+1" />
+            <input type="button" onclick="dec_weekday();" value="-1" /></th>
+        <th><input type="button" onclick="inc_weekend();" value="+1" />
+          <input type="button" onclick="dec_weekend();" value="-1" /></th>
+      </tr>
+    </thead>
+    <%= f.fields_for :template_capacities, @template_capacities do |builder| %>
+      <%= render "time_fields", :f => builder %>
+    <% end %>
+    <%= blankrow %>
+  </table>
 </div>
-<% end %> 
+<% end %>
+
+<script>
+  function inc_weekday() {
+    $(".weekday_capacity").each(function() {
+      $(this).val(parseInt($(this).val()) + 1);
+    });
+  };
+  function inc_weekend() {
+    $(".weekend_capacity").each(function() {
+      $(this).val(parseInt($(this).val()) + 1);
+    });
+  };
+  function dec_weekday() {
+    $(".weekday_capacity").each(function() {
+      $(this).val(parseInt($(this).val()) -1);
+      if (parseInt($(this).val()) < 0) {
+        $(this).val(0);
+      }
+    });
+  };
+  function dec_weekend() {
+    $(".weekend_capacity").each(function() {
+      $(this).val(parseInt($(this).val()) -1);
+      if (parseInt($(this).val()) < 0) {
+        $(this).val(0);
+      }
+    });
+  };
+</script>
