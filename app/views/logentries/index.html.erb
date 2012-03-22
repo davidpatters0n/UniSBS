@@ -15,7 +15,7 @@
 	<% @logentries.each do |logentry| %>
 	<tr>
 		<td><%= logentry.id %></td>
-		<td><%= l logentry.updated_at %></td>
+		<td><%= formatdate logentry.updated_at %></td>
 		<td><%= logentry.logclass.name %></td>
 		<% if logentry.loggable.nil? %> <td><em>orphaned log entry</em></td>
 		<td></td>

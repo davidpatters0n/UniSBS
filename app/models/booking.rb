@@ -31,7 +31,11 @@ class Booking < ActiveRecord::Base
       :reference_number => reference_number,
       :provisional_appointment => provisional_appointment,
       :confirmed_appointment => confirmed_appointment,
-      :pallets_expected => pallets_expected})
+      :status => status,
+      :pallets_expected => pallets_expected,
+      :double_decker => double_decker,
+      :live => live,
+      :comment => comment})
   end
 
   def diary_day

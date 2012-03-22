@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120321163036) do
+ActiveRecord::Schema.define(:version => 20120322150304) do
 
   create_table "admin_levels", :force => true do |t|
     t.string   "name"
@@ -26,7 +26,11 @@ ActiveRecord::Schema.define(:version => 20120321163036) do
     t.string   "reference_number"
     t.datetime "provisional_appointment"
     t.datetime "confirmed_appointment"
+    t.string   "status"
     t.integer  "pallets_expected"
+    t.boolean  "live"
+    t.boolean  "double_decker"
+    t.string   "comment"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

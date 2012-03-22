@@ -80,37 +80,6 @@ class BookingsController < PortalController
     end
   end
 
-  def confirmation
-    begin
-      @booking = Booking.find(params[:booking][:id])
-      @booking.update_attributes(params[:booking])
-      if params[:make_unexpected]
-        @booking.provisional_appointment = nil
-        @booking.save!
-      end
-      @booking.update_slot!
-      success = true
-    rescue => e
-       flash[:error] = e.message
-       success = false
-    end
-
-    respond_to do |format|
-      format.html do
-        if success
-          flash[:notice] = 'Booking confirmed'
-        else
-          redirect_to :back
-        end
-        redirect_to booking_path(@booking)
-      end
-      format.js do
-        # do the update here
-        render 'update'
-      end
-    end
-  end
-
   # DELETE /bookings/1
   def destroy
     @booking = Booking.find_by_id(params[:id])
