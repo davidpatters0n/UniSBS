@@ -2,6 +2,9 @@
 <table>
   <thead><tr><th colspan=2> Booking Details </th></tr></thead>
   <tr>
+    <td><%= f.label :status %></td>
+    <td><%= @booking.status.capitalize %></td>
+  <tr>
     <td><%= f.label :company %></td>
     <td><%= f.hidden_field :company_id %> <%= @booking.company.name %></td>
   </tr>
@@ -11,23 +14,28 @@
   </tr>
   <tr>
     <td><%= f.label :provisional_appointment %></td>
-    <td><%= f.hidden_field :provisional_appointment %> <%= l @booking.provisional_appointment %></td>
+    <td><%= f.hidden_field :provisional_appointment %> <%= formatdate @booking.provisional_appointment %></td>
   </tr>
   <tr>
     <td><%= f.label :confirmed_appointment %></td>
-    <td id="booking-confirmation">
-      <% f.hidden_field :confirmed_appointment %>
-      <% if @booking.confirmed_appointment %>
-        <%= l @booking.confirmed_appointment %>
-      <% else %>
-        <em>unconfirmed</em>
-      <% end %>
-    </td>
+    <td><% f.hidden_field :confirmed_appointment %> <%= formatdate @booking.confirmed_appointment %></td>
   </tr>
   <tr>
     <td><%= f.label :pallets_expected %></td>
     <td><%= f.number_field :pallets_expected, :size => 5 %></td>
   </tr>
+  <tr>
+    <td><%= f.label :live %></td>
+    <td><%= f.check_box :live %></td>
+  </tr>
+  <tr>
+    <td><%= f.label :double_decker %></td>
+    <td><%= f.check_box :double_decker %></td>
+  </tr>
+  <tr>
+    <td><%= f.label :comment %></td>
+    <td><%= f.text_area(:comment, :size => "29x4") %></td>
+  </tr> 
   <%= blankrow %>
 </table>
 

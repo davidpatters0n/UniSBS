@@ -55,7 +55,11 @@ class User < ActiveRecord::Base
   end
  
   def logged_in_as
-    nickname or email
+    if nickname and not nickname.empty?
+      nickname
+    else
+      email
+    end
   end
 
   def users
