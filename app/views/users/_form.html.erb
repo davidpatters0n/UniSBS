@@ -38,7 +38,7 @@
 	<% if @user.id.nil? and current_user.is_global_admin? %>
 	<tr>
 		<td><%= f.label :company %></td>
-		<td><%= collection_select(:user, :company_id, Company.known, :id, :name, :prompt => 'Select Company')  %> <%= link_to 'New Company', new_company_path %></td>
+		<td><%= collection_select(:user, :company_id, Company.known, :id, :name, :prompt => 'Select Company')  %></td>
 	</tr>
 	<% else %>
 	<tr>
