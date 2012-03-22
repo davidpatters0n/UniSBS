@@ -5,8 +5,13 @@ class DiaryTime < ActiveRecord::Base
   belongs_to :diary_day
   
   validates_presence_of :diary_day
-  validates :capacity, :numericality => { :only_integer => true, :greater_than_or_equal_to => 0}
- 
+  validates :capacity, :numericality => { :only_integer => true,
+                                          :greater_than_or_equal_to => 0}
+  validates_presence_of :minute_of_day
+  validates :minute_of_day, :numericality => { :only_integer => true,
+                                               :greater_than_or_equal_to => 0,
+                                               :less_than_or_equal_to => 1440 }
+
   def bookings_visible_to(user)
     if user.is_booking_manager?
       bookings

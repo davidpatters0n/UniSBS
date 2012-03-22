@@ -1,4 +1,4 @@
-class CreateTimeSlotCapacities < ActiveRecord::Migration
+class CreateTemplateCapacities < ActiveRecord::Migration
   def change
     create_table :template_capacities do |t|
       t.integer :site_id

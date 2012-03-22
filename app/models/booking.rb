@@ -53,6 +53,7 @@ class Booking < ActiveRecord::Base
   def expired?
     return false if site.nil?
     return false if provisional_appointment.nil?
+    return false if created_at.nil?
     provisional? and Time.now > (created_at + site.provisional_bookings_expire_after.minutes)
   end
 
@@ -66,6 +67,8 @@ class Booking < ActiveRecord::Base
     elsif confirmed?
       if provisional_appointment.nil?
         return 'unexpected'
+      elsif moved
+        return 'moved'
       else
         return 'confirmed'
       end
@@ -74,18 +77,25 @@ class Booking < ActiveRecord::Base
     end
   end
 
-  def best_diary_time!
+  def check_confirmed_diary_time!
+    return if provisional?
+
     nearest_diary_time = site.nearest_time!(confirmed_appointment, diary_time)
-    if diary_time
-      # don't already ahve a diary time
+    if diary_time.nil?
+      # don't already have a diary time
+      diary_time = nearest_diary_time
+      save!
+      log("unexpected")
+    end
 
     if nearest_diary_time != diary_time
       # changing diary time!
+      diary_time = nearest_diary_time
+      moved = true
+      save!
+      log("moved")
     end
-  end
-
-  def update_slot!
-    return if provisional?
+    
   end
 
   def slots_taken_up

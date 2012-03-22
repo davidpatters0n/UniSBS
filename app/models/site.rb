@@ -107,7 +107,7 @@ class Site < ActiveRecord::Base
   def construct_days!
     for i in (0..days_in_advance)
       day = Date.today + i
-      unless find_day(day)
+      if not find_day(day)
         logger.info "Constructing day #{day} for site #{name}..."
         construct_day! day
       end
@@ -166,6 +166,26 @@ class Site < ActiveRecord::Base
       return day unless find_day(day)
       i += 1
     end
+  end
+
+  def max_diary_day
+    # Find the last DiaryDay that exists for this site.
+    max_day = DiaryDay.find(:first,
+                            :conditions => ['site_id=?', id],
+                            :order => 'DATE(day) DESC')
+    return max_day
+  end
+
+  def min_diary_day
+    # Find the earliest DiaryDay that exists for this site.
+    min_day = DiaryDay.find(:first,
+                            :conditions => ['site_id=?', id],
+                            :order => 'DATE(day) ASC')
+    return min_day
+  end
+
+  def purge_old_data!
+    DiaryDay.destroy_all(['site_id=? AND DATE(day) < ?', id, Date.today - past_days_to_keep])
   end
 
 end

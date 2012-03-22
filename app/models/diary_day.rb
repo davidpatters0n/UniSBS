@@ -19,4 +19,10 @@ class DiaryDay < ActiveRecord::Base
     DateTime.new(day.year, day.month, day.day)
   end
 
+  def allow_new_bookings?
+    return false if day < Date.today
+    return false if day > Date.today + site.days_in_advance
+    true
+  end
+
 end

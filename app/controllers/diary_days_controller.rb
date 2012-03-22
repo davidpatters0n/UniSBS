@@ -37,6 +37,7 @@ class DiaryDaysController < PortalController
     datetime = @diary_day.day.to_datetime
 
     @diary_times.each do |diary_time|
+      logger.debug diary_time.id
       new_booking = diary_time.bookings.build(
       :company => current_user.company,
       :provisional_appointment => datetime + diary_time.minute_of_day.minutes)
@@ -48,6 +49,7 @@ class DiaryDaysController < PortalController
   def add_slot
     logger.debug "Adding slot"
     @diary_time = DiaryTime.find_by_id(params[:diary_time_id])
+    @diary_day = @diary_time.diary_day
     begin
     @diary_time.capacity += 1
       @diary_time.save!

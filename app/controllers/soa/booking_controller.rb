@@ -24,6 +24,7 @@ class Soa::BookingsController < Soa::SoaController
       booking.site = params[:booking][:site]
       bookings.confirmation_time = params[:booking][:appointment_time]
       bookigns.number_of_pallets = params[:booking][:number_of_pallets]
+      booking.check_confirmed_diary_time!
       booking.save!
 
       status = 202

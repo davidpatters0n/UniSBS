@@ -5,12 +5,14 @@
 
 	td {
 	padding: 4px;
-	cursor: pointer;
 	border: 1px solid transparent;
 	}
 
-	td.dashed-cell {
-	border: 3px solid #CCCCCC;
+	td.free_slot {  
+<% if @diary_day.allow_new_bookings? %>  
+  cursor: pointer;
+<% end %>
+  border: 3px solid #CCCCCC;
 	min-width: 150px;
 	}
 	td.provisional {
@@ -31,6 +33,11 @@
 	td.confirmed {
 	cursor: pointer;
 	border: 3px solid #006600;
+	min-width: 150px;
+	}
+	td.unknown {
+	cursor: pointer;
+	border: 3px solid #FF0000;
 	min-width: 150px;
 	}
 
@@ -88,7 +95,7 @@
 			<% end %>
 
 			<% for i in 1..diary_time.number_of_free_slots %>
-			<%= render :partial => "free_slot", :locals => { :diary_time => diary_time } %>
+			  <%= render :partial => "free_slot", :locals => { :diary_time => diary_time } %>
 			<% end %>
       
       <% diary_time.bookings.each do |booking| %>
@@ -109,7 +116,9 @@
 		
 		$(function() {
 		$("#datepicker").datepicker({
-			dateFormat : "DD, d MM, yy",
+      dateFormat : "DD, d MM, yy",
+      minDate : new Date("<%= @diary_day.site.min_diary_day.day %>"),   
+      maxDate : new Date("<%= @diary_day.site.max_diary_day.day %>"),   
 			onSelect : function(dateText, inst) {
 				var newdate = new Date(dateText);
 				var yyyy = newdate.getFullYear().toString();

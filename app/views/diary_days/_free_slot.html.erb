@@ -1,4 +1,9 @@
-<td class="dashed-cell" onclick='$("#create_booking<%= diary_time.id %>").dialog()'>
-<center>
-	free
-</center></td>
+<% if @diary_day.allow_new_bookings? %>
+  <td class="free_slot" onclick='$("#create_booking<%= diary_time.id %>").dialog()'>
+    <center>free</center>
+  </td>
+<% else %>
+  <td class="free_slot">
+    <center>not bookable</center>
+  </td>
+<% end %>

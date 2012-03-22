@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120308101716) do
+ActiveRecord::Schema.define(:version => 20120321163036) do
 
   create_table "admin_levels", :force => true do |t|
     t.string   "name"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(:version => 20120308101716) do
     t.boolean  "live"
     t.string   "comment"
     t.boolean  "double_decker"
+    t.boolean  "moved"
   end
 
   create_table "companies", :force => true do |t|
@@ -67,7 +68,7 @@ ActiveRecord::Schema.define(:version => 20120308101716) do
 
   create_table "diary_times", :force => true do |t|
     t.integer  "diary_day_id"
-    t.datetime "minute_of_day"
+    t.integer  "minute_of_day"
     t.integer  "capacity"
     t.datetime "created_at"
     t.datetime "updated_at"

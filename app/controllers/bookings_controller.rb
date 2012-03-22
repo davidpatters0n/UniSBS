@@ -113,7 +113,7 @@ class BookingsController < PortalController
 
   # DELETE /bookings/1
   def destroy
-    @booking = Booking.find(params[:id])
+    @booking = Booking.find_by_id(params[:id])
 
     if @booking
       if session[:booking_context] and session[:booking_context] == 'diary'
@@ -126,6 +126,13 @@ class BookingsController < PortalController
         flash[:notice] = 'booking removed'
       else
         flash[:error] = 'could not remove booking'
+      end
+
+      # If this is the last booking of the day and that day is not one that
+      # should be available for booking, delete it. That way, it will no
+      # longer appear on the bookings page
+      if diary_day.bookings.count == 0 and not diary_day.allow_new_bookings?
+        diary_day.destroy
       end
     end
 
